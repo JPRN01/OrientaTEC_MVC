@@ -1,7 +1,232 @@
-﻿
+﻿@using OrientaTEC_MVC.Models
+@model List<Profesor>
+
 @{
-    ViewData["Title"] = "GestorProfesores";
+    ViewBag.Title = "Gestor de Profesores";
 }
 
-<h1>GestorProfesores</h1>
+<div class="container">
+    <div class="search-container">
+        <input type="search" id="buscarProfesor" placeholder="Buscar profesor..." onkeyup="searchTable()">
+        <button id="btnAgregarProfesor" class="add-button">Agregar Profesor</button>
+    </div>
+
+    <table id="profesoresTable" class="display">
+        <thead>
+            <tr>
+                <th>Sede</th>
+                <th>Nombre</th>
+                <th>Código</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var profesor in Model)
+            {
+                <tr>
+                    <td>@profesor.Sede</td>
+                    <td>@profesor.Nombre</td>
+                    <td>@profesor.Codigo</td>
+                    <td>@profesor.Correo</td>
+                    <td>@profesor.Telefono</td>
+                    <td>
+                        <!-- Botones de acción -->
+                        <button class="btnEditar" data-id="@profesor.Codigo">📝</button>
+                        <button class="btnUsuario" data-id="@profesor.Codigo" data-activo="@profesor.Activo">👤</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
+    <script>
+        $(document).ready(function () {
+            $('#profesoresTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+                }
+            });
+        });
+    </script>
+}
+
+
+
+
+
+<style>
+    .dataTables_wrapper .dataTables_filter {
+        float: right;
+        text-align: right;
+    }
+
+        .dataTables_wrapper .dataTables_filter input {
+            margin-left: 0.5em;
+        }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .add-button {
+        /* Add styles for the button based on your image */
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+
+    .action-button {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .edit {
+        color: #4CAF50; /* Or your preferred color */
+    }
+
+    .user {
+        color: #555; /* Or your preferred color */
+    }
+
+        .user[data-activo='false'] {
+            color: gray;
+        }
+
+
+    /* Establece la fuente y los colores generales */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 14px;
+        color: #333;
+    }
+
+    /* Personaliza la tabla */
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        background-color: white;
+    }
+
+        /* Estilos para los encabezados de la tabla */
+        .table th {
+            background-color: #f8f8f8;
+            color: #333;
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Estilos para las celdas de la tabla */
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Resalta las filas al pasar el ratón */
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    /* Personaliza los controles de DataTables */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+        padding: 20px;
+    }
+
+        /* Personaliza los botones de DataTables */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+            /* Oculta el borde del botón activo y cambia el color al pasar el ratón */
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+            .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                border: 1px solid transparent;
+                background-color: #007bff;
+                color: white;
+            }
+
+    /* Estilos para el botón de agregar profesor */
+    #btnAgregarProfesor {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 2px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+
+    /* Ajusta el tamaño de la caja de búsqueda */
+    .dataTables_wrapper .dataTables_filter input {
+        height: 32px;
+        margin-left: 0.5em;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+    }
+
+    /* Estilos para botones de acción */
+    .action-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: inherit;
+        padding: 0;
+        font: inherit;
+    }
+
+    /* Estilos para iconos de acción */
+    .edit, .user {
+        font-size: 16px;
+        color: #555;
+    }
+
+        .user[data-activo='false'] {
+            color: gray;
+        }
+
+    /* Modificar estilos de los iconos según se requiera */
+
+</style>
 

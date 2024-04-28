@@ -24,11 +24,6 @@ namespace OrientaTEC_MVC.Controllers
         }
 
 
-        public IActionResult GestorProfesores()
-        {
-            return View();
-        }
-
         public IActionResult MenuPrincipal()
         {
             return View();

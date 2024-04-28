@@ -17,6 +17,26 @@
       "PackagePath": "staticwebassets\\images\\Login.png"
     },
     {
+      "Id": "C:\\GitHub\\OrientaTEC_MVC\\wwwroot\\images\\MainMenu_1.png",
+      "PackagePath": "staticwebassets\\images\\MainMenu_1.png"
+    },
+    {
+      "Id": "C:\\GitHub\\OrientaTEC_MVC\\wwwroot\\images\\MainMenu_2.png",
+      "PackagePath": "staticwebassets\\images\\MainMenu_2.png"
+    },
+    {
+      "Id": "C:\\GitHub\\OrientaTEC_MVC\\wwwroot\\images\\MainMenu_3.png",
+      "PackagePath": "staticwebassets\\images\\MainMenu_3.png"
+    },
+    {
+      "Id": "C:\\GitHub\\OrientaTEC_MVC\\wwwroot\\images\\MainMenu_4.png",
+      "PackagePath": "staticwebassets\\images\\MainMenu_4.png"
+    },
+    {
+      "Id": "C:\\GitHub\\OrientaTEC_MVC\\wwwroot\\images\\MainMenu_5.png",
+      "PackagePath": "staticwebassets\\images\\MainMenu_5.png"
+    },
+    {
       "Id": "C:\\GitHub\\OrientaTEC_MVC\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

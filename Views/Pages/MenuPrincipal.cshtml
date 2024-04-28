@@ -2,6 +2,9 @@
     ViewData["Title"] = "MenuPrincipal";
 }
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
 <div class="banner">
     <img src="~/images/MainMenu_1.png" alt="Main Banner">
     <div class="banner-text">
@@ -10,28 +13,59 @@
     </div>
 </div>
 
-<div class="menu">
-    <div class="menu-item">
+@* <div class="menu">
+    <div data-url="@Url.Action("PlaneacionActividades", "Pages")" class="menu-item clickable-div">
         <h3>Actividades</h3>
         <img src="~/images/MainMenu_2.png" alt="Actividades">
-        
     </div>
-    <div class="menu-item">
+    <div data-url="@Url.Action("GestorEquiposGuia", "Pages")" class="menu-item clickable-div">
         <h3>Equipos Guía</h3>
         <img src="~/images/MainMenu_3.png" alt="Equipos Guía">
-        
     </div>
-    <div class="menu-item">
+    <div data-url="@Url.Action("GestorProfesores", "Pages")" class="menu-item clickable-div">
         <h3>Profesores</h3>
         <img src="~/images/MainMenu_4.png" alt="Profesores">
-        
     </div>
-    <div class="menu-item">
+    <div data-url="@Url.Action("GestorEstudiantes", "Pages")" class="menu-item clickable-div">
         <h3>Estudiantes</h3>
         <img src="~/images/MainMenu_5.png" alt="Estudiantes">
-        
     </div>
+</div> *@
+
+<div class="menu">
+    <a asp-area="" asp-controller="Pages" asp-action="PlaneacionActividades" class="menu-item">
+        <h3>Actividades</h3>
+        <p class="smallArrow_MM">˯</p>
+        <img src="~/images/MainMenu_2.png" alt="Actividades">
+    </a>
+    <a asp-area="" asp-controller="Pages" asp-action="GestorEquiposGuia" class="menu-item">
+        <h3>Equipos Guía</h3>
+        <p class="smallArrow_MM">˯</p>
+        <img src="~/images/MainMenu_3.png" alt="Equipos Guía">
+    </a>
+    <a asp-area="" asp-controller="GestorProfesores" asp-action="GestorProfesores" class="menu-item">
+        <h3>Profesores</h3>
+        <p class="smallArrow_MM">˯</p>
+        <img src="~/images/MainMenu_4.png" alt="Profesores">
+    </a>
+    <a asp-area="" asp-controller="Pages" asp-action="GestorEstudiantes" class="menu-item">
+        <h3>Estudiantes</h3>
+        <p class="smallArrow_MM">˯</p>
+        <img src="~/images/MainMenu_5.png" alt="Estudiantes">
+    </a>
 </div>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('.clickable-div').click(function() {
+            var url = $(this).data('url'); // Obtiene la URL del atributo data-url
+            window.location.href = url; // Redirecciona a la URL
+        });
+    });
+</script>
+
 
 
 <style>
@@ -73,6 +107,7 @@
         font-size: 50px;
         line-height: 66px;
         letter-spacing: 1px;
+        text-decoration: none !important;
     }
 
         .menu img {
@@ -86,6 +121,44 @@
 
         .menu-item h3 {
             margin-top: 0.5em;
+            color: #37447E !important;
+            text-decoration: none !important;
         }
+
+        .menu-item h3:hover {
+            margin-top: 0.5em;
+                color: #37447E !important;
+                text-decoration: none !important;
+        }
+
+
+         a:link {
+             text-decoration: none;
+         }
+
+         a:visited {
+             text-decoration: none;
+         }
+
+         a:hover {
+             text-decoration: none;
+         }
+
+         a:active {
+             text-decoration: none;
+         }
+
+
+    .smallArrow_MM{
+        color: #37447E;
+        font-weight: bold;
+        font-size: 75px;
+        line-height: 0px;
+        text-align: center;
+        text-transform: none;
+        height: 30px;
+        margin-top: -25px;
+    }
+
 </style>
 
