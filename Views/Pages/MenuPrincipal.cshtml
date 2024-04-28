@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "MenuPrincipal";
+}
+
+<div class="banner">
+    <img src="~/images/MainMenu_1.png" alt="Main Banner">
+    <div class="banner-text">
+        <h1>Descubre tu Camino</h1>
+        <p>Tu plataforma de apoyo integral para una experiencia universitaria excepcional.</p>
+    </div>
+</div>
+
+<div class="menu">
+    <div class="menu-item">
+        <h3>Actividades</h3>
+        <img src="~/images/MainMenu_2.png" alt="Actividades">
+        
+    </div>
+    <div class="menu-item">
+        <h3>Equipos Guía</h3>
+        <img src="~/images/MainMenu_3.png" alt="Equipos Guía">
+        
+    </div>
+    <div class="menu-item">
+        <h3>Profesores</h3>
+        <img src="~/images/MainMenu_4.png" alt="Profesores">
+        
+    </div>
+    <div class="menu-item">
+        <h3>Estudiantes</h3>
+        <img src="~/images/MainMenu_5.png" alt="Estudiantes">
+        
+    </div>
+</div>
+
+
+<style>
+    body, h1, h2, h3, p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .banner {
+        position: relative;
+        text-align: center;
+        color: white;
+        width: 100%;
+    }
+
+        .banner img {
+            width: 100%;
+        }
+
+    .banner-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #FFFFFF;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+
+    .menu {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #f1f1f1;
+        padding-bottom: 20px;
+        color: #091133;
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        font-size: 50px;
+        line-height: 66px;
+        letter-spacing: 1px;
+    }
+
+        .menu img {
+            width: 90%;
+            margin-top: 5%;
+        }
+
+    .menu-item {
+        text-align: center;
+    }
+
+        .menu-item h3 {
+            margin-top: 0.5em;
+        }
+</style>
+

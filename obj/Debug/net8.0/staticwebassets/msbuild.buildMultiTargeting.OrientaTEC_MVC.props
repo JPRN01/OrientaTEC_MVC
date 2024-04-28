@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\OrientaTEC_MVC.props" />
+</Project>
