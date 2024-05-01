@@ -12,7 +12,7 @@
 
 
 <div class="container">
-    
+
 
     <table id="profesoresTable" class="display">
         <thead>
@@ -35,7 +35,6 @@
                     <td>@profesor.Correo</td>
                     <td>@profesor.Telefono</td>
                     <td>
-                        <!-- Botones de acción -->
                         <button class="btnEditar" data-id="@profesor.Codigo">✎</button>
                         <button class="btnUsuario" data-id="@profesor.Codigo" data-activo="@profesor.Activo">
                             @if (profesor.Activo)
@@ -56,7 +55,6 @@
 
 </div>
 
-<!-- Estructura del Modal para agregar/editar profesor -->
 <div id="modalProfesor" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -66,7 +64,6 @@
             <select id="sede" name="sede">
                 <option value="SJ">SJ</option>
                 <option value="CA">CA</option>
-                <!-- Agrega más sedes si son necesarias -->
             </select>
 
             <label for="nombre">Nombre</label>
@@ -175,7 +172,7 @@
         });
 
 
-            
+
     </script>
 }
 
@@ -185,25 +182,26 @@
 
 <style>
 
-    .btnUsuario, .btnEditar{
-        border:none;
-        background-color:inherit;
+    .btnUsuario, .btnEditar {
+        border: none;
+        background-color: inherit;
     }
 
 
     .dataTables_wrapper {
-        width:100%;
-    }
-    
-    
-    .dataTables_wrapper .dataTables_filter {
-        float: right;
-        text-align: right;
+        width: 100%;
     }
 
-        .dataTables_wrapper .dataTables_filter input {
-            margin-left: 0.5em;
+
+        .dataTables_wrapper .dataTables_filter {
+            float: right;
+            text-align: right;
         }
+
+            .dataTables_wrapper .dataTables_filter input {
+                margin-left: 0.5em;
+            }
+
     .container {
         flex-direction: column;
         align-items: flex-start;
@@ -257,21 +255,21 @@
         }
 
 
-    
+
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size: 14px;
         color: #333;
     }
 
-        .table {
+    .table {
         border-collapse: collapse;
         width: 100%;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         background-color: white;
     }
 
-        
+
         .table th {
             background-color: #f8f8f8;
             color: #333;
@@ -478,8 +476,6 @@
             .btn.accept:hover {
                 background-color: #388E3C;
             }
-
-
 
 </style>
 
