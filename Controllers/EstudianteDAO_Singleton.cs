@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OrientaTEC_MVC.Models;
 using System.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using System.Data.SqlClient;
 
 namespace OrientaTEC_MVC.Controllers
 {
