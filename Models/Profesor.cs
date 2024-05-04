@@ -94,6 +94,14 @@ namespace OrientaTEC_MVC.Models
 
         //        public CentroAcademico CentroAcademico { get; set; }
 
+        private string centroAcademico { get; set; }
+
+        public string CentroAcademico
+        {
+            get { return centroAcademico; }
+            set { centroAcademico = value; }
+        }
+
         public bool ValidarCorreo(string correo)
         {
             return Regex.IsMatch(correo, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
@@ -101,7 +109,7 @@ namespace OrientaTEC_MVC.Models
 
         public void DarDeBaja()
         {
-            // Implementar lógica para dar de baja al profesor
+            
         }
 
         public string GenerarCodigo()
@@ -109,25 +117,6 @@ namespace OrientaTEC_MVC.Models
             return Guid.NewGuid().ToString();
         }
 
-        // Métodos CRUD imaginarios (deberían ser implementados según tu acceso a datos)
-        public void Crear()
-        {
-            // Lógica para crear un nuevo profesor en la base de datos
-        }
 
-        public void Leer()
-        {
-            // Lógica para leer información de un profesor
-        }
-
-        public void Actualizar()
-        {
-            // Lógica para actualizar información de un profesor
-        }
-
-        public void Eliminar()
-        {
-            // Lógica para eliminar un profesor de la base de datos
-        }
     }
 }
