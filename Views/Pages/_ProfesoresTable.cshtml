@@ -1,0 +1,40 @@
+﻿@model IEnumerable<OrientaTEC_MVC.Models.Profesor>
+
+<table id="profesoresTable" class="display">
+    <thead>
+        <tr>
+            <th>Sede</th>
+            <th>Nombre</th>
+            <th>Código</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var profesor in Model)
+        {
+            <tr>
+                <td>@profesor.Sede</td>
+                <td>@profesor.Nombre1  @profesor.Nombre2 @profesor.Apellido1 @profesor.Apellido2</td>
+                <td>@profesor.Codigo</td>
+                <td>@profesor.Correo</td>
+                <td>@profesor.TelOficina</td>
+                <td>
+                    <button class="btnEditar" data-id="@profesor.Codigo">✎</button>
+                    <button class="btnUsuario" data-id="@profesor.Codigo" data-activo="@profesor.Activo">
+                        @if (profesor.Activo)
+                        {
+                            <span>🗸</span>
+                        }
+                        else
+                        {
+                            <span>🞮</span>
+                        }
+                    </button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

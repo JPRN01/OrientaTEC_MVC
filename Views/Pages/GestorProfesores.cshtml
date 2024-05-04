@@ -6,7 +6,6 @@
 }
 
 <div class="search-container">
-    <input type="search" id="buscarProfesor" placeholder="Buscar profesor..." onkeyup="searchTable()">
     <button id="btnAgregarProfesor" class="add-button">Agregar Profesor</button>
 </div>
 
@@ -30,10 +29,10 @@
             {
                 <tr>
                     <td>@profesor.Sede</td>
-                    <td>@profesor.Nombre</td>
+                    <td>@profesor.Nombre1  @profesor.Nombre2 @profesor.Apellido1 @profesor.Apellido2</td>
                     <td>@profesor.Codigo</td>
                     <td>@profesor.Correo</td>
-                    <td>@profesor.Telefono</td>
+                    <td>@profesor.TelOficina</td>
                     <td>
                         <button class="btnEditar" data-id="@profesor.Codigo">✎</button>
                         <button class="btnUsuario" data-id="@profesor.Codigo" data-activo="@profesor.Activo">
@@ -55,43 +54,144 @@
 
 </div>
 
-<div id="modalProfesor" class="modal">
+<div id="modalProfesor_Agregar" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Agregar Profesor</h2>
+        <form id="formProfesor">
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="sede">Sede</label>
+                    <select id="sede" name="sede">
+                        <option value="SJ">SJ</option>
+                        <option value="CA">CA</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="nombre1">Nombre</label>
+                    <input type="text" id="nombre1" name="nombre1" required>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="nombre2">Segundo Nombre</label>
+                    <input type="text" id="nombre2" name="nombre2" required>
+                </div>
+                <div class="input-group">
+                    <label for="apellido1">Primer Apellido</label>
+                    <input type="text" id="apellido1" name="apellido1" required>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="apellido2">Segundo Apellido</label>
+                    <input type="text" id="apellido2" name="apellido2" required>
+                </div>
+            
+                <div class="input-group">
+                    <label for="correo">Correo</label>
+                    <input type="email" id="correo" name="correo" required>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="telefono">Telefono</label>
+                    <input type="text" id="telefono" name="telefono" required oninput="formatoTelefono(this)" pattern="[0-9]{4}-[0-9]{4} \[ext.[0-9]{4}\]" placeholder="____-____ [ext.____]" maxlength="20">
+
+                </div>
+            
+                <div class="input-group">
+                    <label for="celular">Celular</label>
+                    <input type="tel" id="celular" name="celular">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group file-group">
+                    <label for="foto">Foto</label>
+                    <input type="file" id="foto" name="foto" accept="image/*">
+                    <div class="image-preview" id="imagePreview">
+                        <img src="" alt="Vista previa de la imagen" id="imgPreview">
+                        <span class="remove-image" style="display:none;">&times;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn accept">Aceptar</button>
+                <button type="button" class="btn cancel">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+
+<div id="modalProfesor_Editar" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Editar Profesor</h2>
-        <form id="formProfesor">
-            <label for="sede">Sede</label>
-            <select id="sede" name="sede">
-                <option value="SJ">SJ</option>
-                <option value="CA">CA</option>
-            </select>
-
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" required>
-
-            <label for="apellidos">Apellidos</label>
-            <input type="text" id="apellidos" name="apellidos" required>
-
-            <label for="correo">Correo</label>
-            <input type="email" id="correo" name="correo" required>
-
-            <label for="telefono">Telefono</label>
-            <input type="tel" id="telefono" name="telefono" required>
-
-            <label for="celular">Celular</label>
-            <input type="tel" id="celular" name="celular">
-
-            <div class="image-upload-container">
-                <label for="foto">Foto</label>
-                <input type="file" id="foto" name="foto" accept="image/*">
-                <div class="image-preview" id="imagePreview">
-                    <img src="" alt="Vista previa de la imagen" id="imgPreview">
-                    <span class="remove-image" style="display:none;">&times;</span>
+        <form id="formEditarProfesor">
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="sede">Sede</label>
+                    <select id="sede" name="sede">
+                        <option value="SJ">SJ</option>
+                        <option value="CA">CA</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="codigo">codigo</label>
+                    <input type="text" id="codigo" name="codigo" disabled>
                 </div>
             </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="nombre1">Nombre</label>
+                    <input type="text" id="nombre1" name="nombre1" required>
+                </div>
+                <div class="input-group">
+                    <label for="nombre2">Segundo Nombre</label>
+                    <input type="text" id="nombre2" name="nombre2" required>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="apellido1">Primer Apellido</label>
+                    <input type="text" id="apellido1" name="apellido1" required>
+                </div>
+                <div class="input-group">
+                    <label for="apellido2">Segundo Apellido</label>
+                    <input type="text" id="apellido2" name="apellido2" required>
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="correo">Correo</label>
+                    <input type="email" id="correo" name="correo" required>
+                </div>
+                <div class="input-group">
+                    <label for="telefono">Telefono</label>
+                    <input type="text" id="telefono" name="telefono" required oninput="formatoTelefono(this)" pattern="[0-9]{4}-[0-9]{4} \[ext.[0-9]{4}\]" placeholder="____-____ [ext.____]" maxlength="20">
 
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="celular">Celular</label>
+                    <input type="tel" id="celular" name="celular">
+                </div>
+
+                <div class="input-group file-group">
+                    <label for="foto">Foto</label>
+                    <input type="file" id="foto" name="foto" accept="image/*">
+                    <div class="image-preview" id="imagePreview">
+                        <img src="" alt="Vista previa de la imagen" id="imgPreview">
+                        <span class="remove-image" style="display:none;">&times;</span>
+                    </div>
+                </div>
+            </div>
             <div class="modal-footer">
-                <button type="submit" class="btn">Aceptar</button>
+                <button type="submit" class="btn accept">Guardar Cambios</button>
                 <button type="button" class="btn cancel">Cancelar</button>
             </div>
         </form>
@@ -115,13 +215,63 @@
         });
 
 
+
+
+
+
+        function formatoTelefono(input) {
+            const regex = /^[0-9]{4}-[0-9]{4} \[ext.[0-9]{4}\]$/;
+            const inputValue = input.value;
+
+            if (!regex.test(inputValue)) {
+                const formattedValue = inputValue.replace(/[^\d]/g, '').replace(/(\d{4})(\d{0,4})(\d{0,4})/, "$1-$2 [ext.$3]");
+                input.value = formattedValue;
+            }
+        }
+
+
+
+
+
+
+
+        // function reloadTable() {
+        //     $.ajax({
+        //         url: '@Url.Action("GetUpdatedProfesoresTable", "GestorProfesores")',
+        //         type: 'GET',
+        //         success: function (newTableHtml) {
+        //             $('#profesoresTable').replaceWith(newTableHtml);
+        //             initDataTable(); // Reinitialize DataTable
+        //         },
+        //         error: function () {
+        //             alert('Failed to reload table. Please try again.');
+        //         }
+        //     });
+        // }
+
+
+        // function initDataTable() {
+        //     $('#profesoresTable').DataTable({
+        //         "language": {
+        //             "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+        //         }
+        //     });
+        // }
+
+        // $(document).ready(function () {
+        //     initDataTable();
+        // });
+
+
+
+        // activo/inactivo de un profesor
         $('.btnUsuario').click(function () {
             var btn = $(this);
             var profesorId = btn.data('id');
             var activo = btn.data('activo');
 
             $.ajax({
-                url: '/GestorProfesores/ToggleEstadoProfesor', // Modificada para coincidir con el nombre del controlador
+                url: '/GestorProfesores/ToggleEstadoProfesor',
                 type: 'POST',
                 data: { id: profesorId, activo: !activo },
                 success: function (response) {
@@ -138,39 +288,179 @@
             });
         });
 
-
-
-        // JavaScript para abrir y cerrar el modal
-        document.getElementById('btnAgregarProfesor').addEventListener('click', function () {
-            document.getElementById('modalProfesor').style.display = 'block';
+        // Agregar profesor - muestra el modal
+        $('#btnAgregarProfesor').click(function () {
+            $('#modalProfesor_Agregar').show();
         });
 
-        document.querySelector('.close').addEventListener('click', function () {
-            document.getElementById('modalProfesor').style.display = 'none';
+        $('#modalProfesor_Agregar .close, #modalProfesor_Agregar .cancel').click(function () {
+            limpiarModalAgregar();
+            $(this).closest('.modal').hide();
         });
 
-        document.querySelector('.cancel').addEventListener('click', function () {
-            document.getElementById('modalProfesor').style.display = 'none';
+        $('#modalProfesor_Editar .close, #modalProfesor_Editar .cancel').click(function () {
+            limpiarModalEditar();
+            $(this).closest('.modal').hide();
         });
 
-        // Manejo de la carga de imágenes
-        document.getElementById('foto').addEventListener('change', function (event) {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var output = document.getElementById('imgPreview');
-                output.src = reader.result;
-                document.querySelector('.remove-image').style.display = 'inline';
-            };
-            reader.readAsDataURL(event.target.files[0]);
+        $('#formProfesor').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/GestorProfesores/AgregarProfesor', 
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        try {
+                            //$('#profesoresTable').DataTable().ajax.reload(null, false);
+                            // recargarTabla();
+                            location.reload();
+
+                        } catch (error) {
+                            console.error(error);
+                            alert("Error al recargar tabla");
+                        }
+                        
+                        $('#modalProfesor_Agregar').hide();
+                        limpiarModalAgregar();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert('Error al procesar la solicitud.');
+                }
+            });
         });
 
-        document.querySelector('.remove-image').addEventListener('click', function () {
-            var preview = document.getElementById('imgPreview');
-            preview.src = '';
-            this.style.display = 'none';
-            document.getElementById('foto').value = null;
+
+
+        // Editar profesor
+        $('.btnEditar').click(function () {
+            var profesorId = $(this).data('id');
+            $.ajax({
+                url: '/GestorProfesores/GetProfesorDetails', 
+                type: 'GET',
+                data: { id: profesorId },
+                success: function (result) {
+                    profesor = result.data;
+                    $('#modalProfesor_Editar #codigo').val(profesor.codigo);
+                    $('#modalProfesor_Editar #sede').val(profesor.sede);
+                    $('#modalProfesor_Editar #nombre1').val(profesor.nombre1);
+                    $('#modalProfesor_Editar #nombre2').val(profesor.nombre2);
+                    $('#modalProfesor_Editar #apellido1').val(profesor.apellido1);
+                    $('#modalProfesor_Editar #apellido2').val(profesor.apellido2);
+                    $('#modalProfesor_Editar #correo').val(profesor.correo);
+                    $('#modalProfesor_Editar #telefono').val(profesor.telOficina);
+                    $('#modalProfesor_Editar #celular').val(profesor.telCelular);
+                    $('#modalProfesor_Editar #foto').val(null); 
+                    $('#modalProfesor_Editar #imgPreview').attr('src', profesor.imagenURL || '');
+                    $('#modalProfesor_Editar').show();
+
+
+                    
+                },
+                error: function () {
+                    alert('Error al cargar los datos del profesor.');
+                }
+            });
         });
 
+        $('#formEditarProfesor').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/GestorProfesores/EditarProfesor',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.success) {
+                        try {
+                            //$('#profesoresTable').DataTable().ajax.reload(null, false);
+                            // recargarTabla();
+                            location.reload();
+
+                        } catch (error) {
+                            console.error(error);
+                            alert("Error al recargar tabla");
+                        }
+                        $('#modalProfesor_Editar').hide(); 
+                    } else {
+                        alert(response.message);
+                    }
+                    limpiarModalEditar();
+                    $('#modalProfesor_Editar').hide();
+                },
+                error: function () {
+                    alert('Error al actualizar el profesor.');
+                }
+            });
+        });
+
+        $('#foto').change(function (e) {
+            if (e.target.files && e.target.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result).show();
+                    $('.remove-image').show();
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        $('.remove-image').click(function () {
+            $('#imgPreview').attr('src', '').hide();
+            $('#foto').val('');
+            $(this).hide();
+        });
+
+
+
+
+        function limpiarModalAgregar() {
+            $('#modalProfesor_Agregar input[type="text"], #modalProfesor_Agregar input[type="email"], #modalProfesor_Agregar input[type="tel"]').val('');
+            $('#modalProfesor_Agregar select').val($('#modalProfesor_Agregar select option:first').val());
+            $('#modalProfesor_Agregar img').attr('src', '');
+            $('#modalProfesor_Agregar .remove-image').hide();
+        }
+
+        function limpiarModalEditar() {
+            $('#modalProfesor_Editar input[type="text"], #modalProfesor_Editar input[type="email"], #modalProfesor_Editar input[type="tel"]').val('');
+            $('#modalProfesor_Editar select').val($('#modalProfesor_Editar select option:first').val());
+            $('#modalProfesor_Editar img').attr('src', '');
+            $('#modalProfesor_Editar .remove-image').hide();
+        }
+
+
+
+        function recargarTabla() {
+            $.ajax({
+                url: '@Url.Action("GetUpdatedProfesoresTable", "GestorProfesores")',
+                type: 'GET',
+                success: function (newTableHtml) {
+                    $('#profesoresTable').replaceWith(newTableHtml);
+                    $('#profesoresTable').DataTable().destroy();
+                    initDataTable(); 
+                },
+                error: function () {
+                    alert('Error al recargar tabla');
+                }
+            });
+        }
+
+        function initDataTable() {
+            $('#profesoresTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+                }
+            });
+        }
 
 
     </script>
@@ -180,31 +470,21 @@
 
 
 
+
 <style>
 
-    .btnUsuario, .btnEditar {
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .btnUsuario, .btnEditar, .action-button {
         border: none;
-        background-color: inherit;
-    }
-
-
-    .dataTables_wrapper {
-        width: 100%;
-    }
-
-
-        .dataTables_wrapper .dataTables_filter {
-            float: right;
-            text-align: right;
-        }
-
-            .dataTables_wrapper .dataTables_filter input {
-                margin-left: 0.5em;
-            }
-
-    .container {
-        flex-direction: column;
-        align-items: flex-start;
+        background-color: transparent;
+        color: inherit;
+        cursor: pointer;
+        font-size: 16px;
     }
 
     .search-container {
@@ -214,107 +494,12 @@
         margin-bottom: 20px;
     }
 
-    .add-button {
-        /* Add styles for the button based on your image */
+    .container {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-        .table th, .table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .table th {
-            background-color: #f2f2f2;
-            cursor: pointer;
-        }
-
-    .action-button {
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    .btnEditar, .btnUsuario {
-        color: #000; /* Or your preferred color */
-        font-size: 25px;
-    }
-
-    .user {
-        color: #555; /* Or your preferred color */
-    }
-
-        .user[data-activo='false'] {
-            color: gray;
-        }
-
-
-
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 14px;
-        color: #333;
-    }
-
-    .table {
-        border-collapse: collapse;
-        width: 100%;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        background-color: white;
-    }
-
-
-        .table th {
-            background-color: #f8f8f8;
-            color: #333;
-            padding: 12px 15px;
-            border-bottom: 1px solid #ddd;
-        }
-
-
-        .table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ddd;
-        }
-
-
-        .table tr:hover {
-            background-color: #f1f1f1;
-        }
-
-
-    .dataTables_wrapper .dataTables_length,
-    .dataTables_wrapper .dataTables_filter,
-    .dataTables_wrapper .dataTables_info,
-    .dataTables_wrapper .dataTables_paginate {
-        padding: 20px;
-    }
-
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            padding: 5px 10px;
-            margin: 0 5px;
-            border: 1px solid #ddd;
-            border-radius: 2px;
-            cursor: pointer;
-        }
-
-
-            .dataTables_wrapper .dataTables_paginate .paginate_button.current,
-            .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-                border: 1px solid transparent;
-                background-color: #007bff;
-                color: white;
-            }
-
-
-    #btnAgregarProfesor {
+    .add-button, #btnAgregarProfesor {
         background-color: #007bff;
         color: white;
         border: none;
@@ -325,37 +510,53 @@
         margin-bottom: 10px;
     }
 
-
-    .dataTables_wrapper .dataTables_filter input {
-        height: 32px;
-        margin-left: 0.5em;
-        padding: 5px;
-        border: 1px solid #ddd;
-        border-radius: 2px;
+    .table, .dataTables_wrapper {
+        width: 100%;
+        border-collapse: collapse;
     }
 
-
-    .action-button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: inherit;
-        padding: 0;
-        font: inherit;
-    }
-
-    .edit, .user {
-        font-size: 16px;
-        color: #555;
-    }
-
-        .user[data-activo='false'] {
-            color: gray;
+        .table th, .table td, .dataTables_wrapper .dataTables_filter input, .form-row input[type="text"], .form-row input[type="email"], .form-row input[type="tel"], .form-row select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
+        .table th {
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+
+        .table td {
+            text-align: left;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dataTables_wrapper .dataTables_filter {
+            float: right;
+            text-align: right;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+            .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                border: 1px solid transparent;
+                background-color: #007bff;
+                color: white;
+            }
 
     .modal {
         display: none;
+        align-items: center;
         position: fixed;
         z-index: 1000;
         left: 0;
@@ -363,20 +564,18 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.6);
-        display: flex;
         align-items: center;
         justify-content: center;
+        margin: auto;
     }
 
     .modal-content {
         background: white;
-        width: 90%;
-        max-width: 600px;
         padding: 20px;
         border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transform: scale(0.7);
-        transition: transform 0.3s ease-out;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: auto;
     }
 
     .modal.show .modal-content {
@@ -395,43 +594,31 @@
             color: #e00;
         }
 
-    .modal-header, .modal-footer {
+    .modal-header h2, .modal-footer {
+        margin: 0;
         padding: 1em 0;
         text-align: center;
+        font-size: 1.5em;
+        color: #333;
     }
 
-        .modal-header h2 {
-            margin: 0;
-            font-size: 1.5em;
-            color: #333;
-        }
-
-    .modal-body {
+    .modal-body, .form-row {
         margin-top: 20px;
     }
 
-    .modal-footer {
+    .form-row {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
     }
 
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    select {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        margin-bottom: 20px;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
+    .form-column {
+        flex: 1;
+        margin-right: 10px;
     }
 
-    input[type="file"] {
-        display: none;
-    }
+        .form-column:last-child {
+            margin-right: 0;
+        }
 
     .image-upload-container {
         position: relative;
@@ -448,7 +635,7 @@
             background-color: #f8f8f8;
         }
 
-    .btn {
+    .btn, .btn.cancel, .btn.accept {
         padding: 10px 20px;
         margin-right: 10px;
         border: none;
@@ -476,6 +663,108 @@
             .btn.accept:hover {
                 background-color: #388E3C;
             }
+
+    .user[data-activo='false'] {
+        color: gray;
+    }
+
+
+
+
+    .input-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 48%
+    }
+
+        .input-group.full-width {
+            flex-basis: 100%;
+        }
+
+        .input-group:last-child {
+            margin-right: 0;
+        }
+
+        .input-group.file-group {
+            flex: 1 100%;
+        }
+
+    input[type="text"], input[type="email"], input[type="tel"], select {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+
+    .file-group {
+        border: 1px dashed #ccc;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+        .file-group input[type="file"] {
+            margin-top: 10px;
+        }
+
+    .image-preview {
+        margin-top: 10px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+        .btn.accept {
+            background-color: #A3CE6D;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn.cancel {
+            background-color: #FC7970;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
 
 </style>
 

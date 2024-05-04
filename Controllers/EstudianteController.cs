@@ -4,6 +4,7 @@ using System.Diagnostics;
 using OfficeOpenXml;
 using System.IO;
 
+
 namespace OrientaTEC_MVC.Controllers
 {
 	public class EstudianteController : Controller
@@ -16,7 +17,7 @@ namespace OrientaTEC_MVC.Controllers
 		}
         public void CargarInformacionEstudiantes(string archivoExcel)
         {
-            using (var stream = File.OpenRead(archivoExcel))
+            using (var stream = System.IO.File.OpenRead(archivoExcel))
             {
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 using (var package = new ExcelPackage(stream))
