@@ -1001,3 +1001,11 @@ obj/Release/net8.0/OrientaTEC_MVC.AssemblyInfo.cs
 obj/Release/net8.0/OrientaTEC_MVC.AssemblyInfoInputs.cache
 obj/Release/net8.0/OrientaTEC_MVC.assets.cache
 obj/Release/net8.0/OrientaTEC_MVC.csproj.AssemblyReference.cache
+obj/OrientaTEC_MVC.csproj.nuget.dgspec.json
+obj/OrientaTEC_MVC.csproj.nuget.g.props
+obj/project.assets.json
+obj/project.nuget.cache
+obj/Release/net8.0/OrientaTEC_MVC.AssemblyInfo.cs
+obj/Release/net8.0/OrientaTEC_MVC.AssemblyInfoInputs.cache
+obj/Release/net8.0/OrientaTEC_MVC.assets.cache
+.vs/OrientaTEC_MVC/v17/.suo
