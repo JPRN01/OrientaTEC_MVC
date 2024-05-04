@@ -1,7 +1,204 @@
-﻿
-@{
-    ViewData["Title"] = "PlaneacionActividades";
+﻿@{
+    ViewData["Title"] = "planeacionActividades";
 }
 
-<h1>PlaneacionActividades</h1>
 
+
+<style>
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+ 
+
+    .headermain {
+        
+        background: blue;
+        color: white;
+        display: block;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+    .main {
+        display: flex;
+        flex: 1;
+    }
+
+    .headermain, .main{
+        width:100%;
+        padding: 10px 20px;
+    }
+
+
+
+    .header-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .selector label {
+        margin-right: 10px;
+    }
+
+    .status {
+        display: flex;
+        align-items: center;
+        margin: 0 10px;
+    }
+
+        .status .dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+    .planned {
+        background-color: gray;
+    }
+
+    .notified {
+        background-color: lightblue;
+    }
+
+    .realized {
+        background-color: green;
+    }
+
+    .cancelled {
+        background-color: red;
+    }
+
+    .new-activity {
+        background-color: #4A90E2;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+  
+
+    .left, .right, main {
+        flex: 1; /* Ajusta esto según la necesidad visual */
+    }
+
+    .left, .right {
+        background-color: transparent; /* Elimina el fondo azul si no es necesario */
+        color: black; /* Cambia el color del texto si es necesario */
+    }
+
+
+    .container {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 10px;
+        width: 100%; /* Asegúrate de que ocupa todo el espacio disponible */
+    }
+
+    .activity-group {
+        display: flex;
+        justify-content: space-around;
+        width:100%;
+        margin-bottom: 10px;
+    }
+
+    .activity {
+        flex-grow: 1;
+        text-align: center;
+        padding: 20px;
+        margin: 5px;
+        border-radius: 8px;
+    }
+
+
+    .blue {
+        background-color: #6094DB;
+    }
+
+    .pink {
+        background-color: #FF85A2;
+    }
+
+    .green {
+        background-color: #77DD77;
+    }
+
+    .orange {
+        background-color: #FFB347;
+    }
+
+
+
+</style>
+
+
+<div class = "actividades">
+
+   <header class="headermain"> 
+
+        <div class="header-container">
+            <div class="selector">
+                <label for="teamSelect">Selecciona el equipo guía</label>
+                <select id="teamSelect">
+                    <option>Equipo Guía</option>
+
+
+                    <!-- Agrega más opciones aquí según sea necesario -->
+
+
+                </select>
+            </div>
+
+
+ 
+
+            <button class="new-activity">Crear nueva actividad +</button>
+        </div>
+
+        <div class="superdiv">
+
+            <div class="status">
+                <span class="dot planned"></span> Planeada
+                <span class="dot notified"></span> Notificada
+                <span class="dot realized"></span> Realizada
+                <span class="dot cancelled"></span> Cancelada
+            </div>
+        </div>
+    </header>
+
+
+
+   <div class="main">
+     
+            <div class="container">
+                <div class="activity-group">
+                    <div class="activity blue">Inicio de Semestre</div>
+                    <div class="activity pink">Introducción a los servicios del TEC</div>
+                    <div class="activity green">Charla: "Disfrutando mi vida en el TEC"</div>
+                    <div class="activity orange">Taller introductorio a IEEE</div>
+                </div>
+                <div class="activity-group">
+                    <div class="activity pink">Chess boxing</div>
+                    <div class="activity orange">Taller: "Mi primer Hackaton"</div>
+                    <div class="activity green">Charla: "Salud emocional en semana 16"</div>
+                    <div class="activity blue">Taller de finanzas</div>
+                </div>
+                <div class="activity-group">
+                    <div class="activity orange">Película: "La vie est belle"</div>
+                    <div class="activity pink">CANNESTILALI!!</div>
+                </div>
+            </div>
+   </div>
+
+</div>
