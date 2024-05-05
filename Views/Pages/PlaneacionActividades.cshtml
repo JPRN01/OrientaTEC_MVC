@@ -1,204 +1,92 @@
-﻿@{
-    ViewData["Title"] = "planeacionActividades";
-}
-
-
-
-<style>
-
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
- 
-
-    .headermain {
-        
-        background: blue;
-        color: white;
-        display: block;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-
-    .main {
-        display: flex;
-        flex: 1;
-    }
-
-    .headermain, .main{
-        width:100%;
-        padding: 10px 20px;
-    }
-
-
-
-    .header-container {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .selector label {
-        margin-right: 10px;
-    }
-
-    .status {
-        display: flex;
-        align-items: center;
-        margin: 0 10px;
-    }
-
-        .status .dot {
-            height: 10px;
-            width: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
+﻿<html>
+<head>
+    <title>Activity Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
         }
-
-    .planned {
-        background-color: gray;
-    }
-
-    .notified {
-        background-color: lightblue;
-    }
-
-    .realized {
-        background-color: green;
-    }
-
-    .cancelled {
-        background-color: red;
-    }
-
-    .new-activity {
-        background-color: #4A90E2;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-  
-
-    .left, .right, main {
-        flex: 1; /* Ajusta esto según la necesidad visual */
-    }
-
-    .left, .right {
-        background-color: transparent; /* Elimina el fondo azul si no es necesario */
-        color: black; /* Cambia el color del texto si es necesario */
-    }
-
-
-    .container {
-        background-color: #f0f0f0;
-        padding: 10px;
-        border-radius: 10px;
-        width: 100%; /* Asegúrate de que ocupa todo el espacio disponible */
-    }
-
-    .activity-group {
-        display: flex;
-        justify-content: space-around;
-        width:100%;
-        margin-bottom: 10px;
-    }
-
-    .activity {
-        flex-grow: 1;
-        text-align: center;
-        padding: 20px;
-        margin: 5px;
-        border-radius: 8px;
-    }
-
-
-    .blue {
-        background-color: #6094DB;
-    }
-
-    .pink {
-        background-color: #FF85A2;
-    }
-
-    .green {
-        background-color: #77DD77;
-    }
-
-    .orange {
-        background-color: #FFB347;
-    }
-
-
-
-</style>
-
-
-<div class = "actividades">
-
-   <header class="headermain"> 
-
-        <div class="header-container">
-            <div class="selector">
-                <label for="teamSelect">Selecciona el equipo guía</label>
-                <select id="teamSelect">
+    </style>
+</head>
+<body class="bg-white p-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <label class="text-lg font-semibold">Selecciona el equipo guía</label>
+                <select class="ml-2 p-2 rounded border border-gray-300">
                     <option>Equipo Guía</option>
-
-
-                    <!-- Agrega más opciones aquí según sea necesario -->
-
-
                 </select>
             </div>
-
-
- 
-
-            <button class="new-activity">Crear nueva actividad +</button>
-        </div>
-
-        <div class="superdiv">
-
-            <div class="status">
-                <span class="dot planned"></span> Planeada
-                <span class="dot notified"></span> Notificada
-                <span class="dot realized"></span> Realizada
-                <span class="dot cancelled"></span> Cancelada
+            <div>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Crear nueva actividad +
+                </button>
             </div>
         </div>
-    </header>
 
+        <div class="flex space-x-4 mb-6">
+            <div class="flex items-center">
+                <span class="h-4 w-4 bg-green-400 rounded-full mr-2"></span>
+                <span>Planeada</span>
+            </div>
+            <div class="flex items-center">
+                <span class="h-4 w-4 bg-blue-400 rounded-full mr-2"></span>
+                <span>Notificada</span>
+            </div>
+            <div class="flex items-center">
+                <span class="h-4 w-4 bg-gray-400 rounded-full mr-2"></span>
+                <span>Realizada</span>
+            </div>
+            <div class="flex items-center">
+                <span class="h-4 w-4 bg-red-400 rounded-full mr-2"></span>
+                <span>Cancelada</span>
+            </div>
+        </div>
 
-
-   <div class="main">
-     
-            <div class="container">
-                <div class="activity-group">
-                    <div class="activity blue">Inicio de Semestre</div>
-                    <div class="activity pink">Introducción a los servicios del TEC</div>
-                    <div class="activity green">Charla: "Disfrutando mi vida en el TEC"</div>
-                    <div class="activity orange">Taller introductorio a IEEE</div>
+        <div class="bg-blue-100 p-6 rounded-lg shadow-lg">
+            <div class="grid grid-cols-4 gap-4">
+                <div class="relative bg-green-300 p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-bold">Inicio de Semestre</h2>
+                    <button class="absolute top-0 right-2 text-green-700 text-xl">x</button>
                 </div>
-                <div class="activity-group">
-                    <div class="activity pink">Chess boxing</div>
-                    <div class="activity orange">Taller: "Mi primer Hackaton"</div>
-                    <div class="activity green">Charla: "Salud emocional en semana 16"</div>
-                    <div class="activity blue">Taller de finanzas</div>
+                <div class="relative bg-green-300 p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-bold">Introducción a los servicios del TEC</h2>
+                    <button class="absolute top-0 right-2 text-green-700 text-xl">x</button>
                 </div>
-                <div class="activity-group">
-                    <div class="activity orange">Película: "La vie est belle"</div>
-                    <div class="activity pink">CANNESTILALI!!</div>
+                <div class="relative bg-blue-300 p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-bold">Charla: "Disfrutando mi vida en el TEC"</h2>
+                    <button class="absolute top-0 right-2 text-blue-700 text-xl">x</button>
+                </div>
+                <div class="relative bg-blue-300 p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-bold">Taller introductorio a IEEE</h2>
+                    <button class="absolute top-0 right-2 text-blue-700 text-xl">x</button>
+                </div>
+                <div class="relative bg-pink-300 p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-bold">Chess boxing</h2>
+                    <button class="absolute top-0 right-2 text-pink-700 text-xl">x</button>
+                </div>
+                <div class="relative bg-green-300 p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-bold">Taller: "Mi primer Hackaton"</h2>
+                    <button class="absolute top-0 right-2 text-green-700 text-xl">x</button>
+                </div>
+                <div class="relative bg-pink-300 p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-bold">Charla: "Salud emocional en semana 16"</h2>
+                    <button class="absolute top-0 right-2 text-pink-700 text-xl">x</button>
+                </div>
+                <div class="relative bg-gray-300 p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-bold">Taller de finanzas</h2>
+                    <button class="absolute top-0 right-2 text-gray-700 text-xl">x</button>
+                </div>
+                <div class="relative bg-gray-300 p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-bold">Película: "La vie est belle"</h2>
+                    <button class="absolute top-0 right-2 text-gray-700 text-xl">x</button>
+                </div>
+                <div class="relative bg-gray-300 p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-bold">CANNESALSA!!!</h2>
+                    <button class="absolute top-0 right-2 text-gray-700 text-xl">x</button>
                 </div>
             </div>
-   </div>
-
-</div>
+        </div>
+    </div>
+</body>
+</html>
