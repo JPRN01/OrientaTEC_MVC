@@ -16,7 +16,7 @@ namespace OrientaTEC_MVC.Models
         }
 
         [Required]
-        public string Fecha
+        public DateTime Fecha
         {
             get { return fecha; }
             set { fecha = value; }

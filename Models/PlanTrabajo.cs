@@ -10,7 +10,7 @@ namespace OrientaTEC_MVC.Models
         private List<Actividad> actividades;
 
         [Required]
-        public string Id
+        public int Id
         {
             get { return id; }
             set { id = value; }
