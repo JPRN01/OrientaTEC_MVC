@@ -27,12 +27,13 @@ namespace OrientaTEC_MVC.Models
         public List<Profesor> Integrantes
         {
             get { return integrantes; }
-            set { integrantes = value ?? new List<Profesor>(); }  // Asegurar que la lista nunca sea null
+            set { integrantes = value ?? new List<Profesor>(); }
         }
 
         public List<PlanTrabajo> Planes
         {
             get { return planes; }
-            set { planes = value ?? new List<PlanTrabajo>(); }  // Asegurar que la lista nunca sea null
+            set { planes = value ?? new List<PlanTrabajo>(); }
         }
     }
+}
