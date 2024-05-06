@@ -12,7 +12,7 @@ namespace OrientaTEC_MVC.Models
         private EstadoActividad estado;
 
         [Required]
-        public int Id;
+        public int Id
         {
             get { return id; }
             set { id = value; }
