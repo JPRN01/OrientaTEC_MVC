@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrientaTEC_MVC.Models;
 
 namespace OrientaTEC_MVC
 {
@@ -10,6 +11,7 @@ namespace OrientaTEC_MVC
         }
 
         public DbSet<SomeEntity> SomeEntities { get; set; }
+        public DbSet<EquipoGuia> EquipoGuia { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

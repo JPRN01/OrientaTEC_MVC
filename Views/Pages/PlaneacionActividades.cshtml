@@ -1,4 +1,6 @@
-﻿<html>
+﻿@model OrientaTEC_MVC.ViewModels.EquipoGuiaViewModel
+
+<html>
 <head>
     <title>Activity Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -32,21 +34,25 @@
             z-index: 999;
         }
 
+        #comments-container{
+            max-height:300px;
+            overflow-y:auto;
+            background-color: #f9f9f9;
+            padding:10px;
+            border-radius:8px;
+        }
+
     </style>
 
 </head>
 <body class="bg-white p-8">
-
-
     <div class="max-w-7xl mx-auto">
-
-
-
         <div class="flex justify-between items-center mb-4">
             <div>
                 <label class="text-lg font-semibold">Selecciona el equipo guía</label>
-                <select class="ml-2 p-2 rounded border border-gray-300">
-                    <option>Equipo Guía</option>
+
+                <select asp-for="SelectedEquipoGuia" asp-items="@Model.EquiposGuia" class="ml-2 p-2 rounded border border-gray-300">
+                    <option value="">Seleccione un equipo guía</option>
                 </select>
             </div>
             <div>
@@ -55,9 +61,14 @@
                 </button>
             </div>
         </div>
+    </div>
 
 
         <div id="overlay" class="overlay" onclick="closePopup()"></div>
+
+
+
+
         <div id="popup" class="bg-gray-100 p-6">
                 <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
                     <div class="flex justify-between items-center mb-6">
@@ -66,7 +77,7 @@
                         </h1>
                         <button class="text-xl font-bold">
                             
-                        <button id="closeButton" class="text-xl font-bold">X</button>
+                        <button id="closeButton" class="text-xl font-bold" onclick="closePopup()">X</button>
                 </div>
                     <div class="grid grid-cols-2 gap-6 mb-6">
                         <div>
@@ -145,10 +156,10 @@
                     </div>
                     <div class="flex justify-end gap-4">
 
-                    <button id="acceptButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button id="acceptButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="closePopup()">
                         Aceptar
                         </button>
-                    <button id="cancelButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    <button id="cancelButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="closePopup()"> 
                         Cancelar
                         </button>
                     </div>
@@ -159,73 +170,104 @@
 
 
         <div id="overlayInfo" class="overlay" onclick="closeInfoPopup()"></div>
+
+
         <div id="infoPopup" class="info-popup bg-white p-6 mt-10 rounded-lg shadow-lg">
 
-    <body class="bg-gray-200 font-sans">
-        <div class="max-w-lg mx-auto bg-white p-6 mt-10 rounded-lg shadow-lg">
-            <div class="flex justify-between items-center mb-4">
-                <i class="fas fa-cog text-gray-600 cursor-pointer" onclick="toggleEditMode()"></i>
-                <h1 class="text-xl font-bold text-center flex-grow">INICIO DE SEMESTRE</h1>
-                <i class="fas fa-times text-gray-600"></i>
-            </div>
+
+
+
+    <div class="bg-gray-200">
+
+
+        <div class="max-w-lg mx-auto bg-white p-6 mt-10 rounded-lg shadow-lg relative">
+
+            <button class="absolute top-0 right-0 mt-4 mr-4 text-gray-400 hover:text-gray-600">
+              
+
+                <i class="fas fa-times"></i>
+
+
+            </button>
+
+
+
+            <h2 class="text-2xl font-bold mb-4">INICIO DE SEMESTRE</h2>
+
+            
+            <button id="editButton" onclick="toggleEdit()" class="mb-4 bg-blue-500 text-white rounded-md px-4 py-2 text-sm">Editar</button>
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Semana</label>
-                    <input type="number" value="1" class="editable mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" disabled>
+                    <label class="block text-sm font-medium mb-1">Semana</label>
+                    <input type="number" value="1" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Responsables</label>
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-700">Isaac Newton</span>
-                        <span class="text-sm text-gray-700">Galileo Galilei</span>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Tipo</label>
-                <input type="text" value="Orientador" class="editable mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" disabled>
-            </div>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Dias previos para anunciar</label>
-                <select class="editable mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" disabled>
-                    <option>0</option>
-                </select>
-            </div>
-            <div class="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Modalidad</label>
-                    <input type="text" value="Presencial" class="editable mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" disabled>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Enlace</label>
-                    <input type="text" value="No existe" class="editable mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" disabled>
+                    <label class="block text-sm font-medium mb-1">Responsables</label>
+                    <input type="text" value="Isaac Newton" class="w-full border-gray-300 rounded-md shadow-sm mb-2" readonly>
+                    <input type="text" value="Galileo Galilei" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Adjuntar evidencia</label>
-                    <button class="mt-1 w-full bg-gray-300 text-gray-700 py-2 rounded-md">Cargar</button>
+                    <label class="block text-sm font-medium mb-1">Tipo</label>
+                    <input type="text" value="Orientador" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Estado</label>
-                    <input type="text" value="Realizada" class="editable mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" disabled>
+                    <label class="block text-sm font-medium mb-1">Días previos para anunciar</label>
+                    <select class="w-full border-gray-300 rounded-md shadow-sm" disabled>
+                        <option value="0" selected>0</option>
+                    </select>
                 </div>
             </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Modalidad</label>
+                    <input type="text" value="Presencial" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Enlace</label>
+                    <input type="text" value="No existe" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Adjuntar evidencia</label>
+                    <button class="bg-gray-300 text-gray-700 rounded-md px-4 py-2" disabled>Cargar</button>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Estado</label>
+                    <input type="text" value="Realizada" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                </div>
+            </div>
+
+
+
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Comentarios</label>
-                <textarea class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" rows="3"></textarea>
-            </div>
-            <div class="flex justify-between items-center mb-4">
-                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="openCommentPopup()">Comentar</button>
-                <div class="relative w-12 h-6 bg-gray-300 rounded-full">
-                    <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+
+
+                <label class="block text-sm font-medium mb-1">Comentarios</label>
+
+
+                <div id="comments-container" class="space-y-2">
+                    <!-- Existing comments will be inserted here -->
                 </div>
+                <button onclick="openCommentModal()" class="mt-2 bg-blue-500 text-white rounded-md px-4 py-2">Comentar</button>
             </div>
-            <!-- Comments Section -->
-            <div class="bg-gray-100 p-4 rounded-lg mb-4 overflow-auto" style="height: 200px;" id="commentsContainer">
-                <!-- Comments will be added here dynamically -->
+            <div class="flex justify-end">
+                <button onclick="closeInfoPopup()" class="bg-red-500 text-white rounded-md px-4 py-2">Salir</button>
             </div>
-            <button class="w-full bg-gray-500 text-white py-2 rounded-md">Salir</button>
+        </div>
+
+        <!-- Comment Modal -->
+        <div id="commentModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h3 class="text-lg font-bold mb-4">Nuevo Comentario</h3>
+                <input id="commentName" type="text" placeholder="Nombre" class="w-full border-gray-300 rounded-md shadow-sm mb-2">
+                <input id="commentTitle" type="text" placeholder="Título" class="w-full border-gray-300 rounded-md shadow-sm mb-2">
+                <textarea id="commentText" placeholder="Comentario" class="w-full border-gray-300 rounded-md shadow-sm mb-4"></textarea>
+                <button onclick="saveComment()" class="bg-green-500 text-white rounded-md px-4 py-2">Guardar</button>
+                <button onclick="closeCommentModal()" class="ml-2 bg-red-500 text-white rounded-md px-4 py-2">Cancelar</button>
+            </div>
         </div>
 
         <!-- Comment Popup -->
@@ -250,13 +292,10 @@
                 </div>
             </div>
         </div>
-    </body>
-         <button onclick="closeInfoPopup()">Cerrar</button>
+
+
+    </div>
         </div>
-
-
-
-
 
         <div class="flex space-x-4 mb-6">
             <div class="flex items-center">
@@ -333,11 +372,65 @@
             </div>
         </div>
     </div>
-
-
+   
 
 <script>
+
+    function toggleEdit() {
+        const inputs = document.querySelectorAll('#infoPopup input, #infoPopup select');
+        const buttons = document.querySelectorAll('#infoPopup button');
+
+        // Alternar el estado de cada entrada y select
+        inputs.forEach(input => {
+            if (input.hasAttribute('readonly') || input.hasAttribute('disabled')) {
+                input.removeAttribute('readonly');
+                input.disabled = false;
+            } else {
+                input.setAttribute('readonly', true);
+                input.disabled = true;
+            }
+        });
+
+        // Alternar el estado de cada botón excepto el botón de editar
+        buttons.forEach(button => {
+            if (button.id !== 'editButton' && button.textContent.trim() != 'Salir') { // Asegúrate de que el ID del botón de editar sea 'editButton'
+                button.disabled = !button.disabled;
+            }
+        });
+    }
+
+    function openCommentModal() {
+        document.getElementById('commentModal').classList.remove('hidden');
+    }
+
+    function closeCommentModal() {
+        document.getElementById('commentModal').classList.add('hidden');
+    }
+
+    function saveComment() {
+        const name = document.getElementById('commentName').value;
+        const title = document.getElementById('commentTitle').value;
+        const text = document.getElementById('commentText').value;
+
+        const commentContainer = document.getElementById('comments-container');
+        const newComment = document.createElement('div');
+        newComment.classList.add('p-4', 'bg-gray-100', 'rounded-md');
+
+
+        newComment.innerHTML = `
+                    <p class="font-medium">${name}</p>
+                    <p class="text-sm mt-2">Título: ${title}</p>
+                    <p class="text-sm">${text}</p>
+                `;
+
+        commentContainer.appendChild(newComment);
+
+        closeCommentModal();
+    }
+
         function openPopup() {
+
+
             document.getElementById('popup').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         }
@@ -353,13 +446,9 @@
             document.getElementById('infoPopup').style.display = 'none';
             document.getElementById('overlayInfo').style.display = 'none';
         }
-
         document.getElementById('createButton').addEventListener('click', openPopup);
         document.querySelectorAll('.closeButton').forEach(btn => {
             btn.addEventListener('click', closePopup);
         });
     </script>
-</body>
-
-
 </html>
