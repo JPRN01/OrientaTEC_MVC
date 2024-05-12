@@ -1,23 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace OrientaTEC_MVC.Models
 {
-    public class Estudiante
+    public class AsistenteAdministrativa
     {
-        private int carnet;
         private string nombre1;
         private string nombre2;
         private string apellido1;
         private string apellido2;
         private string correo;
+        private string contraseña;
         private int telCelular;
-
-        [Required]
-        public int Carnet
-        {
-            get { return carnet; }
-            set { carnet = value; }
-        }
+        private CentroAcademico centroAcademico;
 
         [Required]
         public string Nombre1
@@ -39,7 +34,6 @@ namespace OrientaTEC_MVC.Models
             set { apellido1 = value; }
         }
 
-        
         public string Apellido2
         {
             get { return apellido2; }
@@ -54,6 +48,13 @@ namespace OrientaTEC_MVC.Models
             set { correo = value; }
         }
 
+        [Required]
+        public string Contraseña
+        {
+            get { return contraseña; }
+            set { contraseña = value; }
+        }
+
         [Phone]
         public int TelCelular
         {
@@ -61,10 +62,8 @@ namespace OrientaTEC_MVC.Models
             set { telCelular = value; }
         }
 
-
-        private string centroAcademico;
-
-        public string CentroAcademico
+        [Required]
+        public CentroAcademico CentroAcademico
         {
             get { return centroAcademico; }
             set { centroAcademico = value; }

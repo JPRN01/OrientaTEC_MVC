@@ -1,0 +1,100 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>OrientaTEC</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-evenly;
+            background-color: #f0f0f0;
+            padding: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .activity-box {
+            flex: 1 1 200px;
+            margin: 10px;
+            padding: 20px;
+            color: white;
+            font-size: 16px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .green {
+            background-color: #8bc34a;
+        }
+
+        .blue {
+            background-color: #2196f3;
+        }
+
+        .pink {
+            background-color: #e91e63;
+        }
+
+        .light-blue {
+            background-color: #03a9f4;
+        }
+
+        .close {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 24px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <button onclick="location.href='index.html'">Volver</button>
+        <button>Actividades</button>
+        <button>Equipos Guía</button>
+        <button>Profesores</button>
+        <button>Estudiantes</button>
+    </div>
+
+    <div class="main-container">
+        <div class="activity-box green" onclick="removeActivity(this)">Inicio de Semestre<span class="close">×</span></div>
+        <div class="activity-box blue" onclick="removeActivity(this)">Introducción a los servicios del TEC<span class="close">×</span></div>
+        <div class="activity-box pink" onclick="removeActivity(this)">Chess boxing<span class="close">×</span></div>
+        <div class="activity-box blue" onclick="removeActivity(this)">Taller: "Mi primer Hackaton"<span class="close">×</span></div>
+        <div class="activity-box light-blue" onclick="removeActivity(this)">Película: "La vie est belle"<span class="close">×</span></div>
+        <div class="activity-box blue" onclick="removeActivity(this)">Charla: "Disfrutando mi vida en el TEC"<span class="close">×</span></div>
+        <div class="activity-box pink" onclick="removeActivity(this)">Charla: "Salud emocional en semana 16"<span class="close">×</span></div>
+        <div class="activity-box blue" onclick="removeActivity(this)">Taller introductorio a IEEE<span class="close">×</span></div>
+        <div class="activity-box blue" onclick="removeActivity(this)">Taller de finanzas<span class="close">×</span></div>
+        <button class="new-activity">Crear nueva actividad +</button>
+    </div>
+
+    <script>
+        function removeActivity(element) {
+            element.style.display = 'none'; // Esto solo oculta la caja, no la elimina completamente
+        }
+    </script>
+</body>
+</html>
