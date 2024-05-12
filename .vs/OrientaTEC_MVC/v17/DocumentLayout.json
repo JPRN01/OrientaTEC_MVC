@@ -7,28 +7,12 @@
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\planeacionactividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\models\\tipoactividad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\tipoactividad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\gestorprofesores.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorprofesores.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\models\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\_profesorestable.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\_profesorestable.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\viewmodels\\equipoguiaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:viewmodels\\equipoguiaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\_profesorestable.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\_profesorestable.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\controllers\\actividadescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -37,6 +21,26 @@
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\models\\equipoguia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\equipoguia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\models\\tipoactividad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\tipoactividad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\models\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\actividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\actividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\gestorprofesores.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorprofesores.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\models\\actividad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -57,10 +61,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\gestorequiposguia.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorequiposguia.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\actividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\actividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -123,7 +123,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "GestorProfesores.cshtml",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\GestorProfesores.cshtml",
               "RelativeDocumentMoniker": "Views\\Pages\\GestorProfesores.cshtml",
@@ -150,7 +150,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Profesor.cs",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\Profesor.cs",
               "RelativeDocumentMoniker": "Models\\Profesor.cs",
@@ -165,14 +165,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "TipoActividad.cs",
-              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\TipoActividad.cs",
-              "RelativeDocumentMoniker": "Models\\TipoActividad.cs",
-              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\TipoActividad.cs",
-              "RelativeToolTip": "Models\\TipoActividad.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-12T01:56:10.541Z",
+              "Title": "_ProfesoresTable.cshtml",
+              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\_ProfesoresTable.cshtml",
+              "RelativeDocumentMoniker": "Views\\Pages\\_ProfesoresTable.cshtml",
+              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\_ProfesoresTable.cshtml",
+              "RelativeToolTip": "Views\\Pages\\_ProfesoresTable.cshtml",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAACEAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-03T04:30:50.464Z",
               "EditorCaption": ""
             },
             {
@@ -183,27 +183,79 @@
               "RelativeDocumentMoniker": "Views\\Pages\\PlaneacionActividades.cshtml",
               "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\PlaneacionActividades.cshtml",
               "RelativeToolTip": "Views\\Pages\\PlaneacionActividades.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAfAAAA",
+              "ViewState": "AQIAAC4AAAAAAAAAAAAnwDUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-04-28T06:29:35.353Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "EquipoGuiaViewModel.cs",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\ViewModels\\EquipoGuiaViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\EquipoGuiaViewModel.cs",
               "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\ViewModels\\EquipoGuiaViewModel.cs",
               "RelativeToolTip": "ViewModels\\EquipoGuiaViewModel.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAxwBEAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-12T01:31:50.696Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ActividadesController.cs",
+              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ActividadesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ActividadesController.cs",
+              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ActividadesController.cs",
+              "RelativeToolTip": "Controllers\\ActividadesController.cs",
+              "ViewState": "AQIAABwAAAAAAAAAAAAYwDEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-12T01:36:03.179Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EquipoGuia.cs",
+              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\EquipoGuia.cs",
+              "RelativeDocumentMoniker": "Models\\EquipoGuia.cs",
+              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\EquipoGuia.cs",
+              "RelativeToolTip": "Models\\EquipoGuia.cs",
+              "ViewState": "AQIAABQAAAAAAAAAAAAxwCcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-12T01:26:47.719Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "TipoActividad.cs",
+              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\TipoActividad.cs",
+              "RelativeDocumentMoniker": "Models\\TipoActividad.cs",
+              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\TipoActividad.cs",
+              "RelativeToolTip": "Models\\TipoActividad.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-12T01:56:10.541Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Actividades.cshtml",
+              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\Actividades.cshtml",
+              "RelativeDocumentMoniker": "Views\\Pages\\Actividades.cshtml",
+              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\Actividades.cshtml",
+              "RelativeToolTip": "Views\\Pages\\Actividades.cshtml",
+              "ViewState": "AQIAAGMAAAAAAAAAAAAAADsAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-05-04T08:54:05.336Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "ApplicationDbContext.cs",
@@ -216,46 +268,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "_ProfesoresTable.cshtml",
-              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\_ProfesoresTable.cshtml",
-              "RelativeDocumentMoniker": "Views\\Pages\\_ProfesoresTable.cshtml",
-              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\_ProfesoresTable.cshtml",
-              "RelativeToolTip": "Views\\Pages\\_ProfesoresTable.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-03T04:30:50.464Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ActividadesController.cs",
-              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ActividadesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ActividadesController.cs",
-              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ActividadesController.cs",
-              "RelativeToolTip": "Controllers\\ActividadesController.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAADwvyEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-12T01:36:03.179Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "EquipoGuia.cs",
-              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\EquipoGuia.cs",
-              "RelativeDocumentMoniker": "Models\\EquipoGuia.cs",
-              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\EquipoGuia.cs",
-              "RelativeToolTip": "Models\\EquipoGuia.cs",
-              "ViewState": "AQIAABoAAAAAAAAAAAA/wCcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-12T01:26:47.719Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Actividad.cs",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\Actividad.cs",
               "RelativeDocumentMoniker": "Models\\Actividad.cs",
@@ -268,7 +281,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "AsistenteAdministrativa.cs",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Models\\AsistenteAdministrativa.cs",
               "RelativeDocumentMoniker": "Models\\AsistenteAdministrativa.cs",
@@ -281,7 +294,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "MenuPrincipal.cshtml",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\MenuPrincipal.cshtml",
               "RelativeDocumentMoniker": "Views\\Pages\\MenuPrincipal.cshtml",
@@ -294,7 +307,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "GestorEstudiantes.cshtml",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\GestorEstudiantes.cshtml",
               "RelativeDocumentMoniker": "Views\\Pages\\GestorEstudiantes.cshtml",
@@ -307,7 +320,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "GestorEquiposGuia.cshtml",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\GestorEquiposGuia.cshtml",
               "RelativeDocumentMoniker": "Views\\Pages\\GestorEquiposGuia.cshtml",
@@ -316,19 +329,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-04-28T06:32:40.865Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Actividades.cshtml",
-              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\Actividades.cshtml",
-              "RelativeDocumentMoniker": "Views\\Pages\\Actividades.cshtml",
-              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\Actividades.cshtml",
-              "RelativeToolTip": "Views\\Pages\\Actividades.cshtml",
-              "ViewState": "AQIAAGMAAAAAAAAAAAAAADsAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-04T08:54:05.336Z",
               "EditorCaption": ""
             },
             {

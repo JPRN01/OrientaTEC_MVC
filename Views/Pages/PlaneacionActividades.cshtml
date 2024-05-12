@@ -51,9 +51,20 @@
             <div>
                 <label class="text-lg font-semibold">Selecciona el equipo guía</label>
 
-                <select asp-for="SelectedEquipoGuia" asp-items="@Model.EquiposGuia" class="ml-2 p-2 rounded border border-gray-300">
-                    <option value="">Seleccione un equipo guía</option>
-                </select>
+                @if (Model.EquiposGuia != null && Model.EquiposGuia.Count > 0)
+                {
+                    <select asp-for="SelectedEquipoGuia" asp-items="@Model.EquiposGuia" class="ml-2 p-2 rounded border border-gray-300">
+                        <option value="">Seleccione un equipo guía</option>
+                    </select>
+                }
+                else
+                {
+                    <select class="ml-2 p-2 rounded border border-gray-300">
+                        <option>No hay equipos disponibles</option>
+                    </select>
+                }
+
+
             </div>
             <div>
                 <button id="createButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
