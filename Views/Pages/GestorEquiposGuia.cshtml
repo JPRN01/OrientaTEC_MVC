@@ -33,7 +33,7 @@
 <div id="modalIntegrantes" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal_ListaIntegrantes();">&times;</span>
-        <h2>Profesores</h2>
+        <h2>Integrantes</h2>
         <div class="modal-body">
             <ul id="integrantesList" class="integrantes-list">
             </ul>
@@ -141,7 +141,7 @@
         <div id="coordinadorInfo_EditarEquipo"></div>
         <br />
         <h3>Integrantes</h3>
-        <button class="add-button" onclick="mostrarModalAgregarProfesor_EditarEquipo();">Agregar Profesor +</button>
+        <button class="add-button" onclick="mostrarModal_AgregarProfesor_EditarEquipo();">Agregar Profesor +</button>
         <ul id="integrantesEditList_EditarEquipo" class="integrantes-list">
         </ul>
     </div>
@@ -244,7 +244,7 @@
                             // console.log(integrante.Nombre1);
                             integrantesList.append(`<li>${integrante.nombre1} ${integrante.apellido1}</li>`);
                         });
-                        $('#modalIntegrantes').show();
+                        $('#modalIntegrantes').css('display', 'flex');
                     } else {
                         alert('No se encontraron integrantes.');
                     }
@@ -283,7 +283,7 @@
                             integrantesList.append(`<li id="integrante-${integrante.codigo}">${integrante.nombre1} ${integrante.apellido1} <button class='action-button' onclick="removerIntegrante('${integrante.codigo}');">🗑️</button></li>`);
                         });
                         $('#coordinadorInfo_EditarEquipo').html(`${response.coordinador.nombre1} ${response.coordinador.apellido1}`);
-                        $('#modalEditar_EditarEquipo').show();
+                        $('#modalEditar_EditarEquipo').css('display', 'flex');
                     } else {
                         alert('No se encontraron detalles del equipo.');
                     }
@@ -298,12 +298,14 @@
             $('#modalEditar_EditarEquipo').hide();
         }
 
-        function mostrarModalAgregarProfesor_EditarEquipo() {
-            $('#modalAgregarProfesor_EditarEquipo').show();
+        function mostrarModal_AgregarProfesor_EditarEquipo() {
+            $('#modalAgregarProfesor_EditarEquipo').css('display', 'flex');
+            $('#selectProfesor_AgregarProfesor_EditarEquipo').prop('selectedIndex', 0);
         }
 
         function closeModal_AgregarProfesor_EditarEquipo() {
             $('#modalAgregarProfesor_EditarEquipo').hide();
+            $('#selectProfesor_AgregarProfesor_EditarEquipo').prop('selectedIndex', 0);
         }
 
         function agregarProfesor_EditarEquipo() {
@@ -311,7 +313,7 @@
             var generacion = $('#generacion_a_editar_EditarEquipo').text();
 
 
-            $.post('/GestorEquiposGuia/AgregarIntegrante', { generacion: generacion, codigoProfesor: codigoProfesor }, function (response) {
+            $.post('/GestorEquiposGuia/AgregarIntegrante_EditarEquipo', { generacion: generacion, codigoProfesor: codigoProfesor }, function (response) {
                 if (response.success) {
                     var profesor = response.data;
                     $('#integrantesEditList_EditarEquipo').append(
@@ -325,12 +327,11 @@
         }
 
         function removerIntegrante(codigoProfesor) {
-            var generacion = $('#generacion_a_editar_EditarEquipo').text(); // Asegúrate de que este valor se establece correctamente
+            var generacion = $('#generacion_a_editar_EditarEquipo').text();
 
             $.post('/GestorEquiposGuia/RemoverIntegrante', { generacion: generacion, codigoProfesor: codigoProfesor }, function (response) {
                 if (response.success) {
                     alert('Integrante removido exitosamente.');
-                    // Actualiza la lista de integrantes eliminando el elemento del DOM
                     $(`#integrante-${codigoProfesor}`).remove();
                 } else {
                     alert('Error al remover integrante: ' + response.message);
@@ -339,11 +340,13 @@
         }
 
         function mostrarModalAgregarCoodinador_EditarEquipo() {
-            $('#modalAgregarCoodinador_EditarEquipo').show();
+            $('#modalAgregarCoodinador_EditarEquipo').css('display', 'flex');
+            $('#selectProfesor_AgregarCoodinador_EditarEquipo').prop('selectedIndex', 0);
         }
 
         function closeModal_AgregarCoodinador_EditarEquipo() {
             $('#modalAgregarCoodinador_EditarEquipo').hide();
+            $('#selectProfesor_AgregarCoodinador_EditarEquipo').prop('selectedIndex', 0);
         }
 
         function AgregarCoodinador_EditarEquipo() {
@@ -382,7 +385,7 @@
         function agregarProfesorANuevoEquipo_NuevoEquipo() {
             const select = document.getElementById('selectProfesor_AgregarProfesor_NuevoEquipo');
             const codigoProfesor = select.value;
-            const nombreProfesor = select.options[select.selectedIndex].text;
+            const nombreProfesor = select.options[select.selectedIndex].getAttribute('data-nombre-completo');
 
             if (!lista_Profesores_NuevoEquipo.includes(codigoProfesor)) {
                 lista_Profesores_NuevoEquipo.push(codigoProfesor);
@@ -392,6 +395,7 @@
                 alert('Este profesor ya ha sido agregado.');
             }
         }
+
 
         function actualizarListaProfesores_NuevoEquipo(codigo, nombre) {
             const lista = document.getElementById('integrantesEditList_NuevoEquipo');
@@ -404,28 +408,34 @@
 
         function closeModal_AgregarProfesor_NuevoEquipo() {
             $('#modalAgregarProfesor_NuevoEquipo').hide();
+            $('#selectProfesor_AgregarProfesor_NuevoEquipo').prop('selectedIndex', 0);
         }
 
         function mostrarModal_AgregarProfesor_NuevoEquipo() {
-            $('#modalAgregarProfesor_NuevoEquipo').show();
+            $('#modalAgregarProfesor_NuevoEquipo').css('display', 'flex');
+            $('#selectProfesor_AgregarProfesor_NuevoEquipo').prop('selectedIndex', 0);
         }
 
         function mostrarModal_NuevoEquipo_NuevoEquipo() {
-            $('#modalNuevoEquipo').show();
+            $('#modalNuevoEquipo').css('display', 'flex');
             lista_Profesores_NuevoEquipo = [];
+            codigoCoordinadorActual = '';
             $('#coordinadorInfo_NuevoEquipo').empty();
             $('#integrantesEditList_NuevoEquipo').empty();
+            $('#dropdownAnio').prop('selectedIndex', 0);
         }
 
         function closeModal_NuevoEquipo() {
             $('#modalNuevoEquipo').hide();
             lista_Profesores_NuevoEquipo = [];
+            codigoCoordinadorActual = '';
             $('#coordinadorInfo_NuevoEquipo').empty();
             $('#integrantesEditList_NuevoEquipo').empty();
+            $('#dropdownAnio').prop('selectedIndex', 0);
         }
 
 
-        let codigoCoordinadorActual = '';
+        var codigoCoordinadorActual = '';
 
         function agregarCoordinadorANuevoEquipo_NuevoEquipo() {
             const select = document.getElementById('selectProfesor_AgregarCoodinador_NuevoEquipo');
@@ -434,6 +444,8 @@
 
             codigoCoordinadorActual = codigoCoordinador;
             actualizarInfoCoordinador_NuevoEquipo(nombreCoordinador);
+
+            closeModal_AgregarCoodinador_NuevoEquipo();
         }
 
         function actualizarInfoCoordinador_NuevoEquipo(nombre) {
@@ -442,10 +454,74 @@
 
         function closeModal_AgregarCoodinador_NuevoEquipo() {
             $('#modalAgregarCoodinador_NuevoEquipo').hide();
+            $('#selectProfesor_AgregarCoodinador_NuevoEquipo').prop('selectedIndex', 0);
         }
 
         function mostrarModalAgregarCoodinador_NuevoEquipo() {
-            $('#modalAgregarCoodinador_NuevoEquipo').show();
+            $('#modalAgregarCoodinador_NuevoEquipo').css('display', 'flex');
+            $('#selectProfesor_AgregarCoodinador_NuevoEquipo').prop('selectedIndex', 0);
+        }
+
+
+        function CrearNuevoEquipo_NuevoEquipo() {
+            let codigosProfesores = lista_Profesores_NuevoEquipo;
+            let codigoCoordinador = codigoCoordinadorActual;
+            let generacion = document.getElementById('dropdownAnio').value;
+
+            if (!codigoCoordinador) {
+                alert("Debe seleccionar un coordinador para el equipo.");
+                return;
+            }
+
+            if (codigosProfesores.length === 0) {
+                alert("Debe agregar al menos un profesor al equipo.");
+                return;
+            }
+
+            if (!generacion) {
+                alert("Debe seleccionar una generación para el equipo.");
+                return;
+            }
+
+
+
+
+
+            let datos = {
+                codigoCoordinador: codigoCoordinador,
+                codigosProfesores: codigosProfesores,
+                generacion: generacion
+            };
+
+            console.log(datos);
+            console.log(JSON.stringify(datos));
+
+            $.ajax({
+                type: "POST",
+                url: '/GestorEquiposGuia/CrearNuevoEquipo',
+                data: JSON.stringify(datos),
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    if (response.success) {
+                        alert("Equipo creado correctamente.");
+                        closeModal_NuevoEquipo();
+                    } else {
+                        alert("Error al crear el equipo: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Ocurrió un error al enviar los datos: " + error);
+                }
+            });
+
+
+            // $.post('/GestorEquiposGuia/CrearNuevoEquipo', datos, function (response) {
+            //     if (response.success) {
+            //         alert("Equipo creado correctamente.");
+            //     } else {
+            //         alert("Error al crear el equipo: " + response.message);
+            //     }
+            // });
         }
 
 

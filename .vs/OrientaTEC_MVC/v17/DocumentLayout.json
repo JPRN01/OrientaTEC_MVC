@@ -3,35 +3,63 @@
   "WorkspaceRootPath": "C:\\GitHub\\OrientaTEC_MVC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\models\\equipoguia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\equipoguia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\views\\pages\\gestorprofesores.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorprofesores.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\views\\pages\\gestorequiposguia.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorequiposguia.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\views\\pages\\gestorprofesores.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorprofesores.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\controllers\\gestorequiposguiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\gestorequiposguiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\models\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\controllers\\gestorprofesorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\gestorprofesorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\controllers\\gestorequiposguiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\gestorequiposguiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\views\\pages\\menuprincipal.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\menuprincipal.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\models\\estudiante.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\estudiante.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\controllers\\estudiantedao_singleton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\estudiantedao_singleton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\controllers\\estudiantecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\estudiantecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\models\\equipoguia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\equipoguia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\views\\pages\\planeacionactividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\planeacionactividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\views\\pages\\gestorestudiantes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorestudiantes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\controllers\\pagescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\pagescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\orientatec_mvc.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:orientatec_mvc.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -46,30 +74,10 @@
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\controllers\\estudiantecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\estudiantecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\8.0.204\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\views\\pages\\gestorestudiantes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorestudiantes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\views\\pages\\planeacionactividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\planeacionactividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\david\\.nuget\\packages\\epplus\\7.1.2\\readme.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\controllers\\pagescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\pagescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\models\\estudiante.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\estudiante.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\orientatec_mvc.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -78,10 +86,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\views\\pages\\_profesorestable.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\_profesorestable.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\controllers\\estudiantedao_singleton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\estudiantedao_singleton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\github\\orientatec_mvc\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -98,18 +102,18 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 320,
-          "SelectedChildIndex": 5,
+          "DockedHeight": 330,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "GestorProfesores.cshtml",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\GestorProfesores.cshtml",
               "RelativeDocumentMoniker": "Views\\Pages\\GestorProfesores.cshtml",
               "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\GestorProfesores.cshtml",
               "RelativeToolTip": "Views\\Pages\\GestorProfesores.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAPAAAA",
+              "ViewState": "AQIAAIYBAAAAAAAAAAD4v5oBAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-04-29T03:49:11.009Z",
               "IsPinned": true,
@@ -117,13 +121,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "GestorProfesoresController.cs",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Controllers\\GestorProfesoresController.cs",
               "RelativeDocumentMoniker": "Controllers\\GestorProfesoresController.cs",
               "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Controllers\\GestorProfesoresController.cs",
               "RelativeToolTip": "Controllers\\GestorProfesoresController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAIAAAA",
+              "ViewState": "AQIAABAAAAAAAAAAAAAgwBkAAABOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-07T02:54:33.172Z",
               "IsPinned": true,
@@ -137,7 +141,7 @@
               "RelativeDocumentMoniker": "Models\\Profesor.cs",
               "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Models\\Profesor.cs",
               "RelativeToolTip": "Models\\Profesor.cs",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAmwHoAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-28T20:00:33.363Z",
               "IsPinned": true,
@@ -151,21 +155,21 @@
               "RelativeDocumentMoniker": "Views\\Pages\\GestorEquiposGuia.cshtml",
               "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\GestorEquiposGuia.cshtml",
               "RelativeToolTip": "Views\\Pages\\GestorEquiposGuia.cshtml",
-              "ViewState": "AQIAAAsBAAAAAAAAAAAYwFsBAAAAAAAA",
+              "ViewState": "AQIAAN8AAAAAAAAAAAAEwPIAAAA3AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-28T06:32:40.865Z",
+              "WhenOpened": "2024-05-12T22:21:36.185Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "GestorEquiposGuiaController.cs",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Controllers\\GestorEquiposGuiaController.cs",
               "RelativeDocumentMoniker": "Controllers\\GestorEquiposGuiaController.cs",
               "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Controllers\\GestorEquiposGuiaController.cs",
               "RelativeToolTip": "Controllers\\GestorEquiposGuiaController.cs",
-              "ViewState": "AQIAANgAAAAAAAAAAAAkwOsAAAA7AAAA",
+              "ViewState": "AQIAAC0BAAAAAAAAAAAEwEgBAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-04T06:15:58.057Z",
               "IsPinned": true,
@@ -173,7 +177,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 9,
               "Title": "EquipoGuia.cs",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Models\\EquipoGuia.cs",
               "RelativeDocumentMoniker": "Models\\EquipoGuia.cs",
@@ -187,27 +191,23 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 13,
-              "Title": "GestorEstudiantes.cshtml",
-              "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\GestorEstudiantes.cshtml",
-              "RelativeDocumentMoniker": "Views\\Pages\\GestorEstudiantes.cshtml",
-              "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\GestorEstudiantes.cshtml",
-              "RelativeToolTip": "Views\\Pages\\GestorEstudiantes.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-28T06:42:13.99Z"
+              "Title": "OrientaTEC_MVC",
+              "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
+              "RelativeDocumentMoniker": "OrientaTEC_MVC.csproj",
+              "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
+              "RelativeToolTip": "OrientaTEC_MVC.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-05-12T02:08:52.885Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
@@ -215,47 +215,77 @@
               "RelativeToolTip": "Views\\Home\\Index.cshtml",
               "ViewState": "AQIAABkAAAAAAAAAAAAmwCgAAAA/AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-28T06:02:20.861Z"
+              "WhenOpened": "2024-04-28T06:02:20.861Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "MenuPrincipal.cshtml",
-              "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\MenuPrincipal.cshtml",
-              "RelativeDocumentMoniker": "Views\\Pages\\MenuPrincipal.cshtml",
-              "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\MenuPrincipal.cshtml",
-              "RelativeToolTip": "Views\\Pages\\MenuPrincipal.cshtml",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAACgAAAA0AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-28T06:28:33.553Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 12,
               "Title": "PagesController.cs",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Controllers\\PagesController.cs",
               "RelativeDocumentMoniker": "Controllers\\PagesController.cs",
               "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Controllers\\PagesController.cs",
               "RelativeToolTip": "Controllers\\PagesController.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAgwBwAAAAXAAAA",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABwAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-28T07:01:35.902Z"
+              "WhenOpened": "2024-04-28T07:01:35.902Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MenuPrincipal.cshtml",
+              "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\MenuPrincipal.cshtml",
+              "RelativeDocumentMoniker": "Views\\Pages\\MenuPrincipal.cshtml",
+              "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\MenuPrincipal.cshtml",
+              "RelativeToolTip": "Views\\Pages\\MenuPrincipal.cshtml",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAACgAAABTAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-04-28T06:28:33.553Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PlaneacionActividades.cshtml",
+              "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\PlaneacionActividades.cshtml",
+              "RelativeDocumentMoniker": "Views\\Pages\\PlaneacionActividades.cshtml",
+              "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\PlaneacionActividades.cshtml",
+              "RelativeToolTip": "Views\\Pages\\PlaneacionActividades.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-04-28T06:29:35.353Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
+              "Title": "GestorEstudiantes.cshtml",
+              "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\GestorEstudiantes.cshtml",
+              "RelativeDocumentMoniker": "Views\\Pages\\GestorEstudiantes.cshtml",
+              "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\GestorEstudiantes.cshtml",
+              "RelativeToolTip": "Views\\Pages\\GestorEstudiantes.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-04-28T06:42:13.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "EstudianteController.cs",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Controllers\\EstudianteController.cs",
               "RelativeDocumentMoniker": "Controllers\\EstudianteController.cs",
               "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Controllers\\EstudianteController.cs",
               "RelativeToolTip": "Controllers\\EstudianteController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAABDAAAA",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAiwBEAAABEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-01T02:34:29.09Z"
+              "WhenOpened": "2024-05-01T02:34:29.09Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 6,
               "Title": "Estudiante.cs",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Models\\Estudiante.cs",
               "RelativeDocumentMoniker": "Models\\Estudiante.cs",
@@ -263,23 +293,12 @@
               "RelativeToolTip": "Models\\Estudiante.cs",
               "ViewState": "AQIAABsAAAAAAAAAAAAowDgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-03T05:02:04.623Z"
+              "WhenOpened": "2024-05-03T05:02:04.623Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "PlaneacionActividades.cshtml",
-              "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\PlaneacionActividades.cshtml",
-              "RelativeDocumentMoniker": "Views\\Pages\\PlaneacionActividades.cshtml",
-              "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\PlaneacionActividades.cshtml",
-              "RelativeToolTip": "Views\\Pages\\PlaneacionActividades.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-28T06:29:35.353Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "ErrorViewModel.cs",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Models\\ErrorViewModel.cs",
               "RelativeDocumentMoniker": "Models\\ErrorViewModel.cs",
@@ -287,23 +306,25 @@
               "RelativeToolTip": "Models\\ErrorViewModel.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-28T20:00:28.198Z"
+              "WhenOpened": "2024-04-28T20:00:28.198Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 7,
               "Title": "EstudianteDAO_Singleton.cs",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Controllers\\EstudianteDAO_Singleton.cs",
               "RelativeDocumentMoniker": "Controllers\\EstudianteDAO_Singleton.cs",
               "ToolTip": "C:\\GitHub\\OrientaTEC_MVC\\Controllers\\EstudianteDAO_Singleton.cs",
               "RelativeToolTip": "Controllers\\EstudianteDAO_Singleton.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAAArwCkAAAAoAAAA",
+              "ViewState": "AQIAAAgAAAAAAAAAAIAywCsAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-01T06:02:03.388Z"
+              "WhenOpened": "2024-05-01T06:02:03.388Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "_ProfesoresTable.cshtml",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Pages\\_ProfesoresTable.cshtml",
               "RelativeDocumentMoniker": "Views\\Pages\\_ProfesoresTable.cshtml",
@@ -311,14 +332,51 @@
               "RelativeToolTip": "Views\\Pages\\_ProfesoresTable.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-03T04:30:50.464Z"
+              "WhenOpened": "2024-05-03T04:30:50.464Z",
+              "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedHeight": 129,
-          "SelectedChildIndex": 3,
+          "DockedHeight": 119,
+          "SelectedChildIndex": 12,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{ecb7191a-597b-41f5-9843-03a4cf275dde}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{28836128-fc2c-11d2-a433-00c04f72d18a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{605322a2-17ae-43f4-b60f-766556e46c87}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{797f5b3d-853a-4854-a9f2-c488bac2661b}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{be4d7042-ba3f-11d2-840e-00c04f9902c1}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{f2e84780-2af1-11d1-a7fa-00a0c9110051}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{90243340-bd7a-11d0-93ef-00a0c90f2734}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0504ff91-9d61-11d0-a794-00a0c9110051}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
@@ -329,11 +387,11 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{797f5b3d-853a-4854-a9f2-c488bac2661b}"
+              "Name": "ST:0:0:{4a18f9d0-b838-11d0-93eb-00a0c90f2734}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 14,
               "Title": "Microsoft.Common.CurrentVersion.targets",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
               "RelativeDocumentMoniker": "..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
@@ -346,7 +404,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
               "Title": "_ValidationScriptsPartial.cshtml",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
@@ -354,11 +412,12 @@
               "RelativeToolTip": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-07T02:46:58.011Z"
+              "WhenOpened": "2024-05-07T02:46:58.011Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 18,
               "Title": "Microsoft.NET.Sdk.targets",
               "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.targets",
               "RelativeDocumentMoniker": "..\\..\\Program Files\\dotnet\\sdk\\8.0.204\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.targets",
@@ -366,11 +425,12 @@
               "RelativeToolTip": "..\\..\\Program Files\\dotnet\\sdk\\8.0.204\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.targets",
               "ViewState": "AQIAAMMCAAAAAAAAAAAYwMQCAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2024-04-28T20:03:35.721Z"
+              "WhenOpened": "2024-04-28T20:03:35.721Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "readme.txt",
               "DocumentMoniker": "C:\\Users\\david\\.nuget\\packages\\epplus\\7.1.2\\readme.txt",
               "RelativeDocumentMoniker": "..\\..\\Users\\david\\.nuget\\packages\\epplus\\7.1.2\\readme.txt",
@@ -378,11 +438,12 @@
               "RelativeToolTip": "..\\..\\Users\\david\\.nuget\\packages\\epplus\\7.1.2\\readme.txt",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-05-01T06:13:33.449Z"
+              "WhenOpened": "2024-05-01T06:13:33.449Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "OrientaTEC_MVC.csproj",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
               "RelativeDocumentMoniker": "OrientaTEC_MVC.csproj",
@@ -395,7 +456,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 16,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -403,11 +464,12 @@
               "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
               "ViewState": "AQIAABYAAAAAAAAAAAAcwBkAAACGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-28T07:05:24.027Z"
+              "WhenOpened": "2024-04-28T07:05:24.027Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\GitHub\\OrientaTEC_MVC\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -415,7 +477,8 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-04-28T07:06:25.902Z"
+              "WhenOpened": "2024-04-28T07:06:25.902Z",
+              "EditorCaption": ""
             }
           ]
         }

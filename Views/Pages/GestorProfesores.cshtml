@@ -290,7 +290,7 @@
 
         // Agregar profesor - muestra el modal
         $('#btnAgregarProfesor').click(function () {
-            $('#modalProfesor_Agregar').show();
+            $('#modalProfesor_Agregar').css('display', 'flex');
         });
 
         $('#modalProfesor_Agregar .close, #modalProfesor_Agregar .cancel').click(function () {
@@ -317,7 +317,7 @@
                         alert(response.message);
                         try {
                             //$('#profesoresTable').DataTable().ajax.reload(null, false);
-                            // recargarTabla();
+                            //recargarTabla();
                             location.reload();
 
                         } catch (error) {
@@ -359,7 +359,7 @@
                     $('#modalProfesor_Editar #celular').val(profesor.telCelular);
                     $('#modalProfesor_Editar #foto').val(null); 
                     $('#modalProfesor_Editar #imgPreview').attr('src', profesor.imagenURL || '');
-                    $('#modalProfesor_Editar').show();
+                    $('#modalProfesor_Editar').css('display', 'flex');
 
 
                     
