@@ -7,7 +7,12 @@ namespace OrientaTEC_MVC.Models
     public class Profesor
     {
 
-        public string Sede { get; set; } //REEMPLAZAR CON LOGICA PARA DETERMINAR SEDE
+        private string sede;
+        public string Sede
+        {
+            get => sede;
+            set => sede = value;
+        }
 
         private string codigo;
         public string Codigo
@@ -39,6 +44,7 @@ namespace OrientaTEC_MVC.Models
             set => apellido1 = value;
         }
 
+        [Required]
         private string apellido2;
         public string Apellido2
         {
@@ -70,8 +76,8 @@ namespace OrientaTEC_MVC.Models
             set => telOficina = value;
         }
 
-        private int telCelular;
-        public int TelCelular
+        private int? telCelular;
+        public int? TelCelular
         {
             get => telCelular;
             set => telCelular = value;
@@ -90,16 +96,6 @@ namespace OrientaTEC_MVC.Models
         {
             get => activo;
             set => activo = value;
-        }
-
-        //        public CentroAcademico CentroAcademico { get; set; }
-
-        private string centroAcademico { get; set; }
-
-        public string CentroAcademico
-        {
-            get { return centroAcademico; }
-            set { centroAcademico = value; }
         }
 
         public bool ValidarCorreo(string correo)

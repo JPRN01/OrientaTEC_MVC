@@ -11,9 +11,11 @@ namespace OrientaTEC_MVC.Controllers
     {
         private readonly ILogger<GestorProfesoresController> _logger;
         private static List<Profesor> _profesores; // Simula conexión a DAO
+        private readonly ProfesorDAO _profesorDAO;
 
         public GestorProfesoresController(ILogger<GestorProfesoresController> logger)
         {
+            _profesorDAO = new ProfesorDAO();
             _logger = logger;
             if (_profesores == null)
             {
@@ -28,8 +30,8 @@ namespace OrientaTEC_MVC.Controllers
 
         private List<Profesor> InicializarProfesores()
         {
-            _profesores = new List<Profesor>();
-            for (int i = 1; i <= 20; i++)
+            _profesores = _profesorDAO.recuperarProfesores();//new List<Profesor>();
+            /*for (int i = 1; i <= 20; i++)
             {
                 _profesores.Add(new Profesor
                 {
@@ -46,7 +48,7 @@ namespace OrientaTEC_MVC.Controllers
                     ImagenURL = "https://example.com/image" + i + ".jpg",
                     Activo = i % 2 == 0
                 });
-            }
+            }*/
             return _profesores;
         }
 
@@ -54,11 +56,17 @@ namespace OrientaTEC_MVC.Controllers
         [HttpPost]
         public ActionResult AgregarProfesor(Profesor profesor)
         {
-            
-            _profesores.Add(profesor);
-            return Json(new { success = true, message = "Profesor agregado correctamente." });
-            
-            //return Json(new { success = false, message = "Error en los datos del profesor." });
+            profesor.Contrasena = "profe" +profesor.Nombre1;
+            bool check = _profesorDAO.registrarProfesorGuia(profesor);
+            _profesores = _profesorDAO.recuperarProfesores();
+            if (check)
+            {
+                return Json(new { success = true, message = "Profesor agregado correctamente." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Error en los datos del profesor." });
+            }
         }
 
 
