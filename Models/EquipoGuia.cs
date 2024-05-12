@@ -1,39 +1,43 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OrientaTEC_MVC.Models
 {
     public class EquipoGuia
     {
-        private int generacion;
-        private Profesor coordinador;
-        private List<Profesor> integrantes;
-        private List<PlanTrabajo> planes;
-
         [Required]
+        private int generacion;
         public int Generacion
         {
-            get { return generacion; }
-            set { generacion = value; }
+            get => generacion;
+            set => generacion = value;
         }
 
+        private Profesor coordinador;
         public Profesor Coordinador
         {
-            get { return coordinador; }
-            set { coordinador = value; }
+            get => coordinador;
+            set => coordinador = value;
         }
 
+        private List<Profesor> integrantes;
         public List<Profesor> Integrantes
         {
-            get { return integrantes; }
-            set { integrantes = value ?? new List<Profesor>(); }
+            get => integrantes;
+            set => integrantes = value;
         }
 
-        public List<PlanTrabajo> Planes
+        public EquipoGuia(){}
+
+        public void AsignarCoordinador(Profesor profesor)
         {
-            get { return planes; }
-            set { planes = value ?? new List<PlanTrabajo>(); }
+            Coordinador = profesor;
+        }
+
+        public void AgregarProfesor(Profesor profesor)
+        {
+            Integrantes.Add(profesor);
         }
     }
 }
