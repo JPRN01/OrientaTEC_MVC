@@ -1,7 +1,869 @@
-﻿
+﻿@using OrientaTEC_MVC.Models
+@model List<OrientaTEC_MVC.Models.EquipoGuia>
 @{
-    ViewData["Title"] = "GestorEquiposGuia";
+    ViewData["Title"] = "Gestor de Equipos Guía";
 }
 
-<h1>GestorEquiposGuia</h1>
+<button id="btn_NuevoEquipo" onclick="mostrarModal_NuevoEquipo_NuevoEquipo();">Agregar Nuevo Equipo Guía</button>
 
+<div class="container">
+    <table id="equiposGuiaTable" class="display">
+        <thead>
+            <tr>
+                <th>Generación</th>
+                <th>Coordinador</th>
+                <th>Integrantes</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var equipo in Model)
+            {
+                <tr>
+                    <td>@equipo.Generacion</td>
+                    <td>@equipo.Coordinador.Nombre1 @equipo.Coordinador.Apellido1</td>
+                    <td><button class="action-button" onclick="mostrarIntegrantes(@equipo.Generacion)">👁</button></td>
+                    <td><button class="btnEditar" onclick="editEquipo(@equipo.Generacion)">✎</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="modalIntegrantes" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal_ListaIntegrantes();">&times;</span>
+        <h2>Profesores</h2>
+        <div class="modal-body">
+            <ul id="integrantesList" class="integrantes-list">
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="modalNuevoEquipo" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal_NuevoEquipo();">&times;</span>
+        <h2>Nuevo Equipo Guía<p id="generacion_a_editar_NuevoEquipo"></p></h2>
+        <h3>Generación</h3>
+        <select id="dropdownAnio" class="year-select" data-anios-usados='@Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.Generacion))'></select>
+        <br />
+        <h3>Coordinador</h3>
+        <button class="add-button" onclick="mostrarModalAgregarCoodinador_NuevoEquipo();">Agregar Coordinador +</button>
+        <div id="coordinadorInfo_NuevoEquipo"></div>
+        <br />
+        <h3>Integrantes</h3>
+        <button class="add-button" onclick="mostrarModal_AgregarProfesor_NuevoEquipo();">Agregar Profesor +</button>
+        <ul id="integrantesEditList_NuevoEquipo" class="integrantes-list">
+        </ul>
+        <div class="modal-footer">
+            <button onclick="closeModal_NuevoEquipo();" class="btn cancel">Cancelar ❌</button>
+            <button onclick="CrearNuevoEquipo_NuevoEquipo();" class="btn accept">Crear Equipo ➕</button>
+        </div>
+    </div>
+</div>
+
+<div id="modalAgregarProfesor_NuevoEquipo" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal_AgregarProfesor_NuevoEquipo();">&times;</span>
+        <h2>Selecciona al profesor</h2>
+        <select id="selectProfesor_AgregarProfesor_NuevoEquipo">
+            @foreach (var profesor in ViewData["lista_ProfesoresDisponibles"] as List<OrientaTEC_MVC.Models.Profesor>)
+            {
+                <option value="@profesor.Codigo" data-nombre-completo='@profesor.Nombre1 @profesor.Apellido1'>@profesor.Codigo - @profesor.Nombre1 @profesor.Apellido1</option>
+            }
+        </select>
+        <div class="modal-footer">
+            <button onclick="closeModal_AgregarProfesor_NuevoEquipo();" class="btn cancel">Cancelar ❌</button>
+            <button onclick="agregarProfesorANuevoEquipo_NuevoEquipo();" class="btn accept">Añadir ➕</button>
+        </div>
+    </div>
+</div>
+
+<div id="modalAgregarCoodinador_NuevoEquipo" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal_AgregarCoodinador_NuevoEquipo();">&times;</span>
+        <h2>Selecciona al profesor</h2>
+        <select id="selectProfesor_AgregarCoodinador_NuevoEquipo">
+            @foreach (var profesor in ViewData["lista_ProfesoresDisponibles"] as List<OrientaTEC_MVC.Models.Profesor>)
+            {
+                <option value="@profesor.Codigo" data-nombre-completo='@profesor.Nombre1 @profesor.Apellido1'>@profesor.Codigo - @profesor.Nombre1 @profesor.Apellido1</option>
+            }
+        </select>
+        <div class="modal-footer">
+            <button onclick="closeModal_AgregarCoodinador_NuevoEquipo();" class="btn cancel">Cancelar ❌</button>
+            <button onclick="agregarCoordinadorANuevoEquipo_NuevoEquipo();" class="btn accept">Añadir ➕</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="modalEditar_EditarEquipo" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal_EditarEquipo();">&times;</span>
+        <h2>Editar Equipo Guía <p id="generacion_a_editar_EditarEquipo"></p></h2>
+        <h3>Coordinador</h3>
+        <button class="add-button" onclick="mostrarModalAgregarCoodinador_EditarEquipo();">Cambiar Coordinador +</button>
+        <div id="coordinadorInfo_EditarEquipo"></div>
+        <br />
+        <h3>Integrantes</h3>
+        <button class="add-button" onclick="mostrarModalAgregarProfesor_EditarEquipo();">Agregar Profesor +</button>
+        <ul id="integrantesEditList_EditarEquipo" class="integrantes-list">
+        </ul>
+    </div>
+</div>
+
+<div id="modalAgregarProfesor_EditarEquipo" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal_AgregarProfesor_EditarEquipo();">&times;</span>
+        <h2>Selecciona al profesor</h2>
+        <select id="selectProfesor_AgregarProfesor_EditarEquipo">
+            @foreach (var profesor in ViewData["lista_ProfesoresDisponibles"] as List<OrientaTEC_MVC.Models.Profesor>)
+            {
+                <option value="@profesor.Codigo" data-nombre-completo='@profesor.Nombre1 @profesor.Apellido1'>@profesor.Codigo - @profesor.Nombre1 @profesor.Apellido1</option>
+            }
+        </select>
+        <div class="modal-footer">
+            <button onclick="closeModal_AgregarProfesor_EditarEquipo();" class="btn cancel">Cancelar ❌</button>
+            <button onclick="agregarProfesor_EditarEquipo();" class="btn accept">Añadir ➕</button>
+        </div>
+    </div>
+</div>
+
+<div id="modalAgregarCoodinador_EditarEquipo" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal_AgregarCoodinador_EditarEquipo();">&times;</span>
+        <h2>Selecciona al profesor</h2>
+        <select id="selectProfesor_AgregarCoodinador_EditarEquipo">
+            @foreach (var profesor in ViewData["lista_ProfesoresDisponibles"] as List<OrientaTEC_MVC.Models.Profesor>)
+            {
+                <option value="@profesor.Codigo" data-nombre-completo='@profesor.Nombre1 @profesor.Apellido1'>@profesor.Codigo - @profesor.Nombre1 @profesor.Apellido1</option>
+            }
+        </select>
+        <div class="modal-footer">
+            <button onclick="closeModal_AgregarCoodinador_EditarEquipo();" class="btn cancel">Cancelar ❌</button>
+            <button onclick="AgregarCoodinador_EditarEquipo();" class="btn accept">Añadir ➕</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownAnio = document.getElementById('dropdownAnio');
+            const aniosUsados = JSON.parse(dropdownAnio.getAttribute('data-anios-usados'));
+            const anioActual = new Date().getFullYear();
+            const conjuntoAniosUsados = new Set(aniosUsados);
+
+            for (let i = anioActual + 10; i >= anioActual - 10; i--) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                dropdownAnio.appendChild(option);
+                option.disabled = conjuntoAniosUsados.has(i);
+
+            }
+        });
+
+
+
+        $(document).ready(function () {
+            $('#equiposGuiaTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+                }
+            });
+        });
+
+
+
+        // vvvvvvvvvvvvvvvvvvvvvv CODIGO DE LISTA DE INTEGRANTES DE EQUIPO GUÍA vvvvvvvvvvvvvvvvvvvvvv /
+
+
+
+        function mostrarIntegrantes(generacion) {
+            $.ajax({
+                url: '/GestorEquiposGuia/GetIntegrantes',
+                data: { generacion: generacion },
+                success: function (response) {
+                    // console.log(response);
+                    if (response.success) {
+                        var integrantesList = $('#integrantesList');
+                        integrantesList.empty();
+                        response.data.forEach(function (integrante) {
+                            // console.log(integrante);
+                            // console.log(integrante.Nombre1);
+                            integrantesList.append(`<li>${integrante.nombre1} ${integrante.apellido1}</li>`);
+                        });
+                        $('#modalIntegrantes').show();
+                    } else {
+                        alert('No se encontraron integrantes.');
+                    }
+                },
+                error: function () {
+                    alert('Error al recuperar los datos.');
+                }
+            });
+        }
+
+
+        function closeModal_ListaIntegrantes() {
+            $('#modalIntegrantes').hide();
+        }
+        // ^^^^^^^^^^^^^^^^^^^^^^ CODIGO DE LISTA DE INTEGRANTES DE EQUIPO GUÍA ^^^^^^^^^^^^^^^^^^^^^^ //
+
+
+
+
+
+
+        // vvvvvvvvvvvvvvvvvvvvvv CODIGO DE EDITAR EQUIPO GUÍA vvvvvvvvvvvvvvvvvvvvvv //
+
+        function editEquipo(generacion) {
+            $.ajax({
+                url: '/GestorEquiposGuia/GetEquipoDetails',
+                data: { generacion: generacion },
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        $('#generacion_a_editar_EditarEquipo').html(generacion);
+                        var integrantesList = $('#integrantesEditList_EditarEquipo');
+                        integrantesList.empty();
+                        console.log(response.integrantes);
+                        response.integrantes.forEach(function (integrante) {
+                            integrantesList.append(`<li id="integrante-${integrante.codigo}">${integrante.nombre1} ${integrante.apellido1} <button class='action-button' onclick="removerIntegrante('${integrante.codigo}');">🗑️</button></li>`);
+                        });
+                        $('#coordinadorInfo_EditarEquipo').html(`${response.coordinador.nombre1} ${response.coordinador.apellido1}`);
+                        $('#modalEditar_EditarEquipo').show();
+                    } else {
+                        alert('No se encontraron detalles del equipo.');
+                    }
+                },
+                error: function () {
+                    alert('Error al recuperar los datos del equipo.');
+                }
+            });
+        }
+
+        function closeModal_EditarEquipo() {
+            $('#modalEditar_EditarEquipo').hide();
+        }
+
+        function mostrarModalAgregarProfesor_EditarEquipo() {
+            $('#modalAgregarProfesor_EditarEquipo').show();
+        }
+
+        function closeModal_AgregarProfesor_EditarEquipo() {
+            $('#modalAgregarProfesor_EditarEquipo').hide();
+        }
+
+        function agregarProfesor_EditarEquipo() {
+            var codigoProfesor = $('#selectProfesor_AgregarProfesor_EditarEquipo').val();
+            var generacion = $('#generacion_a_editar_EditarEquipo').text();
+
+
+            $.post('/GestorEquiposGuia/AgregarIntegrante', { generacion: generacion, codigoProfesor: codigoProfesor }, function (response) {
+                if (response.success) {
+                    var profesor = response.data;
+                    $('#integrantesEditList_EditarEquipo').append(
+                        `<li>${profesor.nombre1} ${profesor.apellido1} <button class='action-button' onclick="removerIntegrante('${profesor.codigo}');">🗑️</button></li>`
+                    );
+                    closeModal_AgregarProfesor_EditarEquipo();
+                } else {
+                    alert('Error al añadir profesor: ' + response.message);
+                }
+            });
+        }
+
+        function removerIntegrante(codigoProfesor) {
+            var generacion = $('#generacion_a_editar_EditarEquipo').text(); // Asegúrate de que este valor se establece correctamente
+
+            $.post('/GestorEquiposGuia/RemoverIntegrante', { generacion: generacion, codigoProfesor: codigoProfesor }, function (response) {
+                if (response.success) {
+                    alert('Integrante removido exitosamente.');
+                    // Actualiza la lista de integrantes eliminando el elemento del DOM
+                    $(`#integrante-${codigoProfesor}`).remove();
+                } else {
+                    alert('Error al remover integrante: ' + response.message);
+                }
+            });
+        }
+
+        function mostrarModalAgregarCoodinador_EditarEquipo() {
+            $('#modalAgregarCoodinador_EditarEquipo').show();
+        }
+
+        function closeModal_AgregarCoodinador_EditarEquipo() {
+            $('#modalAgregarCoodinador_EditarEquipo').hide();
+        }
+
+        function AgregarCoodinador_EditarEquipo() {
+            var codigoProfesor = $('#selectProfesor_AgregarCoodinador_EditarEquipo').val();
+            var generacion = $('#generacion_a_editar_EditarEquipo').text();
+
+
+            $.post('/GestorEquiposGuia/AgregarCoodinador_EditarEquipo', { generacion: generacion, codigoProfesor: codigoProfesor }, function (response) {
+                if (response.success) {
+                    let coodinadorDiv = $('#coordinadorInfo_EditarEquipo');
+                    coodinadorDiv.empty();
+                    var coordinador = response.data;
+                    $('#coordinadorInfo_EditarEquipo').html(`${coordinador.nombre1} ${coordinador.apellido1}`);
+                    closeModal_AgregarCoodinador_EditarEquipo();
+                } else {
+                    alert('Error al añadir profesor: ' + response.message);
+                }
+            });
+        }
+
+        // ^^^^^^^^^^^^^^^^^^^^^^ CODIGO DE EDITAR EQUIPO GUÍA ^^^^^^^^^^^^^^^^^^^^^^ //
+
+
+
+
+
+
+
+
+
+        // vvvvvvvvvvvvvvvvvvvvvv CODIGO DE NUEVO EQUIPO GUÍA vvvvvvvvvvvvvvvvvvvvvv //
+
+
+        var lista_Profesores_NuevoEquipo = [];
+
+        function agregarProfesorANuevoEquipo_NuevoEquipo() {
+            const select = document.getElementById('selectProfesor_AgregarProfesor_NuevoEquipo');
+            const codigoProfesor = select.value;
+            const nombreProfesor = select.options[select.selectedIndex].text;
+
+            if (!lista_Profesores_NuevoEquipo.includes(codigoProfesor)) {
+                lista_Profesores_NuevoEquipo.push(codigoProfesor);
+                actualizarListaProfesores_NuevoEquipo(codigoProfesor, nombreProfesor);
+                closeModal_AgregarProfesor_NuevoEquipo();
+            } else {
+                alert('Este profesor ya ha sido agregado.');
+            }
+        }
+
+        function actualizarListaProfesores_NuevoEquipo(codigo, nombre) {
+            const lista = document.getElementById('integrantesEditList_NuevoEquipo');
+            const nuevoProfesor = document.createElement('li');
+            nuevoProfesor.textContent = nombre;
+            nuevoProfesor.setAttribute('data-codigo', codigo);
+            lista.appendChild(nuevoProfesor);
+            console.log(lista_Profesores_NuevoEquipo);
+        }
+
+        function closeModal_AgregarProfesor_NuevoEquipo() {
+            $('#modalAgregarProfesor_NuevoEquipo').hide();
+        }
+
+        function mostrarModal_AgregarProfesor_NuevoEquipo() {
+            $('#modalAgregarProfesor_NuevoEquipo').show();
+        }
+
+        function mostrarModal_NuevoEquipo_NuevoEquipo() {
+            $('#modalNuevoEquipo').show();
+            lista_Profesores_NuevoEquipo = [];
+            $('#coordinadorInfo_NuevoEquipo').empty();
+            $('#integrantesEditList_NuevoEquipo').empty();
+        }
+
+        function closeModal_NuevoEquipo() {
+            $('#modalNuevoEquipo').hide();
+            lista_Profesores_NuevoEquipo = [];
+            $('#coordinadorInfo_NuevoEquipo').empty();
+            $('#integrantesEditList_NuevoEquipo').empty();
+        }
+
+
+        let codigoCoordinadorActual = '';
+
+        function agregarCoordinadorANuevoEquipo_NuevoEquipo() {
+            const select = document.getElementById('selectProfesor_AgregarCoodinador_NuevoEquipo');
+            const codigoCoordinador = select.value;
+            const nombreCoordinador = select.options[select.selectedIndex].getAttribute('data-nombre-completo');
+
+            codigoCoordinadorActual = codigoCoordinador;
+            actualizarInfoCoordinador_NuevoEquipo(nombreCoordinador);
+        }
+
+        function actualizarInfoCoordinador_NuevoEquipo(nombre) {
+            $('#coordinadorInfo_NuevoEquipo').html(`${nombre}`);
+        }
+
+        function closeModal_AgregarCoodinador_NuevoEquipo() {
+            $('#modalAgregarCoodinador_NuevoEquipo').hide();
+        }
+
+        function mostrarModalAgregarCoodinador_NuevoEquipo() {
+            $('#modalAgregarCoodinador_NuevoEquipo').show();
+        }
+
+
+
+        // ^^^^^^^^^^^^^^^^^^^^^^ CODIGO DE NUEVO EQUIPO GUÍA ^^^^^^^^^^^^^^^^^^^^^^ //
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+}
+
+
+
+
+
+<style>
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .btnUsuario, .btnEditar, .action-button {
+        border: none;
+        background-color: transparent;
+        color: inherit;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #btn_NuevoEquipo {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 2px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+
+    .table, .dataTables_wrapper {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th, .table td, .dataTables_wrapper .dataTables_filter input, .form-row input[type="text"], .form-row input[type="email"], .form-row input[type="tel"], .form-row select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+
+        .table td {
+            text-align: left;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dataTables_wrapper .dataTables_filter {
+            float: right;
+            text-align: right;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+            .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                border: 1px solid transparent;
+                background-color: #007bff;
+                color: white;
+            }
+
+    .modal {
+        display: none;
+        align-items: center;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .modal.show .modal-content {
+        transform: scale(1);
+    }
+
+    .close {
+        float: right;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #000;
+        cursor: pointer;
+    }
+
+        .close:hover {
+            color: #e00;
+        }
+
+    .modal-header h2, .modal-footer {
+        margin: 0;
+        padding: 1em 0;
+        text-align: center;
+        font-size: 1.5em;
+        color: #333;
+    }
+
+    .modal-body, .form-row {
+        margin-top: 20px;
+    }
+
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .form-column {
+        flex: 1;
+        margin-right: 10px;
+    }
+
+        .form-column:last-child {
+            margin-right: 0;
+        }
+
+    .image-upload-container {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        border: 1px dashed #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+        .image-upload-container:hover {
+            background-color: #f8f8f8;
+        }
+
+    .btn, .btn.cancel, .btn .accept {
+        padding: 10px 20px;
+        margin-right: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn.cancel {
+            background-color: #f44336;
+        }
+
+            .btn.cancel:hover {
+                background-color: #d32f2f;
+            }
+
+        .btn.accept {
+            background-color: #4CAF50;
+        }
+
+            .btn.accept:hover {
+                background-color: #388E3C;
+            }
+
+    .user[data-activo='false'] {
+        color: gray;
+    }
+
+
+
+
+    .input-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 48%
+    }
+
+        .input-group.full-width {
+            flex-basis: 100%;
+        }
+
+        .input-group:last-child {
+            margin-right: 0;
+        }
+
+        .input-group.file-group {
+            flex: 1 100%;
+        }
+
+    input[type="text"], input[type="email"], input[type="tel"], select {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+
+    .file-group {
+        border: 1px dashed #ccc;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+        .file-group input[type="file"] {
+            margin-top: 10px;
+        }
+
+    .image-preview {
+        margin-top: 10px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+        .btn.accept {
+            background-color: #A3CE6D;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn.cancel {
+            background-color: #FC7970;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+    .integrantes-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .integrantes-list li {
+            padding: 8px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            margin-top: 4px;
+        }
+
+    .modal-content h2 {
+        color: #333;
+        text-align: center;
+    }
+
+
+
+
+
+    .integrantes-list li {
+        padding: 8px;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        margin-top: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+
+
+
+
+
+
+
+    .close {
+        float: right;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .close:hover {
+            color: red;
+        }
+
+    .add-button {
+        display: block;
+        width: 40%;
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .add-button:hover {
+            background-color: #0056b3;
+        }
+
+    .list {
+        list-style: none;
+        padding: 0;
+    }
+
+        .list li {
+            background-color: #f1f1f1;
+            padding: 8px;
+            margin-top: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ccc;
+        }
+
+    .coordinador-info {
+        margin-top: 10px;
+        font-size: 16px;
+        padding: 10px;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+    }
+
+
+    #coordinadorInfo_EditarEquipo, #coordinadorInfo_NuevoEquipo {
+        padding: 8px;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        margin-top: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+</style>
