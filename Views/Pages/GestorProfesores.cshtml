@@ -78,7 +78,7 @@
             <div class="input-row">
                 <div class="input-group">
                     <label for="nombre2">Segundo Nombre</label>
-                    <input type="text" id="nombre2" name="nombre2" required>
+                    <input type="text" id="nombre2" name="nombre2">
                 </div>
                 <div class="input-group">
                     <label for="apellido1">Primer Apellido</label>
@@ -98,14 +98,14 @@
             </div>
             <div class="input-row">
                 <div class="input-group">
-                    <label for="telefono">Telefono</label>
-                    <input type="text" id="telefono" name="telefono" required oninput="formatoTelefono(this)" pattern="[0-9]{4}-[0-9]{4} \[ext.[0-9]{4}\]" placeholder="____-____ [ext.____]" maxlength="20">
+                    <label for="telOficina">Telefono</label>
+                    <input type="text" id="telOficina" name="telOficina" required oninput="formatoTelefono(this)" pattern="[0-9]{4}-[0-9]{4} \[ext.[0-9]{4}\]" placeholder="____-____ [ext.____]" maxlength="20">
 
                 </div>
             
                 <div class="input-group">
-                    <label for="celular">Celular</label>
-                    <input type="tel" id="celular" name="celular">
+                    <label for="telCelular">Celular</label>
+                    <input type="tel" id="telCelular" name="telCelular">
                 </div>
             </div>
             <div class="input-row">
@@ -137,7 +137,7 @@
             <div class="input-row">
                 <div class="input-group">
                     <label for="sede">Sede</label>
-                    <select id="sede" name="sede">
+                    <select id="sede" name="sede" disabled>
                         <option value="SJ">SJ</option>
                         <option value="CA">CA</option>
                         <option value="SC">SC</option>
@@ -147,7 +147,7 @@
                 </div>
                 <div class="input-group">
                     <label for="codigo">codigo</label>
-                    <input type="text" id="codigo" name="codigo" disabled>
+                    <input type="text" id="codigo" name="codigo" readonly>
                 </div>
             </div>
             <div class="input-row">
@@ -157,7 +157,7 @@
                 </div>
                 <div class="input-group">
                     <label for="nombre2">Segundo Nombre</label>
-                    <input type="text" id="nombre2" name="nombre2" required>
+                    <input type="text" id="nombre2" name="nombre2">
                 </div>
             </div>
             <div class="input-row">
@@ -176,15 +176,15 @@
                     <input type="email" id="correo" name="correo" required>
                 </div>
                 <div class="input-group">
-                    <label for="telefono">Telefono</label>
-                    <input type="text" id="telefono" name="telefono" required oninput="formatoTelefono(this)" pattern="[0-9]{4}-[0-9]{4} \[ext.[0-9]{4}\]" placeholder="____-____ [ext.____]" maxlength="20">
+                    <label for="telOficina">Telefono</label>
+                    <input type="text" id="telOficina" name="telOficina" required oninput="formatoTelefono(this)" pattern="[0-9]{4}-[0-9]{4} \[ext.[0-9]{4}\]" placeholder="____-____ [ext.____]" maxlength="20">
 
                 </div>
             </div>
             <div class="input-row">
                 <div class="input-group">
-                    <label for="celular">Celular</label>
-                    <input type="tel" id="celular" name="celular">
+                    <label for="telCelular">Celular</label>
+                    <input type="tel" id="telCelular" name="telCelular">
                 </div>
 
                 <div class="input-group file-group">
@@ -361,8 +361,8 @@
                     $('#modalProfesor_Editar #apellido1').val(profesor.apellido1);
                     $('#modalProfesor_Editar #apellido2').val(profesor.apellido2);
                     $('#modalProfesor_Editar #correo').val(profesor.correo);
-                    $('#modalProfesor_Editar #telefono').val(profesor.telOficina);
-                    $('#modalProfesor_Editar #celular').val(profesor.telCelular);
+                    $('#modalProfesor_Editar #telOficina').val(profesor.telOficina);
+                    $('#modalProfesor_Editar #telCelular').val(profesor.telCelular);
                     $('#modalProfesor_Editar #foto').val(null); 
                     $('#modalProfesor_Editar #imgPreview').attr('src', profesor.imagenURL || '');
                     $('#modalProfesor_Editar').css('display', 'flex');
