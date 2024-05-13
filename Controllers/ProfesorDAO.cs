@@ -120,7 +120,7 @@ namespace OrientaTEC_MVC.Controllers
                             profesores.Add(new Profesor
                             {
                                 Sede = reader["CENTRO_ACADEMICO"].ToString(),
-                                Codigo = reader["CENTRO_ACADEMICO"].ToString() + "-" + reader["NUMERO"].ToString(),
+                                Codigo = reader["CENTRO_ACADEMICO"].ToString()+ reader["NUMERO"].ToString(),
                                 Nombre1 = reader["nombre1"].ToString(),
                                 Nombre2 = reader.IsDBNull(reader.GetOrdinal("nombre2")) ? null : reader["nombre2"].ToString(),
                                 Apellido1 = reader["apellido1"].ToString(),
@@ -140,15 +140,15 @@ namespace OrientaTEC_MVC.Controllers
             {
                 bool isActive;
                 string centroAcademico = profesor.Codigo.Substring(0, 2);
-                int numero = int.Parse(profesor.Codigo.Substring(3));
+                int numero = int.Parse(profesor.Codigo.Substring(2));
                 string query2 = @"
-                SELECT CASE WHEN EXISTS (
-                    SELECT 1
-                    FROM Profesor_X_Equipo_Guia
-                    WHERE CENTRO_ACADEMICO = @CentroAcademico
-                      AND NUMERO = @Numero
-                      AND esta_Activo = 1
-                ) THEN 1 ELSE 0 END";
+        SELECT CASE WHEN EXISTS (
+            SELECT 1
+            FROM Profesor_X_Equipo_Guia
+            WHERE CENTRO_ACADEMICO = @CentroAcademico
+              AND NUMERO = @Numero
+              AND esta_Activo = 1
+        ) THEN 1 ELSE 0 END";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -166,71 +166,6 @@ namespace OrientaTEC_MVC.Controllers
             }
 
             return profesores;
-        }
-        public void darBajaProfesorGuia(string id, bool activo)
-        {
-            string query = "UPDATE Profesor_X_Equipo_Guia SET esta_activo = @estado WHERE CENTRO_ACADEMICO = @centro AND NUMERO = @numero";
-            string centroAcademico = id.Substring(0, 2);
-            int numero = int.Parse(id.Substring(3));
-            int estado = activo ? 1 : 0;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@estado", estado);
-                    command.Parameters.AddWithValue("@centro", centroAcademico);
-                    command.Parameters.AddWithValue("@numero", numero);
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
-            }
-        }
-        public bool modificarProfesorGuia(Profesor profesor)
-        {
-            string centroAcademico = profesor.Codigo.Substring(0, 2);
-            int numero = int.Parse(profesor.Codigo.Substring(3));
-            string query = "UPDATE Profesor SET nombre1 = @nombre1,nombre2 = @nombre2, apellido1 = @apellido1,apellido2 = @apellido2,correo = @correo,tel_oficina = @oficina, tel_celular=@celular,imagen_url = @imagen WHERE CENTRO_ACADEMICO = @CentroAcademico AND NUMERO = @NUMERO";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    using (SqlCommand command = new SqlCommand(query, conn))
-                    {
-                        command.Parameters.AddWithValue("@CentroAcademico", centroAcademico);
-                        command.Parameters.AddWithValue("@NUMERO", numero);
-                        command.Parameters.AddWithValue("@nombre1", profesor.Nombre1);
-                        command.Parameters.AddWithValue("@nombre2", profesor.Nombre2 ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@apellido1", profesor.Apellido1);
-                        command.Parameters.AddWithValue("@apellido2", profesor.Apellido2);
-                        command.Parameters.AddWithValue("@correo", profesor.Correo);
-                        command.Parameters.AddWithValue("@oficina", string.IsNullOrEmpty(profesor.TelOficina) ? DBNull.Value : (object)profesor.TelOficina);
-                        command.Parameters.AddWithValue("@celular", profesor.TelCelular ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@imagen", profesor.ImagenURL ?? (object)DBNull.Value);
-
-                        conn.Open();
-
-                        int rows = command.ExecuteNonQuery();
-
-                        conn.Close();
-
-                        if (rows == 0) return false;
-                        else return true;
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    if (ex.Number == 2627)
-                    {
-                        Console.WriteLine("Un profesor con el mismo correo electrónico ya existe.");
-                        return false;
-                    }
-                    throw;
-                }
-
-            }
         }
     }
 }
