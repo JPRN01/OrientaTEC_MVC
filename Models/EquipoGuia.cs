@@ -15,6 +15,7 @@ namespace OrientaTEC_MVC.Models
         }
 
         private Profesor coordinador;
+
         public Profesor Coordinador
         {
             get => coordinador;
