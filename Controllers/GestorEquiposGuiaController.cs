@@ -49,19 +49,19 @@ namespace OrientaTEC_MVC.Controllers
         private List<EquipoGuia> InicializarEquiposGuia()
         {
             var equiposGuia = new List<EquipoGuia>();
-            for (int i = 1; i <= 5; i++) // Create 5 example teams
+            for (int i = 1; i <= 5; i++) 
             {
                 var coordinador = new Profesor
                 {
                     Codigo = (i % 2 == 0 ? "CA" : "SJ") + "001" + i.ToString(),
-                    Nombre1 = "Coordinador" + i,  // Make sure to adjust these properties to match your Profesor class
+                    Nombre1 = "Coordinador" + i,  
                     Apellido1 = "Apellido" + i,
                     Correo = "coordinador" + i + "@example.edu",
                     TelCelular = 555000 + i
                 };
 
                 var integrantes = new List<Profesor>();
-                for (int j = 1; j <= 3; j++) // Each team has 3 members
+                for (int j = 1; j <= 3; j++) 
                 {
                     integrantes.Add(new Profesor
                     {
@@ -70,7 +70,7 @@ namespace OrientaTEC_MVC.Controllers
                         Apellido1 = "Apellido" + (i * 3 + j),
                         Correo = "profesor" + (i * 3 + j) + "@example.edu",
                         TelCelular = 555100 + (i * 3 + j)
-                    });
+                    }); 
                 }
 
                 equiposGuia.Add(new EquipoGuia
@@ -192,7 +192,7 @@ namespace OrientaTEC_MVC.Controllers
                 {
                     if (!equipo.Integrantes.Any(p => p.Codigo == codigoProfesor))
                     {
-                        equipo.Integrantes.Add(profesor);
+                        equipo.Integrantes.Add(profesor); //Reemplazar con DAO
                         return Json(new
                         {
                             success = true,
@@ -262,7 +262,7 @@ namespace OrientaTEC_MVC.Controllers
                 Profesor? profesor = _profesores.FirstOrDefault(p => p.Codigo == codigoProfesor);
                 if (profesor != null)
                 {
-                    equipo.Integrantes.Add(profesor);
+                    equipo.Integrantes.Add(profesor); //Reemplazar con DAO
                     return Json(new
                     {
                         success = true,
@@ -320,7 +320,7 @@ namespace OrientaTEC_MVC.Controllers
                     Generacion = equipo.Generacion
                 };
 
-                equipos.Add(nuevoEquipo);
+                equipos.Add(nuevoEquipo); //Reemplazar con DAO
                 return Json(new { success = true, message = "Equipo creado correctamente" });
             }
             catch (Exception ex)
