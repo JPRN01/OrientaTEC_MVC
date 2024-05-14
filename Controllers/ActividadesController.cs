@@ -26,11 +26,15 @@ public class ActividadesController : Controller
         try
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+
+
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                // Validar si la generación existe
+                // Validar si la generación 
                 string checkGeneracion = "SELECT COUNT(1) FROM Equipo_Guia WHERE GENERACION = @Generacion";
                 SqlCommand checkCommand = new SqlCommand(checkGeneracion, connection);
                 checkCommand.Parameters.AddWithValue("@Generacion", generacionId);
