@@ -78,7 +78,8 @@
 
     </div>
 
-   
+    <input type="hidden" id="selectedGeneracionId" name="selectedGeneracionId" value="">
+
 
     <div id="overlay" class="overlay" onclick="closePopup()"></div>
     <div id="popup" class="bg-gray-100 p-6">
@@ -87,95 +88,86 @@
                 <h1 class="text-2xl font-bold text-blue-500">
                     Crear nueva actividad
                 </h1>
-                <button class="text-xl font-bold">
-
-                    <button id="closeButton" class="text-xl font-bold" onclick="closePopup()">X</button>
+                <button id="closeButton" class="text-xl font-bold" onclick="closePopup()">X</button>
             </div>
             <div class="grid grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label class="block mb-2">
-                        Sede
-                    </label>
-                    <select class="w-full p-2 border border-gray-300 rounded">
-                        <option>
-                            Sede
-                        </option>
+                    <label class="block mb-2">Nombre</label>
+                    <input id="activityName" class="w-full p-2 border border-gray-300 rounded" type="text" />
+                </div>
+
+
+                <div>
+                    <label class="block mb-2">Estado</label>
+                    <select id="estado" class="w-full p-2 border border-gray-300 rounded">
+                        <option value="Planeada">Planeada</option>
+                        <option value="Notificada">Notificada</option>
+                        <option value="Realizada">Realizada</option>
+                        <option value="Cancelada">Cancelada</option>
                     </select>
                 </div>
+
+
                 <div>
-                    <label class="block mb-2">
-                        Nombre
-                    </label>
-                    <input class="w-full p-2 border border-gray-300 rounded" type="text" />
-                </div>
-                <div>
-                    <label class="block mb-2">
-                        Tipo
-                    </label>
-                    <select class="w-full p-2 border border-gray-300 rounded">
-                        <option>
-                            Tipo
-                        </option>
+                    <label class="block mb-2">Tipo</label>
+                    <select id="tipo" class="w-full p-2 border border-gray-300 rounded">
+                        <option value="">Seleccione Tipo...</option>
+                        <option value="Motivacionales">Motivacionales</option>
+                        <option value="Orientadora">Orientadora</option>
+                        <option value="VidaEstudiantil">Vida Estudiantil</option>
+                        <option value="Tecnica">Técnica</option>
+                        <option value="Recreacion">Recreación</option>
                     </select>
                 </div>
+
+
                 <div>
-                    <label class="block mb-2">
-                        Responsables
-                    </label>
-                    <select class="w-full p-2 border border-gray-300 rounded">
-                        <option>
-                            Nombres
-                        </option>
+                    <label class="block mb-2">Responsables</label>
+                    <select class="w-full p-2 border border-gray-300 rounded" disabled>
+                        <option>Nombres</option>
                     </select>
                 </div>
+
+
                 <div>
-                    <label class="block mb-2">
-                        Dias previos para anunciar
-                    </label>
-                    <select class="w-full p-2 border border-gray-300 rounded">
-                        <option>
-                            Dias
-                        </option>
+                    <label class="block mb-2">Días previos para anunciar</label>
+                    <select id="diasPreviosParaAnunciar" class="w-full p-2 border border-gray-300 rounded">
+                        <option value="">Seleccione los días...</option>
                     </select>
                 </div>
+
+
                 <div>
-                    <label class="block mb-2">
-                        Modalidad
-                    </label>
-                    <select class="w-full p-2 border border-gray-300 rounded">
-                        <option>
-                            Tipo
-                        </option>
+                    <label class="block mb-2">Modalidad</label>
+                    <select id="modalidad" class="w-full p-2 border border-gray-300 rounded">
+                        <option value="Presencial">Presencial</option>
+                        <option value="Remoto">Remoto</option>
                     </select>
                 </div>
+
+
                 <div>
-                    <label class="block mb-2">
-                        Enlace
-                    </label>
-                    <input class="w-full p-2 border border-gray-300 rounded" type="text" />
+                    <label class="block mb-2">Enlace</label>
+                    <input id="enlace" class="w-full p-2 border border-gray-300 rounded" type="text" />
                 </div>
+
             </div>
             <div class="mb-6">
-                <label class="block mb-2">
-                    Afiche
-                </label>
+                <label class="block mb-2">Afiche</label>
                 <div class="w-full h-32 border border-gray-300 rounded flex items-center justify-center">
-                    <img alt="Placeholder for an image with a camera icon, indicating where to click to choose an image" height="100" src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-RroGCqYcvwNMViTZoNzoeIGe/user-6q4pJr13EgRwu9FqmcnudeoR/img-cAWTx3bD75zDgIIPmXk2eMRG.png?st=2024-05-07T03%3A19%3A13Z&amp;se=2024-05-07T05%3A19%3A13Z&amp;sp=r&amp;sv=2021-08-06&amp;sr=b&amp;rscd=inline&amp;rsct=image/png&amp;skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&amp;sktid=a48cca56-e6da-484e-a814-9c849652bcb3&amp;skt=2024-05-06T22%3A03%3A18Z&amp;ske=2024-05-07T22%3A03%3A18Z&amp;sks=b&amp;skv=2021-08-06&amp;sig=zh%2BMNh4C/%2Bq9Q4nxDni%2Bu9wKR7XAkm6IaW3/VCGlFsE%3D" width="100" />
+                    <img alt="Placeholder for an image with a camera icon, indicating where to click to choose an image" height="100" src="your-image-url" />
+                    <p class="text-center mt-2">Click para escoger una imagen</p>
                 </div>
-                <p class="text-center mt-2">
-                    Click para escoger una imagen
-                </p>
             </div>
-            <div class="flex justify-end gap-4">
 
-                <button id="acceptButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="closePopup()">
-                    Aceptar
-                </button>
-                <button id="cancelButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="closePopup()">
-                    Cancelar
-                </button>
+
+            <div class="flex justify-end gap-4">
+                <button id="acceptButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="submitActivity()">Aceptar</button>
+                <button id="cancelButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="closePopup()">Cancelar</button>
             </div>
         </div>
+
+
 </body>
         </div>
 
@@ -200,20 +192,25 @@
 
 
 
-            <h2 class="text-2xl font-bold mb-4">INICIO DE SEMESTRE</h2>
+        <h2 id="popupTitulo" class="text-2xl font-bold mb-4">Titulo de la Actividad</h2>
 
 
             <button id="editButton" onclick="toggleEdit()" class="mb-4 bg-blue-500 text-white rounded-md px-4 py-2 text-sm">Editar</button>
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium mb-1">Semana</label>
-                    <input type="number" value="1" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                <input id="popupSemana" type="number" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                shadow-sm" readonly>
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1">Responsables</label>
+
+
                     <input type="text" value="Isaac Newton" class="w-full border-gray-300 rounded-md shadow-sm mb-2" readonly>
                     <input type="text" value="Galileo Galilei" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
                 </div>
+
+
             </div>
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
@@ -372,7 +369,35 @@
 
 <script>
 
+    $('#generacionSelect').change(function () {
+        var selectedGeneracionId = $(this).val();
+        $('#selectedGeneracionId').val(selectedGeneracionId);
+    });
 
+
+    function submitActivity() {
+        var activityName = document.getElementById('activityName').value;
+        var generacionId = document.getElementById('selectedGeneracionId').value; // Obtiene el valor del campo oculto
+
+        $.ajax({
+            url: '/Actividades/CrearActividad',
+            type: 'POST',
+            data: { nombre: activityName, generacionId: generacionId },
+            success: function (response) {
+                alert('Actividad creada exitosamente');
+                closePopup();
+            },
+            error: function (error) {
+                alert('Error al crear la actividad: ' + error.responseText);
+            }
+        });
+    }
+
+
+    function closePopup() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('popup').style.display = 'none';
+    }
     $(document).ready(function () {
         $('#searchButton').click(function () {
             var generacionId = $('#generacionSelect').val();
@@ -404,11 +429,15 @@
                         }
 
                         actividadesHtml += `
-                            <div class="relative ${color} p-4 rounded-lg shadow-md" onclick="openInfoPopup()">
-                                <h2 class="text-lg font-bold">${act.nombre}</h2>
-                                <button class="absolute top-0 right-2 text-blue-700 text-xl">x</button>
-                            </div>
-                        `;
+            <div class="relative ${color} p-4 rounded-lg shadow-md" onclick="openInfoPopup(this)"
+                 data-id="${act.id}"
+                 data-nombre="${act.nombre}"
+                 data-descripcion="${act.descripcion}"
+                 data-estado="${act.estado}">
+                <h2 class="text-lg font-bold">${act.nombre}</h2>
+                <button class="absolute top-0 right-2 text-blue-700 text-xl">x</button>
+            </div>
+        `;
                     });
                     $('.grid.grid-cols-4.gap-4').html(actividadesHtml); // Make sure this selector matches your grid container
                 },
@@ -460,10 +489,33 @@
         document.getElementById('popup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
-    function openInfoPopup() {
-        document.getElementById('infoPopup').style.display = 'block';
-        document.getElementById('overlayInfo').style.display = 'block';
+    function openInfoPopup(element) {
+        var actividadId = element.getAttribute('data-id');
+        var nombre = element.getAttribute('data-nombre');
+        var descripcion = element.getAttribute('data-descripcion');
+        var estado = element.getAttribute('data-estado');
+
+        // Aquí configuras el contenido del popup con los datos de la actividad
+        $('#infoPopup .nombre').text(nombre);
+        $('#infoPopup .descripcion').text(descripcion);
+        $('#infoPopup .estado').text(estado);
+
+        // Muestra el popup
+        $('#infoPopup').show();
+        $('#overlayInfo').show();
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+    var select = document.getElementById('diasPreviosParaAnunciar');
+    for (var i = 1; i <= 30; i++) {
+        var option = document.createElement('option');
+        option.value = i;
+        option.text = i + ' día' + (i > 1 ? 's' : ''); // Agrega 's' para plural
+        select.appendChild(option);
+    }
+});
+
+
     function closeInfoPopup() {
         document.getElementById('infoPopup').style.display = 'none';
         document.getElementById('overlayInfo').style.display = 'none';

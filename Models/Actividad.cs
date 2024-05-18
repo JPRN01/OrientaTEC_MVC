@@ -42,14 +42,14 @@ namespace OrientaTEC_MVC.Models
             set { descripcion = value; }
         }
 
-        [Required]
+        
         public int Semana
         {
             get { return semana; }
             set { semana = value; }
         }
 
-        [Required]
+       
         public DateTime FechaExacta
         {
             get { return fechaExacta; }
@@ -86,14 +86,14 @@ namespace OrientaTEC_MVC.Models
             set { aficheURL = value; }
         }
 
-        [Required]
+     
         public EstadoRegistrado Estado
         {
             get { return estado; }
             set { estado = value; }
         }
 
-        [Required]
+       
         public TipoActividad Tipo
         {
             get { return tipo; }

@@ -18,6 +18,66 @@ public class ActividadesController : Controller
         _configuration = configuration;
         _logger = logger;
     }
+
+
+   [HttpPost]
+    public async Task<IActionResult> CrearActividad(string nombre, int generacionId, string tipo, string modalidad, string estado, string enlace, int diasPreviosParaAnunciar)
+    {
+        try
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+
+
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Validar si la generación 
+                string checkGeneracion = "SELECT COUNT(1) FROM Equipo_Guia WHERE GENERACION = @Generacion";
+                SqlCommand checkCommand = new SqlCommand(checkGeneracion, connection);
+                checkCommand.Parameters.AddWithValue("@Generacion", generacionId);
+                int exists = (int)checkCommand.ExecuteScalar();
+
+                if (exists == 0)
+                {
+                    _logger.LogError("La generación especificada no existe.");
+                    return View("Error");
+                }
+
+                // Insertar en Plan_Trabajo
+                string planInsert = "INSERT INTO Plan_Trabajo (GENERACION) OUTPUT INSERTED.ID_PLAN VALUES (@Generacion)";
+                SqlCommand planCommand = new SqlCommand(planInsert, connection);
+                planCommand.Parameters.AddWithValue("@Generacion", generacionId);
+                int idPlan = (int)planCommand.ExecuteScalar();
+
+                // Insertar en Actividad
+                string actividadInsert = @"
+                INSERT INTO Actividad (Nombre, ID_PLAN, ID_TIPO_ACTIVIDAD, Descripcion, Semana, Fecha_Exacta, Dias_Previos_Para_Anunciar, Dias_Para_Recordar, Es_Virtual, Reunion_URL, Afiche_URL, ID_ESTADO_REGISTRADO)
+                VALUES (@Nombre, @IdPlan, @Tipo, 'Descripción default', 1, GETDATE(), @DiasPreviosParaAnunciar, 0, @Modalidad, @Enlace, '', @Estado)";
+                SqlCommand actividadCommand = new SqlCommand(actividadInsert, connection);
+                actividadCommand.Parameters.AddWithValue("@Nombre", nombre);
+                actividadCommand.Parameters.AddWithValue("@IdPlan", idPlan);
+                actividadCommand.Parameters.AddWithValue("@Tipo", tipo);
+                actividadCommand.Parameters.AddWithValue("@Modalidad", modalidad == "Presencial" ? 0 : 1); // Asume que '0' es Presencial y '1' es Remoto
+                actividadCommand.Parameters.AddWithValue("@Estado", estado); // Asegúrate de que el estado es un ID numérico si es foráneo
+                actividadCommand.Parameters.AddWithValue("@Enlace", enlace);
+                actividadCommand.Parameters.AddWithValue("@DiasPreviosParaAnunciar", diasPreviosParaAnunciar);
+
+                await actividadCommand.ExecuteNonQueryAsync();
+            }
+            return RedirectToAction("PlaneacionActividades");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error al crear actividad: {ex.Message}");
+            return View("Error");
+        }
+    }
+
+
+
     [HttpGet]
     public IActionResult PlaneacionActividades(int? generacionId = null)
     {
@@ -93,8 +153,10 @@ public class ActividadesController : Controller
             }
         }
 
-        ViewBag.ActividadesViewModel = actividadesViewModel;
-        return View("~/Views/Pages/PlaneacionActividades.cshtml", equipoGuiaViewModel);
+        // Asegúrate de que los modelos no son null antes de pasar a la vista
+        ViewBag.ActividadesViewModel = actividadesViewModel ?? new ActividadesViewModel();
+        return View("~/Views/Pages/PlaneacionActividades.cshtml", equipoGuiaViewModel ?? new EquipoGuiaViewModel());
+
     }
 
 }
