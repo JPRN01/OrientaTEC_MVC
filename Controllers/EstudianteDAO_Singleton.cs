@@ -43,11 +43,11 @@ namespace OrientaTEC_MVC.Controllers
             {
                 const string query = @"
                 INSERT INTO Estudiante (CARNE, nombre1, nombre2, apellido1, apellido2, correo, tel_celular, centro_academico)
-                VALUES (@Carnet, @Nombre1, @Nombre2, @Apellido1, @Apellido2, @Correo, @TelCelular, @CentroAcademico)";
+                VALUES (@Carne, @Nombre1, @Nombre2, @Apellido1, @Apellido2, @Correo, @TelCelular, @CentroAcademico)";
 
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Carnet", estudiante.Carnet);
+                    command.Parameters.AddWithValue("@Carne", estudiante.Carne);
                     command.Parameters.AddWithValue("@Nombre1", estudiante.Nombre1);
                     command.Parameters.AddWithValue("@Nombre2", estudiante.Nombre2 ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@Apellido1", estudiante.Apellido1);

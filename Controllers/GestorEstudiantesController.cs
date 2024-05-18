@@ -13,31 +13,27 @@ namespace OrientaTEC_MVC.Controllers
     public class GestorEstudiantesController : Controller
     {
         private readonly ILogger<GestorEstudiantesController> _logger;
-        private static List<Estudiante> _estudiantes;
-        private static List<CentroAcademico> _centrosAcademicos;
+        private readonly EstudianteDAO _estudianteDAO;
+        private readonly CentroAcademicoDAO _centroAcademicoDAO;
 
         public GestorEstudiantesController(ILogger<GestorEstudiantesController> logger)
         {
             _logger = logger;
-            if (_estudiantes == null)
-            {
-                _estudiantes = InicializarEstudiantes();
-            }
-            if (_centrosAcademicos == null)
-            {
-                _centrosAcademicos = InicializarCentrosAcademicos();
-            }
+            _estudianteDAO = new EstudianteDAO();
+            _centroAcademicoDAO = new CentroAcademicoDAO();
         }
 
         public IActionResult GestorEstudiantes()
         {
-            ViewData["CentrosAcademicos"] = _centrosAcademicos;
-            return View("~/Views/Pages/GestorEstudiantes.cshtml", _estudiantes);
+            var centrosAcademicos = _centroAcademicoDAO.RecuperarCentrosAcademicos();
+            ViewData["CentrosAcademicos"] = centrosAcademicos;
+            var estudiantes = _estudianteDAO.RecuperarEstudiantes();
+            return View("~/Views/Pages/GestorEstudiantes.cshtml", estudiantes);
         }
 
-        public IActionResult GetEstudiante(int carnet)
+        public IActionResult GetEstudiante(int carne)
         {
-            var estudiante = _estudiantes.FirstOrDefault(e => e.Carnet == carnet);
+            var estudiante = _estudianteDAO.RecuperarEstudiantes().FirstOrDefault(e => e.Carne == carne);
             if (estudiante != null)
             {
                 return Json(new
@@ -50,7 +46,7 @@ namespace OrientaTEC_MVC.Controllers
                         estudiante.Nombre2,
                         estudiante.Apellido1,
                         estudiante.Apellido2,
-                        estudiante.Carnet,
+                        estudiante.Carne,
                         estudiante.TelCelular,
                         estudiante.Correo
                     }
@@ -62,32 +58,22 @@ namespace OrientaTEC_MVC.Controllers
         [HttpPost]
         public IActionResult GuardarEstudiante([FromBody] Estudiante estudiante)
         {
-            var estudianteExistente = _estudiantes.FirstOrDefault(e => e.Carnet == estudiante.Carnet);
-            if (estudianteExistente != null)
+            if (_estudianteDAO.ModificarEstudiante(estudiante))
             {
-                estudianteExistente.CentroAcademico = estudiante.CentroAcademico;
-                estudianteExistente.Nombre1 = estudiante.Nombre1;
-                estudianteExistente.Nombre2 = estudiante.Nombre2;
-                estudianteExistente.Apellido1 = estudiante.Apellido1;
-                estudianteExistente.Apellido2 = estudiante.Apellido2;
-                estudianteExistente.TelCelular = estudiante.TelCelular;
                 return Json(new { success = true, message = "Estudiante actualizado correctamente." });
             }
-            return Json(new { success = false, message = "Estudiante no encontrado." });
+            return Json(new { success = false, message = "Error al actualizar el estudiante." });
         }
 
         [HttpPost]
         public IActionResult EliminarEstudiante([FromBody] Estudiante estudiante)
         {
-            var estudianteExistente = _estudiantes.FirstOrDefault(e => e.Carnet == estudiante.Carnet);
-            if (estudianteExistente != null)
+            if (_estudianteDAO.EliminarEstudiante(estudiante.Carne))
             {
-                _estudiantes.Remove(estudianteExistente);
                 return Json(new { success = true, message = "Estudiante eliminado correctamente." });
             }
-            return Json(new { success = false, message = "Estudiante no encontrado." });
+            return Json(new { success = false, message = "Error al eliminar el estudiante." });
         }
-
 
         [HttpPost]
         public async Task<IActionResult> CargarEstudiantes(IFormFile fileUpload, string centroAcademico)
@@ -98,9 +84,8 @@ namespace OrientaTEC_MVC.Controllers
             }
 
             var estudiantesNuevos = new List<Estudiante>();
-            var carnetDuplicados = new HashSet<int>();
+            var carneDuplicados = new HashSet<int>();
 
-            
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             using (var stream = new MemoryStream())
@@ -113,16 +98,16 @@ namespace OrientaTEC_MVC.Controllers
 
                     for (int row = 2; row <= rowCount; row++)
                     {
-                        var carnet = int.Parse(worksheet.Cells[row, 1].Text);
+                        var carne = int.Parse(worksheet.Cells[row, 1].Text);
 
-                        if (_estudiantes.Any(e => e.Carnet == carnet) || carnetDuplicados.Contains(carnet))
+                        if (_estudianteDAO.RecuperarEstudiantes().Any(e => e.Carne == carne) || carneDuplicados.Contains(carne))
                         {
-                            return Json(new { success = false, message = $"Carnet duplicado encontrado: {carnet}. La carga ha sido abortada." });
+                            return Json(new { success = false, message = $"Carne duplicado encontrado: {carne}. La carga ha sido abortada." });
                         }
 
                         var estudiante = new Estudiante
                         {
-                            Carnet = carnet,
+                            Carne = carne,
                             Nombre1 = worksheet.Cells[row, 2].Text,
                             Nombre2 = worksheet.Cells[row, 3].Text,
                             Apellido1 = worksheet.Cells[row, 4].Text,
@@ -132,17 +117,18 @@ namespace OrientaTEC_MVC.Controllers
                             CentroAcademico = centroAcademico
                         };
                         estudiantesNuevos.Add(estudiante);
-                        carnetDuplicados.Add(carnet);
+                        carneDuplicados.Add(carne);
                     }
                 }
             }
 
-            _estudiantes.AddRange(estudiantesNuevos);
+            foreach (var estudiante in estudiantesNuevos)
+            {
+                _estudianteDAO.RegistrarEstudiante(estudiante);
+            }
 
             return Json(new { success = true, message = $"{estudiantesNuevos.Count} estudiantes cargados exitosamente." });
         }
-
-
 
         [HttpGet]
         public IActionResult DescargarEstudiantes()
@@ -154,7 +140,7 @@ namespace OrientaTEC_MVC.Controllers
             {
                 var worksheet = package.Workbook.Worksheets.Add("Estudiantes");
                 worksheet.Cells[1, 1].Value = "CentroAcademico";
-                worksheet.Cells[1, 2].Value = "Carnet";
+                worksheet.Cells[1, 2].Value = "Carne";
                 worksheet.Cells[1, 3].Value = "Nombre1";
                 worksheet.Cells[1, 4].Value = "Nombre2";
                 worksheet.Cells[1, 5].Value = "Apellido1";
@@ -162,11 +148,12 @@ namespace OrientaTEC_MVC.Controllers
                 worksheet.Cells[1, 7].Value = "Correo";
                 worksheet.Cells[1, 8].Value = "TelCelular";
 
-                for (int i = 0; i < _estudiantes.Count; i++)
+                var estudiantes = _estudianteDAO.RecuperarEstudiantes();
+                for (int i = 0; i < estudiantes.Count; i++)
                 {
-                    var estudiante = _estudiantes[i];
+                    var estudiante = estudiantes[i];
                     worksheet.Cells[i + 2, 1].Value = estudiante.CentroAcademico;
-                    worksheet.Cells[i + 2, 2].Value = estudiante.Carnet;
+                    worksheet.Cells[i + 2, 2].Value = estudiante.Carne;
                     worksheet.Cells[i + 2, 3].Value = estudiante.Nombre1;
                     worksheet.Cells[i + 2, 4].Value = estudiante.Nombre2;
                     worksheet.Cells[i + 2, 5].Value = estudiante.Apellido1;
@@ -184,33 +171,6 @@ namespace OrientaTEC_MVC.Controllers
             var fileName = "Estudiantes.xlsx";
 
             return File(content, contentType, fileName);
-        }
-
-
-
-        private List<Estudiante> InicializarEstudiantes()
-        {
-            return new List<Estudiante>
-            {
-                new Estudiante { Carnet = 1997032412, Nombre1 = "Marie", Nombre2 = "S.", Apellido1 = "Curie", Apellido2 = "", Correo = "curie.m@estudiantec.cr", TelCelular = 88852408, CentroAcademico = "SJ" },
-                new Estudiante { Carnet = 1815121010, Nombre1 = "Ada", Nombre2 = "", Apellido1 = "Lovelace", Apellido2 = "", Correo = "lovelace.a@estudiantec.cr", TelCelular = 87654321, CentroAcademico = "CA" },
-                new Estudiante { Carnet = 1912062312, Nombre1 = "Alan", Nombre2 = "M.", Apellido1 = "Turing", Apellido2 = "", Correo = "turing.a@estudiantec.cr", TelCelular = 85678901, CentroAcademico = "SJ" },
-                new Estudiante { Carnet = 1934110902, Nombre1 = "Carl", Nombre2 = "E.", Apellido1 = "Sagan", Apellido2 = "", Correo = "sagan.c@estudiantec.cr", TelCelular = 84567890, CentroAcademico = "SJ" },
-                new Estudiante { Carnet = 1927090415, Nombre1 = "John", Nombre2 = "", Apellido1 = "McCarthy", Apellido2 = "", Correo = "mccarthy.j@estudiantec.cr", TelCelular = 87901234, CentroAcademico = "CA" },
-                new Estudiante { Carnet = 1903122810, Nombre1 = "John", Nombre2 = "", Apellido1 = "von Neumann", Apellido2 = "", Correo = "vonneumann.j@estudiantec.cr", TelCelular = 85678901, CentroAcademico = "SJ" }
-            };
-        }
-
-        private List<CentroAcademico> InicializarCentrosAcademicos()
-        {
-            return new List<CentroAcademico>
-            {
-                new CentroAcademico { Iniciales = "SJ", Nombre = "San José", EsSedeCentral = true },
-                new CentroAcademico { Iniciales = "CA", Nombre = "Cartago", EsSedeCentral = false },
-                new CentroAcademico { Iniciales = "AL", Nombre = "Alajuela", EsSedeCentral = false },
-                new CentroAcademico { Iniciales = "LI", Nombre = "Limón", EsSedeCentral = false },
-                new CentroAcademico { Iniciales = "HE", Nombre = "Heredia", EsSedeCentral = false }
-            };
         }
     }
 }

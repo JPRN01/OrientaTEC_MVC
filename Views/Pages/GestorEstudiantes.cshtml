@@ -31,14 +31,14 @@
             <tr>
                 <td>@estudiante.CentroAcademico</td>
                 <td>@estudiante.Nombre1 @estudiante.Apellido1</td>
-                <td>@estudiante.Carnet</td>
+                <td>@estudiante.Carne</td>
                 <td>@estudiante.Correo</td>
                 <td>@estudiante.TelCelular</td>
                 <td>
-                    <button class="btn btn-primary btn-sm edit-btn" data-id="@estudiante.Carnet">
+                    <button class="btn btn-primary btn-sm edit-btn" data-id="@estudiante.Carne">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-danger btn-sm delete-btn" data-id="@estudiante.Carnet">
+                    <button class="btn btn-danger btn-sm delete-btn" data-id="@estudiante.Carne">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </td>
@@ -88,8 +88,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="editCarnet" >Carné</label>
-                                    <input type="text" class="form-control" id="editCarnet" pattern="\d{10}" disabled>
+                                    <label for="editCarne" >Carné</label>
+                                    <input type="text" class="form-control" id="editCarne" pattern="\d{10}" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="editNombre2">Segundo Nombre</label>
@@ -147,10 +147,10 @@
                         <label for="fileUpload">Seleccionar archivo de Excel:</label>
                         <input type="file" id="fileUpload" name="fileUpload" accept=".xlsx" class="form-control">
                     </div>
-                    <button type="button" id="uploadButton" class="btn btn-primary">Cargar Estudiantes</button>
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" id="uploadButton" class="btn btn-primary">Cargar Estudiantes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
@@ -173,13 +173,14 @@
     <script>
         $(document).ready(function () {
             $('#estudiantesTable').DataTable();
-            var curr_Carnet;
+            var curr_Carne;
             $('.edit-btn').on('click', function () {
-                var carnet = $(this).data('id');
+                var carne = $(this).data('id');
+                console.log(carne);
                 $.ajax({
                     url: '/GestorEstudiantes/GetEstudiante',
                     type: 'GET',
-                    data: { carnet: carnet },
+                    data: { carne: carne },
                     success: function (response) {
                         console.log(response);
                         if (response.success) {
@@ -188,11 +189,11 @@
                             $('#editNombre2').val(response.data.nombre2);
                             $('#editApellido1').val(response.data.apellido1);
                             $('#editApellido2').val(response.data.apellido2);
-                            $('#editCarnet').val(response.data.carnet);
+                            $('#editCarne').val(response.data.carne);
                             $('#editTelefono').val(response.data.telCelular);
                             $('#editCorreo').val(response.data.correo);
                             $('#editStudentModal').modal('show');
-                            curr_Carnet = carnet;
+                            curr_Carne = carne;
                         } else {
                             alert('Error: ' + response.message);
                         }
@@ -204,13 +205,14 @@
                 e.preventDefault();
 
                 var estudiante = {
-                    Carnet: curr_Carnet,
+                    Carne: curr_Carne,
                     CentroAcademico: $('#editSede').val(),
                     Nombre1: $('#editNombre1').val(),
                     Nombre2: $('#editNombre2').val(),
                     Apellido1: $('#editApellido1').val(),
                     Apellido2: $('#editApellido2').val(),
-                    TelCelular: $('#editTelefono').val()
+                    TelCelular: $('#editTelefono').val(),
+                    Correo: $('#editCorreo').val()
                 };
 
                 $.ajax({
@@ -232,13 +234,13 @@
 
 
             $('.delete-btn').on('click', function () {
-                var carnet = $(this).data('id');
-                console.log("Carnet:", carnet);  
+                var carne = $(this).data('id');
+                console.log("Carne:", carne);  
                 if (confirm('Está seguro de que desea eliminar este estudiante?')) {
                     $.ajax({
                         url: '/GestorEstudiantes/EliminarEstudiante',
                         type: 'POST',
-                        data: JSON.stringify({ "Carnet": carnet }),  
+                        data: JSON.stringify({ "Carne": carne }),  
                         contentType: 'application/json',
                         success: function (response) {
                             if (response.success) {
