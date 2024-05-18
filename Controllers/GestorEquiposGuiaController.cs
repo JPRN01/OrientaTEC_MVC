@@ -84,8 +84,6 @@ namespace OrientaTEC_MVC.Controllers
         }
 
         // REEMPLAZAR CON CONEXIÓN A BASE DE DATOS / DAO / MODELO
-
-
         private List<Profesor> InicializarProfesores()
         {
             _profesores = new List<Profesor>();
