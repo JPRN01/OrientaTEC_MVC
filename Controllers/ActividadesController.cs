@@ -139,7 +139,7 @@ public class ActividadesController : Controller
             return NotFound("Actividad no encontrada");
         }
 
-        return Json(actividadDetalle); // Devolver los detalles en formato JSON
+        return Json(actividadDetalle); 
     }
 
 
@@ -165,13 +165,13 @@ public class ActividadesController : Controller
                     }
                 }
 
-                // Inserta un nuevo plan de trabajo y obtén el ID
+           
                 string planInsert = "INSERT INTO Plan_Trabajo (GENERACION) OUTPUT INSERTED.ID_PLAN VALUES (@Generacion)";
                 SqlCommand planCommand = new SqlCommand(planInsert, connection);
                 planCommand.Parameters.AddWithValue("@Generacion", generacionId);
                 int idPlan = (int)planCommand.ExecuteScalar();
 
-                // Inserta la nueva actividad y obtén el ID
+              
                 string actividadInsert = "INSERT INTO Actividad (nombre, ID_PLAN, ID_TIPO_ACTIVIDAD, descripcion, semana, fecha_exacta, dias_previos_para_anunciar, dias_para_recordar, es_virtual, reunion_url, afiche_url, ID_ESTADO_REGISTRADO) OUTPUT INSERTED.ID_ACTIVIDAD VALUES (@Nombre, @IdPlan, @TipoId, @Descripcion, @Semana, GETDATE(), @DiasPreviosParaAnunciar, @DiasParaRecordar, @EsVirtual, @Enlace, @AficheURL, @EstadoId)";
                 SqlCommand actividadCommand = new SqlCommand(actividadInsert, connection);
                 actividadCommand.Parameters.AddWithValue("@Nombre", nombre);
@@ -261,7 +261,7 @@ public class ActividadesController : Controller
             return NotFound("Actividad no encontrada");
         }
 
-        return View(actividadDetalle); // Asegúrate de tener una vista adecuada para mostrar estos detalles
+        return View(actividadDetalle); 
     }
 
     [HttpGet]
@@ -339,30 +339,90 @@ public class ActividadesController : Controller
             }
         }
     }
+
+
     [HttpPost]
-    public async Task<IActionResult> EliminarActividad(int idActividad)
+    public async Task<IActionResult> EditarActividad(int IdActividad, string Nombre, string Descripcion, int Semana, bool EsVirtual, string ReunionUrl, int DiasPreviosParaAnunciar, int DiasParaRecordar, string EstadoId, string TipoId)
     {
         string connectionString = _configuration.GetConnectionString("DefaultConnection");
-        string deleteQuery = "DELETE FROM Actividad WHERE ID_ACTIVIDAD = @IdActividad";
-
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
-            SqlCommand command = new SqlCommand(deleteQuery, connection);
-            command.Parameters.AddWithValue("@IdActividad", idActividad);
+            string updateQuery = @"
+            UPDATE Actividad
+            SET 
+                nombre = @Nombre, 
+                descripcion = @Descripcion, 
+                semana = @Semana, 
+                es_virtual = @EsVirtual, 
+                reunion_url = @ReunionUrl, 
+                dias_previos_para_anunciar = @DiasPreviosParaAnunciar, 
+                dias_para_recordar = @DiasParaRecordar, 
+                ID_ESTADO_REGISTRADO = @EstadoId, 
+                ID_TIPO_ACTIVIDAD = @TipoId
+            WHERE ID_ACTIVIDAD = @IdActividad";
+
+            SqlCommand command = new SqlCommand(updateQuery, connection);
+            command.Parameters.AddWithValue("@IdActividad", IdActividad);
+            command.Parameters.AddWithValue("@Nombre", Nombre);
+            command.Parameters.AddWithValue("@Descripcion", Descripcion);
+            command.Parameters.AddWithValue("@Semana", Semana);
+            command.Parameters.AddWithValue("@EsVirtual", EsVirtual);
+            command.Parameters.AddWithValue("@ReunionUrl", ReunionUrl ?? (object)DBNull.Value);
+            command.Parameters.AddWithValue("@DiasPreviosParaAnunciar", DiasPreviosParaAnunciar);
+            command.Parameters.AddWithValue("@DiasParaRecordar", DiasParaRecordar);
+            command.Parameters.AddWithValue("@EstadoId", EstadoId);
+            command.Parameters.AddWithValue("@TipoId", TipoId);
 
             try
             {
                 await connection.OpenAsync();
+                int result = await command.ExecuteNonQueryAsync();
+                if (result > 0)
+                    return Json(new { success = true });
+                else
+                    return Json(new { success = false, message = "No se encontró la actividad para actualizar." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error al editar la actividad: " + ex.Message);
+                return StatusCode(500, "Error interno del servidor");
+            }
+        }
+    }
+
+
+    [HttpPost]
+    [HttpPost]
+    public async Task<IActionResult> EliminarActividad(int idActividad)
+    {
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command;
+            try
+            {
+                await connection.OpenAsync();
+
+             
+                string deleteDependentsQuery = "DELETE FROM Profesor_X_Equipo_Guia_X_Actividad WHERE ID_ACTIVIDAD = @IdActividad";
+                command = new SqlCommand(deleteDependentsQuery, connection);
+                command.Parameters.AddWithValue("@IdActividad", idActividad);
+                await command.ExecuteNonQueryAsync();
+
+                // Ahora elimina la actividad
+                string deleteActivityQuery = "DELETE FROM Actividad WHERE ID_ACTIVIDAD = @IdActividad";
+                command = new SqlCommand(deleteActivityQuery, connection);
+                command.Parameters.AddWithValue("@IdActividad", idActividad);
                 int rowsAffected = await command.ExecuteNonQueryAsync();
                 if (rowsAffected > 0)
                     return Json(new { success = true });
                 else
-                    return Json(new { success = false, message = "No se encontró la actividad." });
+                    return Json(new { success = false, message = "No se encontró la actividad para eliminar." });
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 _logger.LogError("Error al eliminar actividad: " + ex.Message);
-                return Json(new { success = false, message = "Error al eliminar la actividad." });
+                return Json(new { success = false, message = "Error al eliminar la actividad debido a: " + ex.Message });
             }
         }
     }
@@ -443,7 +503,6 @@ public class ActividadesController : Controller
             }
         }
 
-        // Asegúrate de que los modelos no son null antes de pasar a la vista
         ViewBag.ActividadesViewModel = actividadesViewModel ?? new ActividadesViewModel();
         return View("~/Views/Pages/PlaneacionActividades.cshtml", equipoGuiaViewModel ?? new EquipoGuiaViewModel());
 

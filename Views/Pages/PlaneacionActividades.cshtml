@@ -30,7 +30,7 @@
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 20px;
-        display: none; /* Oculto inicialmente */
+        display: none;
         z-index: 1000;
     }
 
@@ -41,7 +41,7 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        display: none; /* Oculto inicialmente */
+        display: none; 
         z-index: 999;
     }
 
@@ -54,10 +54,10 @@
     }
 
     #responsablesContainer {
-        max-height: 150px; /* Altura máxima antes de que el desplazamiento sea necesario */
-        overflow-y: auto; /* Habilita el desplazamiento vertical */
-        border: 1px solid #ccc; /* Borde opcional para visualizar mejor el contenedor */
-        padding: 5px; /* Espaciado interno */
+        max-height: 150px; 
+        overflow-y: auto; 
+        border: 1px solid #ccc; 
+        padding: 5px; 
     }
 
 
@@ -146,7 +146,7 @@
                 <div>
                     <label class="block mb-2">Responsables</label>
                     <div id="responsablesContainer">
-                        <!-- Las checkboxes se llenarán dinámicamente con JavaScript -->
+                    
                     </div>
                 </div>
 
@@ -155,7 +155,7 @@
                 <div>
                     <label class="block mb-2">Semana</label>
                     <select id="semana" class="w-full p-2 border border-gray-300 rounded">
-                        <!-- Opciones se añadirán dinámicamente -->
+                     
                     </select>
                 </div>
 
@@ -170,7 +170,7 @@
                 <div>
                     <label class="block mb-2">Días previos para recordar</label>
                     <select id="diasPreviosParaRecordar" class="w-full p-2 border border-gray-300 rounded">
-                        <!-- Opciones se añadirán dinámicamente -->
+                      
                     </select>
                 </div>
 
@@ -225,14 +225,27 @@
 <div id="overlayInfo" class="overlay" onclick="closeInfoPopup()"></div>
 
 <div id="infoPopup" class="info-popup bg-white p-6 mt-10 rounded-lg shadow-lg">
+
+    <input type="hidden" id="popupIdActividad" value="" />
+
     <div class="max-w-lg mx-auto bg-white p-6 mt-10 rounded-lg shadow-lg relative">
         <button class="absolute top-0 right-0 mt-4 mr-4 text-gray-400 hover:text-gray-600" onclick="closeInfoPopup()">
             <i class="fas fa-times"></i>
         </button>
 
+      
+
+
         <h2 id="popupTitulo" class="text-2xl font-bold mb-4">Titulo de la Actividad</h2>
 
-        <button id="editButton" onclick="toggleEdit()" class="mb-4 bg-blue-500 text-white rounded-md px-4 py-2 text-sm">Editar</button>
+
+
+
+      
+
+        <button id="saveChangesButton" onclick="submitEditActivity()" class="hidden mb-4 bg-green-500 text-white rounded-md px-4 py-2 text-sm">Guardar Cambios</button>
+
+     
         <div class="grid grid-cols-2 gap-4 mb-4">
             <div>
                 <label class="block text-sm font-medium mb-1">Semana</label>
@@ -281,16 +294,28 @@
         <div class="mb-4">
             <label class="block text-sm font-medium mb-1">Comentarios</label>
             <div id="comments-container" class="space-y-2">
-                <!-- Existing comments will be inserted here -->
+            
             </div>
             <button onclick="openCommentModal()" class="mt-2 bg-blue-500 text-white rounded-md px-4 py-2">Comentar</button>
         </div>
         <div class="flex justify-end">
             <button onclick="closeInfoPopup()" class="bg-red-500 text-white rounded-md px-4 py-2">Salir</button>
         </div>
+
+        <div>
+            <button id="editButton" onclick="toggleEdit(true)" class="mb-4 bg-blue-500 text-white rounded-md px-4 py-2 text-sm">Editar</button>
+        </div>
+
+
+        <div>
+
+            <button id="deleteActivityButton" onclick="deleteActivity()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>
+        </div>
+        
+       
     </div>
 
-    <!-- Comment Modal -->
+    
     <div id="commentModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h3 class="text-lg font-bold mb-4">Nuevo Comentario</h3>
@@ -302,7 +327,7 @@
         </div>
     </div>
 
-    <!-- Comment Popup -->
+  
     <div id="commentPopup" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" style="display:none;">
         <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
             <h2 class="text-lg font-bold mb-4">COMENTA</h2>
@@ -353,7 +378,7 @@
 
 
 
-        <!--CAJASSSS-->
+        
 
         <div id="actividadesContainer" class="mt-4"></div>
 
@@ -398,14 +423,55 @@
 
 <script>
 
+    function toggleEdit(enableEdit) {
+        const isEditable = enableEdit || false;
+        $('#popupNombre').prop('readonly', !isEditable);
+        $('#popupDescripcion').prop('readonly', !isEditable);
+        $('#popupSemana').prop('readonly', !isEditable);
+        $('#popupModalidad').prop('disabled', !isEditable);
+        $('#popupEnlace').prop('readonly', !isEditable);
+        $('#popupDiasAnunciar').prop('readonly', !isEditable);
+        $('#popupDiasRecordar').prop('readonly', !isEditable);
+        $('#popupEstado').prop('disabled', !isEditable);
+        $('#popupTipo').prop('disabled', !isEditable);
+
+        // Toggle button visibility
+        $('#editButton').toggle(!isEditable);
+        $('#saveChangesButton').toggle(isEditable);
+    }
+
+    function deleteActivity() {
+        var idActividad = $('#popupIdActividad').val(); 
+
+        if (confirm('¿Estás seguro de que quieres eliminar esta actividad?')) {
+            $.ajax({
+                url: '/Actividades/EliminarActividad',
+                type: 'POST',
+                data: { idActividad: idActividad },
+                success: function (response) {
+                    if (response.success) {
+                        alert('Actividad eliminada con éxito');
+                        closeInfoPopup(); 
+                      
+                    } else {
+                        alert('Error al eliminar la actividad: ' + response.message);
+                    }
+                },
+                error: function () {
+                    alert('Error al eliminar la actividad');
+                }
+            });
+        }
+    }
+
     $(document).ready(function () {
-        // Manejar cambio en la selección de generación
+    
         $('#generacionSelect').change(function () {
-            // Captura el valor seleccionado y actualiza el input oculto
+          
             $('#selectedGeneracionId').val($(this).val());
         });
 
-        // Inicialización opcional en caso de recargar la página con un valor preseleccionado
+     
         $('#selectedGeneracionId').val($('#generacionSelect').val());
     });
 
@@ -427,12 +493,12 @@
             formData.append('afiche', $('#afiche')[0].files[0]);
         }
 
-        // Añadir responsables seleccionados
+       
         $('input[name="profesoresIds"]:checked').each(function () {
             formData.append('profesoresNombres', $(this).val());
         });
 
-        // Mostrar los valores del formData para depuración en la consola
+       
         for (var pair of formData.entries()) {
             console.log(`${pair[0]}: ${pair[1]}`);
         }
@@ -455,7 +521,7 @@
     }
 
 
-    // Asegúrate de que las funciones adicionales como openPopup, closePopup, etc., estén correctamente implementadas.
+    
 
     
 
@@ -539,6 +605,42 @@
     function closeCommentModal() {
         document.getElementById('commentModal').classList.add('hidden');
     }
+
+
+    function submitEditActivity() {
+    var formData = new FormData();
+    formData.append('IdActividad', $('#popupIdActividad').val()); 
+    formData.append('Nombre', $('#popupTitulo').val());
+    formData.append('Descripcion', $('#popupDescripcion').val());
+    formData.append('Semana', $('#popupSemana').val());
+    formData.append('EsVirtual', $('#popupModalidad').val() === "True" ? true : false);
+    formData.append('ReunionUrl', $('#popupEnlace').val());
+    formData.append('DiasPreviosParaAnunciar', $('#popupDiasAnunciar').val());
+    formData.append('DiasParaRecordar', $('#popupDiasRecordar').val());
+    formData.append('EstadoId', $('#popupEstado').val());
+
+    $.ajax({
+        url: '/Actividades/EditarActividad',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            if(response.success) {
+                alert('Actividad actualizada exitosamente');
+                closeInfoPopup();
+               
+            } else {
+                alert('Error al actualizar la actividad: ' + response.message);
+            }
+        },
+        error: function() {
+            alert('Error al enviar la solicitud de edición');
+        }
+    });
+}
+
+
 
     function saveComment() {
         const name = document.getElementById('commentName').value;
@@ -636,17 +738,17 @@
     }
 
     function openInfoPopup(element) {
-        var actividadId = element.getAttribute('data-id'); 
+        var actividadId = element.getAttribute('data-id');  
 
         $.ajax({
-            url: '/Actividades/ObtenerDetallesActividad', 
+            url: '/Actividades/ObtenerDetallesActividad',
             type: 'GET',
             data: { idActividad: actividadId },
             success: function (data) {
-            
                 console.log("Datos recibidos:", data);
 
-             
+               
+                $('#popupIdActividad').val(data.idActividad);  
                 $('#popupTitulo').text(data.nombre);
                 $('#popupSemana').val(data.semana);
                 $('#popupTipo').val(data.tipo);
@@ -657,7 +759,7 @@
                 $('#popupEstado').val(getEstadoDescripcion(data.estado));
                 $('#popupDescripcion').val(data.descripcion);
 
-              
+                
                 $('#infoPopup').show();
                 $('#overlayInfo').show();
             },
@@ -667,9 +769,9 @@
         });
     }
 
-    function deleteActivity(idActividad, event) {
-        event.stopPropagation(); 
-        event.preventDefault();  
+
+    function deleteActivity() {
+        var idActividad = $('#popupIdActividad').val();  
 
         if (confirm('¿Estás seguro de que quieres eliminar esta actividad?')) {
             $.ajax({
@@ -679,9 +781,10 @@
                 success: function (response) {
                     if (response.success) {
                         alert('Actividad eliminada con éxito');
-                        $(`div[data-id='${idActividad}']`).remove();
+                        closeInfoPopup();
+                        
                     } else {
-                        alert('Error al eliminar actividad: ' + response.message);
+                        alert('Error al eliminar la actividad: ' + response.message);
                     }
                 },
                 error: function () {
@@ -690,6 +793,7 @@
             });
         }
     }
+
 
     document.addEventListener('DOMContentLoaded', function () {
         var semanaSelect = document.getElementById('semana');
@@ -756,6 +860,39 @@
     }
 
 
+    function submitEditActivity() {
+        var formData = new FormData();
+        formData.append('IdActividad', $('#popupIdActividad').val());
+        formData.append('Nombre', $('#popupNombre').val());
+        formData.append('Descripcion', $('#popupDescripcion').val());
+        formData.append('Semana', $('#popupSemana').val());
+        formData.append('EsVirtual', $('#popupModalidad').val() === "True");
+        formData.append('ReunionUrl', $('#popupEnlace').val());
+        formData.append('DiasPreviosParaAnunciar', $('#popupDiasAnunciar').val());
+        formData.append('DiasParaRecordar', $('#popupDiasRecordar').val());
+        formData.append('EstadoId', $('#popupEstado').val());
+        formData.append('TipoId', $('#popupTipo').val()); 
+
+        $.ajax({
+            url: '/Actividades/EditarActividad',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    alert('Actividad actualizada exitosamente');
+                    closeInfoPopup(); 
+                    location.reload(); 
+                } else {
+                    alert('Error al actualizar la actividad: ' + response.message);
+                }
+            },
+            error: function () {
+                alert('Error al enviar la solicitud de edición');
+            }
+        });
+    }
 
 
 </script>
