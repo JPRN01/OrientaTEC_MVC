@@ -167,65 +167,6 @@ public class ActividadesController : Controller
 
 
 
-    [HttpGet]
-    public async Task<IActionResult> ObtenerActividad(int id)
-    {
-        Actividad actividad = null;
-        string connectionString = _configuration.GetConnectionString("DefaultConnection");
-        string query = @"
-        SELECT a.ID_ACTIVIDAD, a.nombre, a.descripcion, a.semana, a.fecha_exacta, a.dias_previos_para_anunciar, 
-               a.dias_para_recordar, a.es_virtual, a.reunion_url, a.afiche_url, ea.estado AS EstadoNombre
-        FROM dbo.Actividad a
-        JOIN dbo.Estado_Registrado er ON a.ID_ESTADO_REGISTRADO = er.ID_ESTADO_REGISTRADO
-        JOIN dbo.Estado_Actividad ea ON er.ID_ESTADO_ACTIVIDAD = ea.ID_ESTADO_ACTIVIDAD
-        WHERE a.ID_ACTIVIDAD = @Id";
-
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@Id", id);
-            try
-            {
-                connection.Open();
-                using (SqlDataReader reader = await command.ExecuteReaderAsync())
-                {
-                    if (reader.Read())
-                    {
-                        actividad = new Actividad
-                        {
-                            IdActividad = (int)reader["ID_ACTIVIDAD"],
-                            Nombre = reader["nombre"].ToString(),
-                            Descripcion = reader["descripcion"].ToString(),
-                            Semana = (int)reader["semana"],
-                            FechaExacta = (DateTime)reader["fecha_exacta"],
-                            DiasPreviosParaAnunciar = reader["dias_previos_para_anunciar"] != DBNull.Value ? (int)reader["dias_previos_para_anunciar"] : (int?)null,
-                            DiasParaRecordar = reader["dias_para_recordar"] != DBNull.Value ? (int)reader["dias_para_recordar"] : (int?)null,
-                            EsVirtual = (bool)reader["es_virtual"],
-                            ReunionUrl = reader["reunion_url"].ToString(),
-                            AficheUrl = reader["afiche_url"].ToString(),
-                            Estado = new EstadoRegistrado
-                            {
-                                Estado = (EstadoActividad)Enum.Parse(typeof(EstadoActividad), reader["EstadoNombre"].ToString())
-                            }
-                        };
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error en ObtenerActividad: {ex.Message}");
-                return StatusCode(500, "Error al obtener los detalles de la actividad");
-            }
-        }
-
-        return Json(actividad);
-    }
-
-
-
-
-
-
 
 
 
