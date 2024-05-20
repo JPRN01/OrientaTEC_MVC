@@ -55,6 +55,11 @@ namespace OrientaTEC_MVC.Controllers
             return Json(new { success = false, message = "Estudiante no encontrado." });
         }
 
+        /// <summary>
+        /// Se usa para cuando se debe actualizar un estudiante que ha sido seleccionado para ser editado
+        /// </summary>
+        /// <param name="estudiante"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult GuardarEstudiante([FromBody] Estudiante estudiante)
         {
@@ -65,6 +70,12 @@ namespace OrientaTEC_MVC.Controllers
             return Json(new { success = false, message = "Error al actualizar el estudiante." });
         }
 
+
+        /// <summary>
+        /// Elimina estudiante del sistema
+        /// </summary>
+        /// <param name="estudiante"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult EliminarEstudiante([FromBody] Estudiante estudiante)
         {
@@ -75,6 +86,13 @@ namespace OrientaTEC_MVC.Controllers
             return Json(new { success = false, message = "Error al eliminar el estudiante." });
         }
 
+
+        /// <summary>
+        /// Se usa para la carga masiva de estudiantes usando un archivo de Excel
+        /// </summary>
+        /// <param name="fileUpload"></param>
+        /// <param name="centroAcademico"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CargarEstudiantes(IFormFile fileUpload, string centroAcademico)
         {
@@ -130,6 +148,12 @@ namespace OrientaTEC_MVC.Controllers
             return Json(new { success = true, message = $"{estudiantesNuevos.Count} estudiantes cargados exitosamente." });
         }
 
+
+
+        /// <summary>
+        /// Genera y descarga un archivo de Excel
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult DescargarEstudiantes()
         {

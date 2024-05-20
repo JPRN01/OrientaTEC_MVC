@@ -24,7 +24,7 @@
             {
                 <tr>
                     <td>@equipo.Generacion</td>
-                    <td>@equipo.Coordinador.Nombre1 @equipo.Coordinador.Apellido1</td>
+                    <td>@equipo.Coordinador?.Nombre1 @equipo.Coordinador?.Apellido1</td>
                     <td><button class="action-button" onclick="mostrarIntegrantes(@equipo.Generacion)">👁</button></td>
                     <td><button class="btnEditar" onclick="editEquipo(@equipo.Generacion)">✎</button></td>
                 </tr>
@@ -332,7 +332,7 @@
         function removerIntegrante(codigoProfesor) {
             var generacion = $('#generacion_a_editar_EditarEquipo').text();
 
-            $.post('/GestorEquiposGuia/RemoverIntegrante', { generacion: generacion, codigoProfesor: codigoProfesor }, function (response) {
+            $.post('/GestorEquiposGuia/RemoverIntegrante_EditarEquipo', { generacion: generacion, codigoProfesor: codigoProfesor }, function (response) {
                 if (response.success) {
                     alert('Integrante removido exitosamente.');
                     $(`#integrante-${codigoProfesor}`).remove();

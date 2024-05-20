@@ -45,7 +45,7 @@ namespace OrientaTEC_MVC.Controllers
         {
             int lastId = 1;
             string query = "SELECT TOP 1 NUMERO FROM Profesor WHERE CENTRO_ACADEMICO = @CentroAcademico ORDER BY NUMERO DESC";
-            string query2 = "INSERT INTO Profesor VALUES (@CentroAcademico, @NUMERO, @nombre1,@nombre2, @apellido1,@apellido2, @correo, @hash, @salt, @oficina, @celular, @imagen)";
+            string query2 = "INSERT INTO Profesor VALUES (@CentroAcademico, @NUMERO, @nombre1,@nombre2, @apellido1,@apellido2, @correo, @hash, @salt, @oficina, @celular, @imagen, 1)";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -84,7 +84,7 @@ namespace OrientaTEC_MVC.Controllers
                         conn.Open();
 
                         int rows = command.ExecuteNonQuery();
-                   
+
                         conn.Close();
 
                         if (rows == 0) return false;
@@ -100,13 +100,13 @@ namespace OrientaTEC_MVC.Controllers
                     }
                     throw;
                 }
-                
+
             }
         }
         public List<Profesor> recuperarProfesores()
         {
             List<Profesor> profesores = new List<Profesor>();
-            string query = "SELECT CENTRO_ACADEMICO, NUMERO, nombre1, nombre2, apellido1, apellido2, correo, tel_oficina, tel_celular, imagen_url FROM Profesor";
+            string query = "SELECT CENTRO_ACADEMICO, NUMERO, nombre1, nombre2, apellido1, apellido2, correo, tel_oficina, tel_celular, imagen_url, esta_activo FROM Profesor";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -129,47 +129,48 @@ namespace OrientaTEC_MVC.Controllers
                                 TelOficina = reader.IsDBNull(reader.GetOrdinal("tel_oficina")) ? null : reader["tel_oficina"].ToString(),
                                 TelCelular = reader.IsDBNull(reader.GetOrdinal("tel_celular")) ? null : Convert.ToInt32(reader["tel_celular"].ToString()),
                                 ImagenURL = reader.IsDBNull(reader.GetOrdinal("imagen_URL")) ? null : reader["imagen_URL"].ToString(),
+                                Activo = reader.IsDBNull(reader.GetOrdinal("esta_activo")) ? false : reader["esta_activo"].ToString() == "True"
                             });
                         }
                     }
                     connection.Close();
                 }
             }
-            
-            foreach(Profesor profesor in profesores)
-            {
-                bool isActive;
-                string centroAcademico = profesor.Codigo.Substring(0, 2);
-                int numero = int.Parse(profesor.Codigo.Substring(3));
-                string query2 = @"
-                SELECT CASE WHEN EXISTS (
-                    SELECT 1
-                    FROM Profesor_X_Equipo_Guia
-                    WHERE CENTRO_ACADEMICO = @CentroAcademico
-                      AND NUMERO = @Numero
-                      AND esta_Activo = 1
-                ) THEN 1 ELSE 0 END";
 
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    using (SqlCommand command = new SqlCommand(query2, connection))
-                    {
-                        command.Parameters.AddWithValue("@CentroAcademico", centroAcademico);
-                        command.Parameters.AddWithValue("@Numero", numero);
+            //foreach (Profesor profesor in profesores)
+            //{
+            //    bool isActive;
+            //    string centroAcademico = profesor.Codigo.Substring(0, 2);
+            //    int numero = int.Parse(profesor.Codigo.Substring(3));
+            //    string query2 = @"
+            //    SELECT CASE WHEN EXISTS (
+            //        SELECT 1
+            //        FROM Profesor_X_Equipo_Guia
+            //        WHERE CENTRO_ACADEMICO = @CentroAcademico
+            //          AND NUMERO = @Numero
+            //          AND esta_Activo = 1
+            //    ) THEN 1 ELSE 0 END";
 
-                        connection.Open();
-                        isActive = (int)command.ExecuteScalar() == 1;
-                        connection.Close();
-                    }
-                }
-                profesor.Activo = isActive;
-            }
+            //    using (SqlConnection connection = new SqlConnection(connectionString))
+            //    {
+            //        using (SqlCommand command = new SqlCommand(query2, connection))
+            //        {
+            //            command.Parameters.AddWithValue("@CentroAcademico", centroAcademico);
+            //            command.Parameters.AddWithValue("@Numero", numero);
+
+            //            connection.Open();
+            //            isActive = (int)command.ExecuteScalar() == 1;
+            //            connection.Close();
+            //        }
+            //    }
+            //    profesor.Activo = isActive;
+            //}
 
             return profesores;
         }
         public void darBajaProfesorGuia(string id, bool activo)
         {
-            string query = "UPDATE Profesor_X_Equipo_Guia SET esta_activo = @estado WHERE CENTRO_ACADEMICO = @centro AND NUMERO = @numero";
+            string query = "UPDATE Profesor SET esta_activo = @estado WHERE CENTRO_ACADEMICO = @centro AND NUMERO = @numero";
             string centroAcademico = id.Substring(0, 2);
             int numero = int.Parse(id.Substring(3));
             int estado = activo ? 1 : 0;

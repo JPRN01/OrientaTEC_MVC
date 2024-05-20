@@ -29,7 +29,11 @@ namespace OrientaTEC_MVC.Controllers
         }
 
 
-
+        /// <summary>
+        /// Codigo necesario para agregar un nuevo profesor al sistema
+        /// </summary>
+        /// <param name="profesor"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult AgregarProfesor(Profesor profesor)
         {
@@ -47,8 +51,15 @@ namespace OrientaTEC_MVC.Controllers
         }
 
 
+
+        /// <summary>
+        /// Se usa para cambiar entre estados en un profesor, si estaba activo se pasa a desactivado y viceversa
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="activo"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult ToggleEstadoProfesor(string id, bool activo)
+        public ActionResult CambiarEntreEstadosProfesor(string id, bool activo)
         {
             var profesor = _profesores.FirstOrDefault(p => p.Codigo == id);
             if (profesor != null)
@@ -60,8 +71,14 @@ namespace OrientaTEC_MVC.Controllers
             return Json(new { success = false, message = "Profesor no encontrado" });
         }
 
+
+        /// <summary>
+        /// Necesario para poder editar un profesor ya que retorna los valores incicales para editar
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
-        public IActionResult GetProfesorDetails(string id)
+        public IActionResult GetProfesorDetalles(string id)
         {
             var profesor = _profesores.FirstOrDefault(p => p.Codigo == id);
             if (profesor == null)
@@ -71,6 +88,12 @@ namespace OrientaTEC_MVC.Controllers
             return Json(new { success = true, data = profesor });
         }
 
+
+        /// <summary>
+        /// Recibe los datos de un profesor para actualizarlo en el sistema
+        /// </summary>
+        /// <param name="profesor"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult EditarProfesor(Profesor profesor)
         {

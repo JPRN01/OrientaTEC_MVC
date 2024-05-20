@@ -29,7 +29,9 @@ namespace OrientaTEC_MVC.Models
             set => integrantes = value;
         }
 
-        public EquipoGuia(){}
+        public EquipoGuia(){
+            Integrantes = new List<Profesor>();
+        }
 
         public void AsignarCoordinador(Profesor profesor)
         {
