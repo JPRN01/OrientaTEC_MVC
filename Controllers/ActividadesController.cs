@@ -8,7 +8,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
-using static OrientaTEC_MVC.ViewModels.ActividadesViewModel;
 
 public class ActividadesController : Controller
 {
@@ -140,7 +139,7 @@ public class ActividadesController : Controller
             return NotFound("Actividad no encontrada");
         }
 
-        return Json(actividadDetalle); 
+        return Json(actividadDetalle); // Devolver los detalles en formato JSON
     }
 
 
@@ -166,12 +165,13 @@ public class ActividadesController : Controller
                     }
                 }
 
+                // Inserta un nuevo plan de trabajo y obtén el ID
                 string planInsert = "INSERT INTO Plan_Trabajo (GENERACION) OUTPUT INSERTED.ID_PLAN VALUES (@Generacion)";
                 SqlCommand planCommand = new SqlCommand(planInsert, connection);
                 planCommand.Parameters.AddWithValue("@Generacion", generacionId);
                 int idPlan = (int)planCommand.ExecuteScalar();
 
-           
+                // Inserta la nueva actividad y obtén el ID
                 string actividadInsert = "INSERT INTO Actividad (nombre, ID_PLAN, ID_TIPO_ACTIVIDAD, descripcion, semana, fecha_exacta, dias_previos_para_anunciar, dias_para_recordar, es_virtual, reunion_url, afiche_url, ID_ESTADO_REGISTRADO) OUTPUT INSERTED.ID_ACTIVIDAD VALUES (@Nombre, @IdPlan, @TipoId, @Descripcion, @Semana, GETDATE(), @DiasPreviosParaAnunciar, @DiasParaRecordar, @EsVirtual, @Enlace, @AficheURL, @EstadoId)";
                 SqlCommand actividadCommand = new SqlCommand(actividadInsert, connection);
                 actividadCommand.Parameters.AddWithValue("@Nombre", nombre);
@@ -261,56 +261,111 @@ public class ActividadesController : Controller
             return NotFound("Actividad no encontrada");
         }
 
-        return View(actividadDetalle); 
+        return View(actividadDetalle); // Asegúrate de tener una vista adecuada para mostrar estos detalles
     }
 
-    [HttpPost]
-    public async Task<IActionResult> ActualizarActividad([FromBody] ActividadesViewModel.ActividadDetalle model)
+    [HttpGet]
+    public async Task<IActionResult> ObtenerComentariosPorActividad(int idActividad)
     {
-        List<string> updates = new List<string>();
-        if (model.Nombre != null) updates.Add("nombre = @Nombre");
-        if (model.Descripcion != null) updates.Add("descripcion = @Descripcion");
-        if (model.Semana != 0) updates.Add("semana = @Semana");
-        if (model.EsVirtual != null) updates.Add("es_virtual = @EsVirtual");
-        if (model.ReunionUrl != null) updates.Add("reunion_url = @ReunionUrl");
-
-        if (!updates.Any())
-        {
-            return Json(new { success = false, message = "No hay datos para actualizar" });
-        }
-
-        string setClause = string.Join(", ", updates);
-        string query = $"UPDATE Actividad SET {setClause} WHERE ID_ACTIVIDAD = @IdActividad";
-
+        List<ComentarioViewModel> comentarios = new List<ComentarioViewModel>();
         string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        string query = @"
+    SELECT ID_COMENTARIO, mensaje, emision, NUMERO, ID_COMENTARIO_PADRE
+    FROM dbo.Comentario
+    WHERE ID_ACTIVIDAD = @IdActividad
+    ORDER BY emision DESC;";
+
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
             SqlCommand command = new SqlCommand(query, connection);
-            if (model.Nombre != null) command.Parameters.AddWithValue("@Nombre", model.Nombre);
-            if (model.Descripcion != null) command.Parameters.AddWithValue("@Descripcion", model.Descripcion);
-            if (model.Semana != 0) command.Parameters.AddWithValue("@Semana", model.Semana);
-            if (model.EsVirtual != null) command.Parameters.AddWithValue("@EsVirtual", model.EsVirtual);
-            if (model.ReunionUrl != null) command.Parameters.AddWithValue("@ReunionUrl", model.ReunionUrl ?? (object)DBNull.Value);
-            command.Parameters.AddWithValue("@IdActividad", model.IdActividad);
+            command.Parameters.AddWithValue("@IdActividad", idActividad);
 
             try
             {
-                connection.Open();
-                int result = await command.ExecuteNonQueryAsync();
-                if (result > 0)
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
                 {
-                    return Json(new { success = true, message = "Actividad actualizada correctamente." });
+                    comentarios.Add(new ComentarioViewModel
+                    {
+                        IdComentario = reader.GetInt32(reader.GetOrdinal("ID_COMENTARIO")),
+                        Mensaje = reader.GetString(reader.GetOrdinal("mensaje")),
+                        FechaEmision = reader.GetDateTime(reader.GetOrdinal("emision")),
+                        IdActividad = idActividad,
+                        Numero = reader.GetInt32(reader.GetOrdinal("NUMERO")),
+                        IdComentarioPadre = reader.IsDBNull(reader.GetOrdinal("ID_COMENTARIO_PADRE")) ? null : reader.GetInt32(reader.GetOrdinal("ID_COMENTARIO_PADRE"))
+                    });
                 }
-                return Json(new { success = false, message = "No se pudo actualizar la actividad" });
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error al actualizar la actividad: {ex.Message}");
-                return StatusCode(500, "Internal Server Error: No se pudo actualizar la actividad");
+                _logger.LogError("Error al obtener comentarios: " + ex.Message);
+                return StatusCode(500, "Error interno del servidor");
+            }
+        }
+        return Json(comentarios);
+    }
+
+
+
+    [HttpPost]
+    public async Task<IActionResult> AgregarComentario(ComentarioViewModel comentarioViewModel)
+    {
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        string insertQuery = @"
+    INSERT INTO dbo.Comentario (mensaje, emision, ID_ACTIVIDAD, CENTRO_ACADEMICO, NUMERO, ID_COMENTARIO_PADRE)
+    VALUES (@Mensaje, @FechaEmision, @IdActividad, @CentroAcademico, @Numero, @IdComentarioPadre);";
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(insertQuery, connection);
+            command.Parameters.AddWithValue("@Mensaje", comentarioViewModel.Mensaje);
+            command.Parameters.AddWithValue("@FechaEmision", DateTime.Now);
+            command.Parameters.AddWithValue("@IdActividad", comentarioViewModel.IdActividad);
+            command.Parameters.AddWithValue("@CentroAcademico", comentarioViewModel.CentroAcademico);
+            command.Parameters.AddWithValue("@Numero", comentarioViewModel.Numero);
+            command.Parameters.AddWithValue("@IdComentarioPadre", comentarioViewModel.IdComentarioPadre ?? (object)DBNull.Value);
+
+            try
+            {
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error al agregar comentario: " + ex.Message);
+                return Json(new { success = false, message = "Error al guardar el comentario" });
             }
         }
     }
+    [HttpPost]
+    public async Task<IActionResult> EliminarActividad(int idActividad)
+    {
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        string deleteQuery = "DELETE FROM Actividad WHERE ID_ACTIVIDAD = @IdActividad";
 
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(deleteQuery, connection);
+            command.Parameters.AddWithValue("@IdActividad", idActividad);
+
+            try
+            {
+                await connection.OpenAsync();
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+                if (rowsAffected > 0)
+                    return Json(new { success = true });
+                else
+                    return Json(new { success = false, message = "No se encontró la actividad." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error al eliminar actividad: " + ex.Message);
+                return Json(new { success = false, message = "Error al eliminar la actividad." });
+            }
+        }
+    }
 
 
     [HttpGet]
@@ -388,7 +443,7 @@ public class ActividadesController : Controller
             }
         }
 
-   
+        // Asegúrate de que los modelos no son null antes de pasar a la vista
         ViewBag.ActividadesViewModel = actividadesViewModel ?? new ActividadesViewModel();
         return View("~/Views/Pages/PlaneacionActividades.cshtml", equipoGuiaViewModel ?? new EquipoGuiaViewModel());
 

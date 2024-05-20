@@ -30,7 +30,7 @@
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 20px;
-        display: none;
+        display: none; /* Oculto inicialmente */
         z-index: 1000;
     }
 
@@ -41,7 +41,7 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        display: none; 
+        display: none; /* Oculto inicialmente */
         z-index: 999;
     }
 
@@ -54,10 +54,10 @@
     }
 
     #responsablesContainer {
-        max-height: 150px; 
-        overflow-y: auto; 
-        border: 1px solid #ccc; 
-        padding: 5px; 
+        max-height: 150px; /* Altura máxima antes de que el desplazamiento sea necesario */
+        overflow-y: auto; /* Habilita el desplazamiento vertical */
+        border: 1px solid #ccc; /* Borde opcional para visualizar mejor el contenedor */
+        padding: 5px; /* Espaciado interno */
     }
 
 
@@ -65,16 +65,7 @@
 </style>
 
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - OrientaTEC</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/OrientaTEC_MVC.styles.css" asp-append-version="true" />
-    <!-- Import Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+
 
 <body class="bg-white p-8">
     <div class="max-w-7xl mx-auto">
@@ -155,7 +146,7 @@
                 <div>
                     <label class="block mb-2">Responsables</label>
                     <div id="responsablesContainer">
-                   
+                        <!-- Las checkboxes se llenarán dinámicamente con JavaScript -->
                     </div>
                 </div>
 
@@ -164,7 +155,7 @@
                 <div>
                     <label class="block mb-2">Semana</label>
                     <select id="semana" class="w-full p-2 border border-gray-300 rounded">
-                     
+                        <!-- Opciones se añadirán dinámicamente -->
                     </select>
                 </div>
 
@@ -179,7 +170,7 @@
                 <div>
                     <label class="block mb-2">Días previos para recordar</label>
                     <select id="diasPreviosParaRecordar" class="w-full p-2 border border-gray-300 rounded">
-                     
+                        <!-- Opciones se añadirán dinámicamente -->
                     </select>
                 </div>
 
@@ -290,7 +281,7 @@
         <div class="mb-4">
             <label class="block text-sm font-medium mb-1">Comentarios</label>
             <div id="comments-container" class="space-y-2">
-             
+                <!-- Existing comments will be inserted here -->
             </div>
             <button onclick="openCommentModal()" class="mt-2 bg-blue-500 text-white rounded-md px-4 py-2">Comentar</button>
         </div>
@@ -299,7 +290,7 @@
         </div>
     </div>
 
-   
+    <!-- Comment Modal -->
     <div id="commentModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h3 class="text-lg font-bold mb-4">Nuevo Comentario</h3>
@@ -311,7 +302,7 @@
         </div>
     </div>
 
-  
+    <!-- Comment Popup -->
     <div id="commentPopup" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" style="display:none;">
         <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
             <h2 class="text-lg font-bold mb-4">COMENTA</h2>
@@ -384,12 +375,14 @@
 
                     };
 
-                    <div class="relative @color p-4 rounded-lg shadow-md" onclick="openInfoPopup(this)" data-id="@actividad.IdActividad">
+                    <div class="relative @color p-4 rounded-lg shadow-md" data-id="@actividad.IdActividad">
                         <h2 class="text-lg font-bold">@actividad.Nombre</h2>
-                        <button class="absolute top-0 right-2 text-blue-700 text-xl" onclick="deleteActivity(@actividad.IdActividad)">
+                        <button class="absolute top-0 right-2 text-blue-700 text-xl"
+                                onclick="deleteActivity(@actividad.IdActividad, event)">
                             x
                         </button>
                     </div>
+
                 }
             }
         </div>
@@ -405,20 +398,18 @@
 
 <script>
 
-
-
-
-
     $(document).ready(function () {
- 
+        // Manejar cambio en la selección de generación
         $('#generacionSelect').change(function () {
-     
+            // Captura el valor seleccionado y actualiza el input oculto
             $('#selectedGeneracionId').val($(this).val());
         });
 
-
+        // Inicialización opcional en caso de recargar la página con un valor preseleccionado
         $('#selectedGeneracionId').val($('#generacionSelect').val());
     });
+
+
 
     function submitActivity() {
         var formData = new FormData();
@@ -436,11 +427,12 @@
             formData.append('afiche', $('#afiche')[0].files[0]);
         }
 
+        // Añadir responsables seleccionados
         $('input[name="profesoresIds"]:checked').each(function () {
             formData.append('profesoresNombres', $(this).val());
         });
 
-      
+        // Mostrar los valores del formData para depuración en la consola
         for (var pair of formData.entries()) {
             console.log(`${pair[0]}: ${pair[1]}`);
         }
@@ -463,7 +455,7 @@
     }
 
 
-    
+    // Asegúrate de que las funciones adicionales como openPopup, closePopup, etc., estén correctamente implementadas.
 
     
 
@@ -529,7 +521,7 @@
                         </div>
                         `;
                     });
-                    $('.grid.grid-cols-4.gap-4').html(actividadesHtml); 
+                    $('.grid.grid-cols-4.gap-4').html(actividadesHtml);
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", xhr, status, error);
@@ -613,6 +605,15 @@
 
 
 
+   
+
+
+
+
+
+
+
+
     function closePopup() {
         document.getElementById('popup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
@@ -645,7 +646,7 @@
             
                 console.log("Datos recibidos:", data);
 
-
+             
                 $('#popupTitulo').text(data.nombre);
                 $('#popupSemana').val(data.semana);
                 $('#popupTipo').val(data.tipo);
@@ -656,6 +657,7 @@
                 $('#popupEstado').val(getEstadoDescripcion(data.estado));
                 $('#popupDescripcion').val(data.descripcion);
 
+              
                 $('#infoPopup').show();
                 $('#overlayInfo').show();
             },
@@ -665,7 +667,29 @@
         });
     }
 
+    function deleteActivity(idActividad, event) {
+        event.stopPropagation(); 
+        event.preventDefault();  
 
+        if (confirm('¿Estás seguro de que quieres eliminar esta actividad?')) {
+            $.ajax({
+                url: '/Actividades/EliminarActividad',
+                type: 'POST',
+                data: { idActividad: idActividad },
+                success: function (response) {
+                    if (response.success) {
+                        alert('Actividad eliminada con éxito');
+                        $(`div[data-id='${idActividad}']`).remove();
+                    } else {
+                        alert('Error al eliminar actividad: ' + response.message);
+                    }
+                },
+                error: function () {
+                    alert('Error al eliminar la actividad');
+                }
+            });
+        }
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
         var semanaSelect = document.getElementById('semana');
@@ -702,76 +726,36 @@
         btn.addEventListener('click', closePopup);
     });
 
-
-    function toggleEdit() {
-        var isReadOnly = $('#popupSemana').prop('readonly');
-     
-        $('#popupSemana, #popupResponsables, #popupTipo, #popupDiasAnunciar, #popupModalidad, #popupEnlace, #popupDescripcion').prop('readonly', !isReadOnly);
-        $('#editButton').text(isReadOnly ? 'Guardar' : 'Editar');
-
-        if (!isReadOnly) {
-           
-            guardarCambios();
-        }
-    }
-
-    function guardarCambios() {
-        var actividadId = $('#popupTitulo').data('actividadId'); 
-        var updatedData = {
-            idActividad: actividadId,
-            semana: $('#popupSemana').val(),
-            responsables: $('#popupResponsables').val(),
-            tipo: $('#popupTipo').val(),
-            diasPreviosParaAnunciar: $('#popupDiasAnunciar').val(),
-            modalidad: $('#popupModalidad').val() === "True" ? 1 : 0,
-            enlace: $('#popupEnlace').val(),
-            descripcion: $('#popupDescripcion').val()
+    function addComment() {
+        var comentarioData = {
+            mensaje: $('#commentText').val(),
+            idActividad: $('#IdActividad').val(),
+            centroAcademico: 'Código del centro académico', 
+            numero: 123, 
+            idComentarioPadre: null 
         };
 
         $.ajax({
-            url: '/Actividades/ActualizarActividad',
+            url: '/Actividades/AgregarComentario',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(updatedData),
+            data: JSON.stringify(comentarioData),
             success: function (response) {
-                alert('Información actualizada con éxito');
-                closeInfoPopup(); 
-                location.reload(); 
+                if (response.success) {
+                 
+                    alert('Comentario agregado exitosamente');
+                    $('#comments-container').prepend(`<div>${comentarioData.mensaje}</div>`);
+                } else {
+                    alert('Error al agregar comentario: ' + response.message);
+                }
             },
-            error: function (error) {
-                alert('Error al actualizar la información');
-                console.error(error);
+            error: function () {
+                alert('Error al enviar comentario');
             }
         });
     }
-    function submitActivity() {
-        var formData = new FormData();
-        formData.append('idActividad', $('#idActividad').val()); 
-        formData.append('nombre', $('#activityName').val());
-        formData.append('descripcion', $('#descripcion').val());
-        formData.append('semana', $('#semana').val());
-        formData.append('esVirtual', $('#modalidad').val() === "True");
-        formData.append('estadoId', $('#estado').val());
-        formData.append('enlace', $('#enlace').val());
-        formData.append('afiche', $('#afiche')[0].files[0]);
 
-        $.ajax({
-            url: '/Actividades/GuardarActividad',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                alert('Actividad guardada exitosamente');
-                closePopup();
-             
-            },
-            error: function (error) {
-                console.error('Error al guardar la actividad: ' + error.responseText);
-                alert('Error al guardar la actividad: ' + error.responseText);
-            }
-        });
-    }
+
 
 
 </script>
