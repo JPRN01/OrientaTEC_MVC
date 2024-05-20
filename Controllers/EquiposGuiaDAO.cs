@@ -99,7 +99,6 @@ namespace OrientaTEC_MVC.Controllers
         public List<EquipoGuia> recuperarEquiposGuia()
         {
             List<EquipoGuia> equipos = new List<EquipoGuia>();
-            List<Profesor> integrantes = new List<Profesor>();
             string query = "SELECT GENERACION FROM Equipo_Guia";
             string query2 = "SELECT p.CENTRO_ACADEMICO, p.NUMERO, p.nombre1, p.nombre2, p.apellido1, p.apellido2, p.correo, p.tel_oficina, p.tel_celular, p.imagen_url, pe.es_coordinador FROM Profesor_X_Equipo_Guia pe INNER JOIN Profesor p ON p.CENTRO_ACADEMICO = pe.CENTRO_ACADEMICO AND p.NUMERO = pe.NUMERO WHERE pe.GENERACION=@generacion";
 
@@ -149,7 +148,7 @@ namespace OrientaTEC_MVC.Controllers
                                 }
                                 else 
                                 {
-                                    integrantes.Add(new Profesor
+                                    equipo.AgregarProfesor(new Profesor
                                     {
                                         Sede = reader["CENTRO_ACADEMICO"].ToString(),
                                         Codigo = reader["CENTRO_ACADEMICO"].ToString() + "-" + reader["NUMERO"].ToString(),
@@ -163,7 +162,7 @@ namespace OrientaTEC_MVC.Controllers
                                         ImagenURL = reader.IsDBNull(reader.GetOrdinal("imagen_URL")) ? null : reader["imagen_URL"].ToString(),
                                     });
                                 }
-                                equipo.Integrantes = integrantes;
+
                             }
                         }
                         connection.Close();

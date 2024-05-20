@@ -3,23 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\jpabl\\source\\repos\\josephsanta\\orientatec_mvc\\controllers\\gestorequiposguiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\gestorequiposguiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\jpabl\\source\\repos\\josephsanta\\orientatec_mvc\\views\\pages\\gestorequiposguia.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorequiposguia.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\jpabl\\source\\repos\\josephsanta\\orientatec_mvc\\models\\equipoguia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\equipoguia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\jpabl\\source\\repos\\josephsanta\\orientatec_mvc\\controllers\\equiposguiadao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\equiposguiadao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\david\\.nuget\\packages\\epplus\\7.1.2\\readme.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\jpabl\\source\\repos\\josephsanta\\orientatec_mvc\\models\\equipoguia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:models\\equipoguia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\jpabl\\source\\repos\\josephsanta\\orientatec_mvc\\controllers\\gestorprofesorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -28,6 +17,17 @@
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\jpabl\\source\\repos\\josephsanta\\orientatec_mvc\\controllers\\profesordao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\profesordao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\jpabl\\source\\repos\\josephsanta\\orientatec_mvc\\controllers\\gestorequiposguiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\gestorequiposguiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\jpabl\\source\\repos\\josephsanta\\orientatec_mvc\\views\\pages\\gestorequiposguia.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorequiposguia.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\david\\.nuget\\packages\\epplus\\7.1.2\\readme.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
@@ -59,7 +59,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 341,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -67,44 +67,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "EquiposGuiaDAO.cs",
               "DocumentMoniker": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\Controllers\\EquiposGuiaDAO.cs",
               "RelativeDocumentMoniker": "Controllers\\EquiposGuiaDAO.cs",
               "ToolTip": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\Controllers\\EquiposGuiaDAO.cs",
               "RelativeToolTip": "Controllers\\EquiposGuiaDAO.cs",
-              "ViewState": "AQIAAHkAAAAAAAAAAAAuwIMAAAAdAAAA",
+              "ViewState": "AQIAAF4AAAAAAAAAAAAYwGQAAAA+AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T23:38:02.075Z"
+              "WhenOpened": "2024-05-19T23:38:02.075Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "GestorEquiposGuiaController.cs",
               "DocumentMoniker": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\Controllers\\GestorEquiposGuiaController.cs",
               "RelativeDocumentMoniker": "Controllers\\GestorEquiposGuiaController.cs",
               "ToolTip": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\Controllers\\GestorEquiposGuiaController.cs",
               "RelativeToolTip": "Controllers\\GestorEquiposGuiaController.cs",
-              "ViewState": "AQIAAEMAAAAAAAAAAAAswFQAAAAJAAAA",
+              "ViewState": "AQIAADAAAAAAAAAAAAA5wFQAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-19T23:30:34.313Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "EquipoGuia.cs",
               "DocumentMoniker": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\Models\\EquipoGuia.cs",
               "RelativeDocumentMoniker": "Models\\EquipoGuia.cs",
               "ToolTip": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\Models\\EquipoGuia.cs",
               "RelativeToolTip": "Models\\EquipoGuia.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAgwCgAAAAMAAAA",
+              "ViewState": "AQIAAB8AAAAAAAAAAAA5wAcAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T23:31:01.307Z"
+              "WhenOpened": "2024-05-19T23:31:01.307Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "GestorProfesoresController.cs",
               "DocumentMoniker": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\Controllers\\GestorProfesoresController.cs",
               "RelativeDocumentMoniker": "Controllers\\GestorProfesoresController.cs",
@@ -112,23 +114,25 @@
               "RelativeToolTip": "Controllers\\GestorProfesoresController.cs",
               "ViewState": "AQIAAAUAAAAAAAAAAAAAABEAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T23:32:31.894Z"
+              "WhenOpened": "2024-05-19T23:32:31.894Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "ProfesorDAO.cs",
               "DocumentMoniker": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\Controllers\\ProfesorDAO.cs",
               "RelativeDocumentMoniker": "Controllers\\ProfesorDAO.cs",
               "ToolTip": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\Controllers\\ProfesorDAO.cs",
               "RelativeToolTip": "Controllers\\ProfesorDAO.cs",
-              "ViewState": "AQIAAHUAAAAAAAAAAAAmwHcAAAAcAAAA",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAwwHcAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-18T18:56:58.426Z"
+              "WhenOpened": "2024-05-18T18:56:58.426Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "GestorEquiposGuia.cshtml",
               "DocumentMoniker": "C:\\Users\\jpabl\\source\\repos\\JosephSanta\\OrientaTEC_MVC\\Views\\Pages\\GestorEquiposGuia.cshtml",
               "RelativeDocumentMoniker": "Views\\Pages\\GestorEquiposGuia.cshtml",
@@ -238,7 +242,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "readme.txt",
               "DocumentMoniker": "C:\\Users\\david\\.nuget\\packages\\epplus\\7.1.2\\readme.txt",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\david\\.nuget\\packages\\epplus\\7.1.2\\readme.txt",
