@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OrientaTEC_MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c4560d3b8618ad3d67581efd4e432b0ec535cfe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+22bf7c45beb16df3d117d8f80a6a969fa56a239f")]
 [assembly: System.Reflection.AssemblyProductAttribute("OrientaTEC_MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OrientaTEC_MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

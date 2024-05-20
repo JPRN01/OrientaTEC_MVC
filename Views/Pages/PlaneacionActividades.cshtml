@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Gestor de Actividades";
     var actividades = ViewBag.ActividadesViewModel as OrientaTEC_MVC.ViewModels.ActividadesViewModel;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 
@@ -46,6 +48,15 @@
         border-radius: 8px;
     }
 
+    #responsablesContainer {
+        max-height: 150px; /* Altura máxima antes de que el desplazamiento sea necesario */
+        overflow-y: auto; /* Habilita el desplazamiento vertical */
+        border: 1px solid #ccc; /* Borde opcional para visualizar mejor el contenedor */
+        padding: 5px; /* Espaciado interno */
+    }
+
+
+
 </style>
 
 
@@ -83,7 +94,9 @@
 
     <div id="overlay" class="overlay" onclick="closePopup()"></div>
     <div id="popup" class="bg-gray-100 p-6">
+
         <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-blue-500">
                     Crear nueva actividad
@@ -100,31 +113,44 @@
                 <div>
                     <label class="block mb-2">Estado</label>
                     <select id="estado" class="w-full p-2 border border-gray-300 rounded">
-                        <option value="Planeada">Planeada</option>
-                        <option value="Notificada">Notificada</option>
-                        <option value="Realizada">Realizada</option>
-                        <option value="Cancelada">Cancelada</option>
+                        <option value="1">Planeada</option>
+                        <option value="2">Notificada</option>
+                        <option value="3">Realizada</option>
+                        <option value="4">Cancelada</option>
                     </select>
                 </div>
 
 
                 <div>
                     <label class="block mb-2">Tipo</label>
+
                     <select id="tipo" class="w-full p-2 border border-gray-300 rounded">
+                      
                         <option value="">Seleccione Tipo...</option>
-                        <option value="Motivacionales">Motivacionales</option>
-                        <option value="Orientadora">Orientadora</option>
-                        <option value="VidaEstudiantil">Vida Estudiantil</option>
-                        <option value="Tecnica">Técnica</option>
-                        <option value="Recreacion">Recreación</option>
+                        <option value="1">Motivacionales</option>
+                        <option value="2">Orientadora</option>
+                        <option value="3">Vida Estudiantil</option>
+                        <option value="4">Técnica</option>
+                        <option value="5">Recreación</option>
                     </select>
+
                 </div>
+
 
 
                 <div>
                     <label class="block mb-2">Responsables</label>
-                    <select class="w-full p-2 border border-gray-300 rounded" disabled>
-                        <option>Nombres</option>
+                    <div id="responsablesContainer">
+                        <!-- Las checkboxes se llenarán dinámicamente con JavaScript -->
+                    </div>
+                </div>
+
+
+
+                <div>
+                    <label class="block mb-2">Semana</label>
+                    <select id="semana" class="w-full p-2 border border-gray-300 rounded">
+                        <!-- Opciones se añadirán dinámicamente -->
                     </select>
                 </div>
 
@@ -136,12 +162,22 @@
                     </select>
                 </div>
 
+                <div>
+                    <label class="block mb-2">Días previos para recordar</label>
+                    <select id="diasPreviosParaRecordar" class="w-full p-2 border border-gray-300 rounded">
+                        <!-- Opciones se añadirán dinámicamente -->
+                    </select>
+                </div>
+
+
+
+
 
                 <div>
                     <label class="block mb-2">Modalidad</label>
                     <select id="modalidad" class="w-full p-2 border border-gray-300 rounded">
-                        <option value="Presencial">Presencial</option>
-                        <option value="Remoto">Remoto</option>
+                        <option value="False">Presencial</option>
+                        <option value="True">Remoto</option>
                     </select>
                 </div>
 
@@ -151,14 +187,22 @@
                     <input id="enlace" class="w-full p-2 border border-gray-300 rounded" type="text" />
                 </div>
 
-            </div>
-            <div class="mb-6">
-                <label class="block mb-2">Afiche</label>
-                <div class="w-full h-32 border border-gray-300 rounded flex items-center justify-center">
-                    <img alt="Placeholder for an image with a camera icon, indicating where to click to choose an image" height="100" src="your-image-url" />
-                    <p class="text-center mt-2">Click para escoger una imagen</p>
+                <div>
+                    <label class="block mb-2">Descripción</label>
+                    <textarea id="descripcion" class="w-full p-2 border border-gray-300 rounded" rows="3"></textarea>
                 </div>
+
+                <div>
+                    <label class="block mb-2">Afiche</label>
+                    <input type="file" id="afiche" class="w-full p-2 border border-gray-300 rounded">
+                </div>
+
+               
             </div>
+
+
+           
+
 
 
             <div class="flex justify-end gap-4">
@@ -354,10 +398,13 @@
                         _ => "bg-white"
 
                     };
-                    
-                    <div class="relative @color p-4 rounded-lg shadow-md" onclick="openInfoPopup()">
+
+                    <div class="relative @color p-4 rounded-lg shadow-md">
                         <h2 class="text-lg font-bold">@actividad.Nombre</h2>
-                        <button class="absolute top-0 right-2 text-blue-700 text-xl">x</button>
+                        <button class="absolute top-0 right-2 text-blue-700 text-xl"
+                                onclick="deleteActivity(@actividad.IdActividad)">
+                            x
+                        </button>
                     </div>
                 }
             }
@@ -367,31 +414,72 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+
+
+
+
+
 <script>
 
-    $('#generacionSelect').change(function () {
-        var selectedGeneracionId = $(this).val();
-        $('#selectedGeneracionId').val(selectedGeneracionId);
+
+
+
+
+    $(document).ready(function () {
+        // Manejar cambio en la selección de generación
+        $('#generacionSelect').change(function () {
+            // Captura el valor seleccionado y actualiza el input oculto
+            $('#selectedGeneracionId').val($(this).val());
+        });
+
+        // Inicialización opcional en caso de recargar la página con un valor preseleccionado
+        $('#selectedGeneracionId').val($('#generacionSelect').val());
     });
 
-
     function submitActivity() {
-        var activityName = document.getElementById('activityName').value;
-        var generacionId = document.getElementById('selectedGeneracionId').value; // Obtiene el valor del campo oculto
+        var formData = new FormData();
+        formData.append('nombre', $('#activityName').val());
+        formData.append('generacionId', $('#selectedGeneracionId').val());  // Asegurarse de que este valor se actualiza en el cambio de selección
+        formData.append('tipoId', $('#tipo').val());
+        formData.append('esVirtual', $('#modalidad').val() === "True");
+        formData.append('estadoId', $('#estado').val());
+        formData.append('enlace', $('#enlace').val());
+        formData.append('descripcion', $('#descripcion').val());
+        formData.append('diasPreviosParaAnunciar', $('#diasPreviosParaAnunciar').val());
+        formData.append('diasPreviosParaRecordar', $('#diasPreviosParaRecordar').val());
+        formData.append('semana', $('#semana').val());
+        if ($('#afiche')[0].files[0]) {
+            formData.append('afiche', $('#afiche')[0].files[0]);
+        }
+        
+        // Añadir responsables seleccionados
+        $('input[name="profesoresIds"]:checked').each(function () {
+            formData.append('profesoresIds', $(this).val());
+        });
+
+        // Mostrar los valores del formData para depuración en la consola
+        for (var pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
 
         $.ajax({
             url: '/Actividades/CrearActividad',
             type: 'POST',
-            data: { nombre: activityName, generacionId: generacionId },
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function (response) {
                 alert('Actividad creada exitosamente');
                 closePopup();
             },
             error: function (error) {
+                console.error('Error al crear la actividad: ' + error.responseText);
                 alert('Error al crear la actividad: ' + error.responseText);
             }
         });
     }
+
+    // Asegúrate de que las funciones adicionales como openPopup, closePopup, etc., estén correctamente implementadas.
 
 
     function closePopup() {
@@ -480,15 +568,64 @@
     }
 
     function openPopup() {
-
-
         document.getElementById('popup').style.display = 'block';
         document.getElementById('overlay').style.display = 'block';
     }
+
+    function cargarProfesores() {
+        var selectedGeneracionId = $('#generacionSelect').val();
+        if (!selectedGeneracionId) {
+            $('#responsablesContainer').html('<div>Seleccione una generación primero</div>');
+            return;
+        }
+
+        fetch(`/Actividades/ObtenerProfesores?generacionId=${selectedGeneracionId}`)
+            .then(response => response.json())
+            .then(profesores => {
+                $('#responsablesContainer').empty();
+                if (profesores.length > 0) {
+                    profesores.forEach(profesor => {
+                        $('#responsablesContainer').append(`
+                            <div>
+                                <input type="checkbox" name="profesoresIds" value="${profesor.numero}" id="profesor-${profesor.numero}">
+                                <label for="profesor-${profesor.numero}">${profesor.nombreCompleto}</label>
+                            </div>
+                        `);
+                    });
+                } else {
+                    $('#responsablesContainer').append('<div>No hay profesores disponibles</div>');
+                }
+            })
+            .catch(error => {
+                console.error('Error al cargar profesores:', error);
+                $('#responsablesContainer').append('<div>Error al cargar profesores</div>');
+            });
+    }
+
+
+
+    document.getElementById('createButton').addEventListener('click', () => {
+        $('#responsablesSelect').empty();  // Limpia el select antes de cargar nuevos datos
+        cargarProfesores();  // Llama a cargar los profesores
+        document.getElementById('popup').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    });
+
+
+
+
+
+
+
+
     function closePopup() {
         document.getElementById('popup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
+
+
+
+
     function openInfoPopup(element) {
         var actividadId = element.getAttribute('data-id');
         var nombre = element.getAttribute('data-nombre');
@@ -506,14 +643,29 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-    var select = document.getElementById('diasPreviosParaAnunciar');
-    for (var i = 1; i <= 30; i++) {
-        var option = document.createElement('option');
-        option.value = i;
-        option.text = i + ' día' + (i > 1 ? 's' : ''); // Agrega 's' para plural
-        select.appendChild(option);
-    }
-});
+        var semanaSelect = document.getElementById('semana');
+        var selectAnunciar = document.getElementById('diasPreviosParaAnunciar');
+        var selectRecordar = document.getElementById('diasPreviosParaRecordar');
+
+        for (var i = 1; i <= 52; i++) {
+            var optionSemana = document.createElement('option');
+            optionSemana.value = i;
+            optionSemana.text = 'Semana ' + i;
+            semanaSelect.appendChild(optionSemana);
+        }
+
+        for (var i = 1; i <= 30; i++) {
+            var optionAnunciar = document.createElement('option');
+            optionAnunciar.value = i;
+            optionAnunciar.text = i + ' día' + (i > 1 ? 's' : '');
+            selectAnunciar.appendChild(optionAnunciar);
+
+            var optionRecordar = document.createElement('option');
+            optionRecordar.value = i;
+            optionRecordar.text = i + ' día' + (i > 1 ? 's' : '');
+            selectRecordar.appendChild(optionRecordar);
+        }
+    });
 
 
     function closeInfoPopup() {
@@ -524,6 +676,10 @@
     document.querySelectorAll('.closeButton').forEach(btn => {
         btn.addEventListener('click', closePopup);
     });
+
+
+ 
+
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
