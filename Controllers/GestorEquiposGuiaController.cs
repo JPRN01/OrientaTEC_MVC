@@ -10,12 +10,15 @@ namespace OrientaTEC_MVC.Controllers
     {
         private readonly ILogger<GestorEquiposGuiaController> _logger;
         private List<EquipoGuia> equipos; // Simula conexión a DAO // REEMPLAZAR CON CONEXIONES REALES
-        private static List<Profesor> _profesores; // Simula conexión a DAO // REEMPLAZAR CON CONEXIONES REALES
+        private static List<Profesor> _profesores;
+        private readonly ProfesorDAO _profesorDAO;
+        private readonly EquiposGuiaDAO _equiposDAO;
 
         public GestorEquiposGuiaController(ILogger<GestorEquiposGuiaController> logger)
         {
             _logger = logger;
-
+            _profesorDAO = new ProfesorDAO();
+            _equiposDAO = new EquiposGuiaDAO();
             if (equipos == null)
             {
                 equipos = InicializarEquiposGuia();  
@@ -35,9 +38,6 @@ namespace OrientaTEC_MVC.Controllers
         
         private List<Profesor> ObtenerProfesoresDisponibles()
         {
-
-            //AGREGAR CONEXIÓN A BASE DE DATOS / DAO ACÁ
-
             return InicializarProfesores();
         }
 
@@ -48,63 +48,13 @@ namespace OrientaTEC_MVC.Controllers
         // REEMPLAZAR CON CONEXIÓN A BASE DE DATOS / DAO / MODELO
         private List<EquipoGuia> InicializarEquiposGuia()
         {
-            var equiposGuia = new List<EquipoGuia>();
-            for (int i = 1; i <= 5; i++) 
-            {
-                var coordinador = new Profesor
-                {
-                    Codigo = (i % 2 == 0 ? "CA" : "SJ") + "001" + i.ToString(),
-                    Nombre1 = "Coordinador" + i,  
-                    Apellido1 = "Apellido" + i,
-                    Correo = "coordinador" + i + "@example.edu",
-                    TelCelular = 555000 + i
-                };
-
-                var integrantes = new List<Profesor>();
-                for (int j = 1; j <= 3; j++) 
-                {
-                    integrantes.Add(new Profesor
-                    {
-                        Codigo = (i % 2 == 0 ? "CA" : "SJ") + "000" + j.ToString(),
-                        Nombre1 = "Profesor" + (i * 3 + j),
-                        Apellido1 = "Apellido" + (i * 3 + j),
-                        Correo = "profesor" + (i * 3 + j) + "@example.edu",
-                        TelCelular = 555100 + (i * 3 + j)
-                    }); 
-                }
-
-                equiposGuia.Add(new EquipoGuia
-                {
-                    Generacion = 2019 + i,
-                    Coordinador = coordinador,
-                    Integrantes = integrantes
-                });
-            }
-            return equiposGuia;
+            return _equiposDAO.recuperarEquiposGuia();
         }
 
-        // REEMPLAZAR CON CONEXIÓN A BASE DE DATOS / DAO / MODELO
+        
         private List<Profesor> InicializarProfesores()
         {
-            _profesores = new List<Profesor>();
-            for (int i = 1; i <= 20; i++)
-            {
-                _profesores.Add(new Profesor
-                {
-                    Sede = i % 2 == 0 ? "CA" : "SJ",
-                    Nombre1 = "Nombre" + i,
-                    Nombre2 = "Secundario" + i,
-                    Apellido1 = "Apellido" + i,
-                    Apellido2 = "Secundario" + i,
-                    Codigo = (i % 2 == 0 ? "CA" : "SJ") + i.ToString("D4"),
-                    Correo = "profesor" + i + "@itcr.ac.cr",
-                    Contrasena = "Password" + i + "!",
-                    TelOficina = "1234-5678 [ext." + (4000 + i) + "]",
-                    TelCelular = 800000 + i,
-                    ImagenURL = "https://example.com/image" + i + ".jpg",
-                    Activo = i % 2 == 0
-                });
-            }
+            _profesores = _profesorDAO.recuperarProfesores();
             return _profesores;
         }
 
@@ -119,10 +69,12 @@ namespace OrientaTEC_MVC.Controllers
             var equipo = equipos.FirstOrDefault(e => e.Generacion == generacion);
             if (equipo != null)
             {
+                var integrantes = equipo.Integrantes ?? new List<Profesor>();
+
                 return Json(new
                 {
                     success = true,
-                    data = equipo.Integrantes.Select(integrante => new
+                    data = integrantes.Select(integrante => new
                     {
                         Nombre1 = integrante.Nombre1,
                         Apellido1 = integrante.Apellido1
@@ -318,7 +270,8 @@ namespace OrientaTEC_MVC.Controllers
                     Generacion = equipo.Generacion
                 };
 
-                equipos.Add(nuevoEquipo); //Reemplazar con DAO
+                equipos.Add(nuevoEquipo);
+                _equiposDAO.registrarEquipoGuia(nuevoEquipo);
                 return Json(new { success = true, message = "Equipo creado correctamente" });
             }
             catch (Exception ex)

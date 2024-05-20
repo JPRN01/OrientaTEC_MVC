@@ -24,7 +24,16 @@
             {
                 <tr>
                     <td>@equipo.Generacion</td>
-                    <td>@equipo.Coordinador.Nombre1 @equipo.Coordinador.Apellido1</td>
+                    <td>
+                        @if (equipo.Coordinador != null)
+                        {
+                            @equipo.Coordinador.Nombre1 @(" ") @equipo.Coordinador.Apellido1
+                        }
+                        else
+                        {
+                            <span>Sin coordinador</span>
+                        }
+                    </td>
                     <td><button class="action-button" onclick="mostrarIntegrantes(@equipo.Generacion)">👁</button></td>
                     <td><button class="btnEditar" onclick="editEquipo(@equipo.Generacion)">✎</button></td>
                 </tr>
