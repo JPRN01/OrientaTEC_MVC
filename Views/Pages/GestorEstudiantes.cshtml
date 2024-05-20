@@ -1,7 +1,360 @@
-﻿
+﻿@model List<OrientaTEC_MVC.Models.Estudiante>
+
 @{
-    ViewData["Title"] = "GestorEstudiantes";
+    var centrosAcademicos = ViewData["CentrosAcademicos"] as List<OrientaTEC_MVC.Models.CentroAcademico>;
+
+    ViewData["Title"] = "Gestor de Estudiantes";
 }
 
-<h1>GestorEstudiantes</h1>
 
+
+<h2>Gestor de Estudiantes</h2>
+<div style=" margin-bottom: 10px;  margin-top: 10px;">
+    <button id="btn_CargarEstudiantes" onclick="abrirModalCargarEstudiantes();">Cargar Estudiantes 	&nbsp; <i class="fas fa-upload"></i></button> 	&nbsp;
+    <button id="btn_DescargarEstudiantes" onclick="descargarEstudiantes();">Generar Archivo 	&nbsp; <i class="fas fa-download"></i></button>
+</div>
+
+<table id="estudiantesTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Sede</th>
+            <th>Nombre</th>
+            <th>Carné</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var estudiante in Model)
+        {
+            <tr>
+                <td>@estudiante.CentroAcademico</td>
+                <td>@estudiante.Nombre1 @estudiante.Apellido1</td>
+                <td>@estudiante.Carne</td>
+                <td>@estudiante.Correo</td>
+                <td>@estudiante.TelCelular</td>
+                <td>
+                    <button class="btn btn-primary btn-sm edit-btn" data-id="@estudiante.Carne">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm delete-btn" data-id="@estudiante.Carne">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStudentModalLabel">Editar Estudiante</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editStudentForm">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editSede">Sede</label>
+                                    <select id="editSede" class="form-control">
+                                        @foreach (var centro in centrosAcademicos)
+                                        {
+                                            <option value="@centro.Iniciales">@centro.Nombre</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editNombre1">Primer Nombre</label>
+                                    <input type="text" class="form-control" id="editNombre1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editApellido1">Primer Apellido</label>
+                                    <input type="text" class="form-control" id="editApellido1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editCorreo">Correo</label>
+                                    <input type="text" class="form-control" id="editCorreo" disabled>
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editCarne" >Carné</label>
+                                    <input type="text" class="form-control" id="editCarne" pattern="\d{10}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editNombre2">Segundo Nombre</label>
+                                    <input type="text" class="form-control" id="editNombre2">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="editApellido2">Segundo Apellido</label>
+                                    <input type="text" class="form-control" id="editApellido2">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="editTelefono">Teléfono</label>
+                                    <input type="text" class="form-control" id="editTelefono" required pattern="\d{8}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button type="submit" class="btn btn-success accept">Aceptar</button>
+                                <button type="button" class="btn btn-secondary cancel" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="modalCargarEstudiantes" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Cargar Estudiantes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a href="~/Template - Datos Estudiantes - v1.0.xlsx" style="margin-bottom:10px;margin-top:10px; margin-left:auto; margin-right:auto;">Descarga el template de Estudiantes</a>
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="centroAcademico">Centro Académico:</label>
+                        <select id="centroAcademico" name="centroAcademico" class="form-control">
+                            @foreach (var centro in centrosAcademicos)
+                            {
+                                <option value="@centro.Iniciales">@centro.Nombre</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fileUpload">Seleccionar archivo de Excel:</label>
+                        <input type="file" id="fileUpload" name="fileUpload" accept=".xlsx" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="uploadButton" class="btn btn-primary">Cargar Estudiantes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#estudiantesTable').DataTable();
+            var curr_Carne;
+            $('.edit-btn').on('click', function () {
+                var carne = $(this).data('id');
+                console.log(carne);
+                $.ajax({
+                    url: '/GestorEstudiantes/GetEstudiante',
+                    type: 'GET',
+                    data: { carne: carne },
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            $('#editSede').val(response.data.centroAcademico);
+                            $('#editNombre1').val(response.data.nombre1);
+                            $('#editNombre2').val(response.data.nombre2);
+                            $('#editApellido1').val(response.data.apellido1);
+                            $('#editApellido2').val(response.data.apellido2);
+                            $('#editCarne').val(response.data.carne);
+                            $('#editTelefono').val(response.data.telCelular);
+                            $('#editCorreo').val(response.data.correo);
+                            $('#editStudentModal').modal('show');
+                            curr_Carne = carne;
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    }
+                });
+            });
+
+            $('#editStudentForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var estudiante = {
+                    Carne: curr_Carne,
+                    CentroAcademico: $('#editSede').val(),
+                    Nombre1: $('#editNombre1').val(),
+                    Nombre2: $('#editNombre2').val(),
+                    Apellido1: $('#editApellido1').val(),
+                    Apellido2: $('#editApellido2').val(),
+                    TelCelular: $('#editTelefono').val(),
+                    Correo: $('#editCorreo').val()
+                };
+
+                $.ajax({
+                    url: '/GestorEstudiantes/GuardarEstudiante',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(estudiante),
+                    success: function (response) {
+                        if (response.success) {
+                            $('#editStudentModal').modal('hide');
+                            alert('Estudiante actualizado correctamente.');
+                            location.reload(); 
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    }
+                });
+            });
+
+
+            $('.delete-btn').on('click', function () {
+                var carne = $(this).data('id');
+                console.log("Carne:", carne);  
+                if (confirm('Está seguro de que desea eliminar este estudiante?')) {
+                    $.ajax({
+                        url: '/GestorEstudiantes/EliminarEstudiante',
+                        type: 'POST',
+                        data: JSON.stringify({ "Carne": carne }),  
+                        contentType: 'application/json',
+                        success: function (response) {
+                            if (response.success) {
+                                alert('Estudiante eliminado correctamente.');
+                                location.reload(); 
+                            } else {
+                                alert('Error: ' + response.message);
+                            }
+                        }
+                    });
+                }
+            });
+
+
+            $('.cancel, .close').on('click', function () {
+                $('#editStudentModal').modal('hide');
+            });
+        });
+
+
+        function abrirModalCargarEstudiantes() {
+            $('#modalCargarEstudiantes').modal('show');
+        }
+
+        document.getElementById('uploadButton').addEventListener('click', function () {
+            var formData = new FormData();
+            var centroAcademico = document.getElementById('centroAcademico').value;
+            var fileUpload = document.getElementById('fileUpload').files[0];
+
+            if (!fileUpload) {
+                alert('Por favor seleccione un archivo.');
+                return;
+            }
+            this.setAttribute("disabled", "true");
+            formData.append('centroAcademico', centroAcademico);
+            formData.append('fileUpload', fileUpload);
+
+            fetch('/GestorEstudiantes/CargarEstudiantes', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                    $('#modalCargarEstudiantes').modal('hide');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            this.setAttribute("disabled", "false");
+        });
+
+        function descargarEstudiantes() {
+    window.location.href = '/GestorEstudiantes/DescargarEstudiantes';
+}
+
+    </script>
+}
+
+
+<style>
+    .btn, .btn.cancel, .btn.accept {
+        padding: 10px 20px;
+        margin-right: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        color: white;
+    }
+
+
+
+
+        .btn.cancel:hover {
+            background-color: #d32f2f;
+            color: white;
+        }
+
+
+
+        .btn.accept:hover {
+            background-color: #388E3C;
+            color: white;
+        }
+
+        .btn.accept {
+            background-color: #A3CE6D;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn.cancel {
+            background-color: #FC7970;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+
+    #btn_CargarEstudiantes, #btn_DescargarEstudiantes {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 2px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+</style>

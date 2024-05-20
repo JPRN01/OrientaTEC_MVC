@@ -28,7 +28,7 @@ namespace OrientaTEC_MVC.Controllers
                     {
                         var estudiante = new Estudiante
                         {
-                            Carnet = int.Parse(worksheet.Cells[row, 1].Value.ToString().Trim()),
+                            Carne = int.Parse(worksheet.Cells[row, 1].Value.ToString().Trim()),
                             Apellido1 = worksheet.Cells[row, 2].Value.ToString().Split(' ')[0].Trim(),
                             Apellido2 = worksheet.Cells[row, 2].Value.ToString().Split(' ')[1].Trim(),
                             Nombre1 = worksheet.Cells[row, 2].Value.ToString().Split(' ')[2].Trim(),
@@ -41,7 +41,7 @@ namespace OrientaTEC_MVC.Controllers
                         bool resultado = EstudianteDAO_Singleton.Instance.AgregarEstudiante(estudiante);
                         if (!resultado)
                         {
-                            Console.WriteLine($"Error al insertar el estudiante con carné: {estudiante.Carnet}");
+                            Console.WriteLine($"Error al insertar el estudiante con carné: {estudiante.Carne}");
                         }
                     }
                 }

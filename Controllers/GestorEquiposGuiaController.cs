@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using OrientaTEC_MVC.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,116 +9,35 @@ namespace OrientaTEC_MVC.Controllers
     public class GestorEquiposGuiaController : Controller
     {
         private readonly ILogger<GestorEquiposGuiaController> _logger;
-        private List<EquipoGuia> equipos; // Simula conexión a DAO // REEMPLAZAR CON CONEXIONES REALES
-        private static List<Profesor> _profesores; // Simula conexión a DAO // REEMPLAZAR CON CONEXIONES REALES
+        private readonly EquiposGuiaDAO _equiposGuiaDAO;
+        private readonly ProfesorDAO _profesorDAO;
 
         public GestorEquiposGuiaController(ILogger<GestorEquiposGuiaController> logger)
         {
             _logger = logger;
-
-            if (equipos == null)
-            {
-                equipos = InicializarEquiposGuia();  
-
-            }
+            _equiposGuiaDAO = new EquiposGuiaDAO();
+            _profesorDAO = new ProfesorDAO();
         }
-
 
         public ActionResult GestorEquiposGuia()
         {
-
+            var equipos = _equiposGuiaDAO.RecuperarEquiposGuia();
             ViewData["lista_ProfesoresDisponibles"] = ObtenerProfesoresDisponibles();
-
             return View("~/Views/Pages/GestorEquiposGuia.cshtml", equipos);
         }
 
-        
+
         private List<Profesor> ObtenerProfesoresDisponibles()
         {
-
-            //AGREGAR CONEXIÓN A BASE DE DATOS / DAO ACÁ
-
-            return InicializarProfesores();
+            return _profesorDAO.recuperarProfesores();
         }
-
-
-
-
-
-        // REEMPLAZAR CON CONEXIÓN A BASE DE DATOS / DAO / MODELO
-        private List<EquipoGuia> InicializarEquiposGuia()
-        {
-            var equiposGuia = new List<EquipoGuia>();
-            for (int i = 1; i <= 5; i++) 
-            {
-                var coordinador = new Profesor
-                {
-                    Codigo = (i % 2 == 0 ? "CA" : "SJ") + "001" + i.ToString(),
-                    Nombre1 = "Coordinador" + i,  
-                    Apellido1 = "Apellido" + i,
-                    Correo = "coordinador" + i + "@example.edu",
-                    TelCelular = 555000 + i
-                };
-
-                var integrantes = new List<Profesor>();
-                for (int j = 1; j <= 3; j++) 
-                {
-                    integrantes.Add(new Profesor
-                    {
-                        Codigo = (i % 2 == 0 ? "CA" : "SJ") + "000" + j.ToString(),
-                        Nombre1 = "Profesor" + (i * 3 + j),
-                        Apellido1 = "Apellido" + (i * 3 + j),
-                        Correo = "profesor" + (i * 3 + j) + "@example.edu",
-                        TelCelular = 555100 + (i * 3 + j)
-                    }); 
-                }
-
-                equiposGuia.Add(new EquipoGuia
-                {
-                    Generacion = 2019 + i,
-                    Coordinador = coordinador,
-                    Integrantes = integrantes
-                });
-            }
-            return equiposGuia;
-        }
-
-        // REEMPLAZAR CON CONEXIÓN A BASE DE DATOS / DAO / MODELO
-
-
-        private List<Profesor> InicializarProfesores()
-        {
-            _profesores = new List<Profesor>();
-            for (int i = 1; i <= 20; i++)
-            {
-                _profesores.Add(new Profesor
-                {
-                    Sede = i % 2 == 0 ? "CA" : "SJ",
-                    Nombre1 = "Nombre" + i,
-                    Nombre2 = "Secundario" + i,
-                    Apellido1 = "Apellido" + i,
-                    Apellido2 = "Secundario" + i,
-                    Codigo = (i % 2 == 0 ? "CA" : "SJ") + i.ToString("D4"),
-                    Correo = "profesor" + i + "@itcr.ac.cr",
-                    Contrasena = "Password" + i + "!",
-                    TelOficina = "1234-5678 [ext." + (4000 + i) + "]",
-                    TelCelular = 800000 + i,
-                    ImagenURL = "https://example.com/image" + i + ".jpg",
-                    Activo = i % 2 == 0
-                });
-            }
-            return _profesores;
-        }
-
-
-
 
         #region VISTA DE INTEGRANTES
 
         [HttpGet]
         public IActionResult GetIntegrantes(int generacion)
         {
-            var equipo = equipos.FirstOrDefault(e => e.Generacion == generacion);
+            var equipo = _equiposGuiaDAO.RecuperarEquiposGuia().FirstOrDefault(e => e.Generacion == generacion);
             if (equipo != null)
             {
                 return Json(new
@@ -134,24 +53,20 @@ namespace OrientaTEC_MVC.Controllers
             return Json(new { success = false, message = "Equipo no encontrado." });
         }
 
-
         #endregion VISTA DE INTEGRANTES
-
-
 
         #region EDITAR EQUIPO
 
 
-
         /// <summary>
-        /// Se encarga de cargar en el view los valores de un equipo para su edición al abrir el modal de Editar
+        /// Se llama desde el Front End para que retorne los detalles del Equipo que se seleccionó para editar
         /// </summary>
         /// <param name="generacion"></param>
         /// <returns></returns>
         [HttpGet]
         public IActionResult GetEquipoDetails(int generacion)
         {
-            var equipo = equipos.FirstOrDefault(e => e.Generacion == generacion);
+            var equipo = _equiposGuiaDAO.RecuperarEquiposGuia().FirstOrDefault(e => e.Generacion == generacion);
             if (equipo != null)
             {
                 return Json(new
@@ -165,9 +80,9 @@ namespace OrientaTEC_MVC.Controllers
                     }),
                     coordinador = new
                     {
-                        Codigo = equipo.Coordinador.Codigo,
-                        Nombre1 = equipo.Coordinador.Nombre1,
-                        Apellido1 = equipo.Coordinador.Apellido1
+                        Codigo = equipo.Coordinador?.Codigo,
+                        Nombre1 = equipo.Coordinador?.Nombre1,
+                        Apellido1 = equipo.Coordinador?.Apellido1
                     }
                 });
             }
@@ -176,7 +91,7 @@ namespace OrientaTEC_MVC.Controllers
 
 
         /// <summary>
-        /// Se agregan profesores integrantes al equipo 
+        /// Se llama desde el View para que se agregue un nuevo integrante a un equipo seleccionado para editar
         /// </summary>
         /// <param name="generacion"></param>
         /// <param name="codigoProfesor"></param>
@@ -184,85 +99,18 @@ namespace OrientaTEC_MVC.Controllers
         [HttpPost]
         public IActionResult AgregarIntegrante_EditarEquipo(int generacion, string codigoProfesor)
         {
-            EquipoGuia? equipo = equipos.FirstOrDefault(e => e.Generacion == generacion);
-            if (equipo != null)
+            var profesor = _profesorDAO.recuperarProfesores().FirstOrDefault(p => p.Codigo == codigoProfesor);
+            if (profesor != null)
             {
-                Profesor? profesor = _profesores.FirstOrDefault(p => p.Codigo == codigoProfesor);
-                if (profesor != null)
+                var equipo = _equiposGuiaDAO.RecuperarEquiposGuia().FirstOrDefault(e => e.Generacion == generacion);
+                if (equipo != null && (equipo.Coordinador?.Codigo == codigoProfesor || equipo.Integrantes.Any(i => i.Codigo == codigoProfesor)))
                 {
-                    if (!equipo.Integrantes.Any(p => p.Codigo == codigoProfesor))
-                    {
-                        equipo.Integrantes.Add(profesor); //Reemplazar con DAO
-                        return Json(new
-                        {
-                            success = true,
-                            message = "Profesor añadido exitosamente.",
-                            data = new
-                            {
-                                Codigo = profesor.Codigo,
-                                Nombre1 = profesor.Nombre1,
-                                Apellido1 = profesor.Apellido1
-                            }
-                        });
-                    }
-                    else
-                    {
-                        return Json(new { success = false, message = "Profesor seleccionado ya es miembro del Equipo Guía." });
-                    }
+                    return Json(new { success = false, message = "El profesor ya es integrante o coordinador del equipo." });
                 }
-                else
+
+                bool success = _equiposGuiaDAO.AgregarIntegrante(generacion, profesor);
+                if (success)
                 {
-                    return Json(new { success = false, message = "Profesor no encontrado." });
-                }
-            }
-            return Json(new { success = false, message = "Equipo no encontrado." });
-        }
-
-
-
-        /// <summary>
-        /// Hace la función de delete de integrantes
-        /// </summary>
-        /// <param name="generacion"></param>
-        /// <param name="codigoProfesor"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public IActionResult RemoverIntegrante_EditarEquipo(int generacion, string codigoProfesor)
-        {
-            EquipoGuia? equipo = equipos.FirstOrDefault(e => e.Generacion == generacion);
-            if (equipo != null)
-            {
-
-                Profesor? profesor = equipo.Integrantes.FirstOrDefault(p => p.Codigo == codigoProfesor);
-                if (profesor != null)
-                {
-                    equipo.Integrantes.Remove(profesor);
-                    return Json(new { success = true, message = "Integrante removido exitosamente." });
-                }
-                else
-                {
-                    return Json(new { success = false, message = "Integrante no encontrado." });
-                }
-            }
-            return Json(new { success = false, message = "Equipo no encontrado." });
-        }
-
-        /// <summary>
-        /// Agrega un coordinador al equipo actual. Reemplaza el coordinador que había
-        /// </summary>
-        /// <param name="generacion"></param>
-        /// <param name="codigoProfesor"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public IActionResult AgregarCoodinador_EditarEquipo(int generacion, string codigoProfesor)
-        {
-            EquipoGuia? equipo = equipos.FirstOrDefault(e => e.Generacion == generacion);
-            if (equipo != null)
-            {
-                Profesor? profesor = _profesores.FirstOrDefault(p => p.Codigo == codigoProfesor);
-                if (profesor != null)
-                {
-                    equipo.Integrantes.Add(profesor); //Reemplazar con DAO
                     return Json(new
                     {
                         success = true,
@@ -275,25 +123,89 @@ namespace OrientaTEC_MVC.Controllers
                         }
                     });
                 }
-                else
+                return Json(new { success = false, message = "Error al agregar el integrante." });
+            }
+            return Json(new { success = false, message = "Profesor no encontrado." });
+        }
+
+
+
+        /// <summary>
+        /// Se llama desde el View para eliminar un integrante de un equipo seleccionado para editar
+        /// </summary>
+        /// <param name="generacion"></param>
+        /// <param name="codigoProfesor"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult RemoverIntegrante_EditarEquipo(int generacion, string codigoProfesor)
+        {
+            var equipo = _equiposGuiaDAO.RecuperarEquiposGuia().FirstOrDefault(e => e.Generacion == generacion);
+            if (equipo != null)
+            {
+                var profesor = equipo.Integrantes.FirstOrDefault(p => p.Codigo == codigoProfesor);
+                if (profesor != null)
                 {
-                    return Json(new { success = false, message = "Profesor no encontrado." });
+                    bool success = _equiposGuiaDAO.EliminarIntegrante(generacion, codigoProfesor);
+                    if (success)
+                    {
+                        equipo.Integrantes.Remove(profesor);
+                        return Json(new { success = true, message = "Integrante removido exitosamente." });
+                    }
+                    return Json(new { success = false, message = "Error al eliminar el integrante." });
                 }
+                return Json(new { success = false, message = "Integrante no encontrado." });
             }
             return Json(new { success = false, message = "Equipo no encontrado." });
         }
 
+
+        /// <summary>
+        /// Se llama desde el View para agregar un coodrinador a un equipo seleccionado para editar
+        /// </summary>
+        /// <param name="generacion"></param>
+        /// <param name="codigoProfesor"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult AgregarCoodinador_EditarEquipo(int generacion, string codigoProfesor)
+        {
+            var profesor = _profesorDAO.recuperarProfesores().FirstOrDefault(p => p.Codigo == codigoProfesor);
+            if (profesor != null)
+            {
+                var equipo = _equiposGuiaDAO.RecuperarEquiposGuia().FirstOrDefault(e => e.Generacion == generacion);
+                if (equipo != null && (equipo.Coordinador?.Codigo == codigoProfesor || equipo.Integrantes.Any(i => i.Codigo == codigoProfesor)))
+                {
+                    return Json(new { success = false, message = "El profesor ya es integrante o coordinador del equipo." });
+                }
+
+                bool success = _equiposGuiaDAO.AsignarCoordinador(generacion, profesor);
+                if (success)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        message = "Coordinador asignado correctamente.",
+                        data = new
+                        {
+                            Codigo = profesor.Codigo,
+                            Nombre1 = profesor.Nombre1,
+                            Apellido1 = profesor.Apellido1
+                        }
+                    });
+                }
+                return Json(new { success = false, message = "Error al asignar el coordinador." });
+            }
+            return Json(new { success = false, message = "Profesor no encontrado." });
+        }
+
+
         #endregion EDITAR EQUIPO
-
-
 
         #region CREAR NUEVO EQUIPO
 
         /// <summary>
-        /// Codigo necesario para la creación de nuevos equipos
+        /// Recibe todos los datos necesario para crear un nuevo equipo
         /// </summary>
-        /// <param name="codigoCoordinador"></param>
-        /// <param name="codigosProfesores"></param>
+        /// <param name="equipo"></param>
         /// <returns></returns>
         [HttpPost]
         public IActionResult CrearNuevoEquipo([FromBody] EquipoCreacionDto equipo)
@@ -303,8 +215,8 @@ namespace OrientaTEC_MVC.Controllers
                 return Json(new { success = false, message = "Datos no fueron recibidos correctamente." });
             }
 
-            Profesor? coordinador = _profesores.FirstOrDefault(p => p.Codigo == equipo.CodigoCoordinador);
-            List<Profesor> profesores = _profesores.Where(p => equipo.CodigosProfesores.Contains(p.Codigo)).ToList();
+            var coordinador = _profesorDAO.recuperarProfesores().FirstOrDefault(p => p.Codigo == equipo.CodigoCoordinador);
+            var profesores = _profesorDAO.recuperarProfesores().Where(p => equipo.CodigosProfesores.Contains(p.Codigo)).ToList();
 
             if (coordinador == null || profesores.Count == 0)
             {
@@ -320,8 +232,12 @@ namespace OrientaTEC_MVC.Controllers
                     Generacion = equipo.Generacion
                 };
 
-                equipos.Add(nuevoEquipo); //Reemplazar con DAO
-                return Json(new { success = true, message = "Equipo creado correctamente" });
+                bool success = _equiposGuiaDAO.RegistrarEquipoGuia(nuevoEquipo);
+                if (success)
+                {
+                    return Json(new { success = true, message = "Equipo creado correctamente" });
+                }
+                return Json(new { success = false, message = "Error al crear el equipo." });
             }
             catch (Exception ex)
             {
@@ -330,11 +246,8 @@ namespace OrientaTEC_MVC.Controllers
             }
         }
 
-
         #region DTO PARA RECIBIR DATOS DE CREACIÓN DE NUEVO EQUIPO
-        /// <summary>
-        /// Clase interna que funciona como DTO para la creación de equipos
-        /// </summary>
+
         public class EquipoCreacionDto
         {
             public string CodigoCoordinador { get; set; }
@@ -344,9 +257,6 @@ namespace OrientaTEC_MVC.Controllers
 
         #endregion DTO PARA RECIBIR DATOS DE CREACIÓN DE NUEVO EQUIPO
 
-
         #endregion CREAR NUEVO EQUIPO
-
-
     }
 }

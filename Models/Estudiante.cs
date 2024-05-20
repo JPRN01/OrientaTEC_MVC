@@ -4,7 +4,7 @@ namespace OrientaTEC_MVC.Models
 {
     public class Estudiante
     {
-        private int carnet;
+        private int carne;
         private string nombre1;
         private string nombre2;
         private string apellido1;
@@ -13,10 +13,10 @@ namespace OrientaTEC_MVC.Models
         private int telCelular;
 
         [Required]
-        public int Carnet
+        public int Carne
         {
-            get { return carnet; }
-            set { carnet = value; }
+            get { return carne; }
+            set { carne = value; }
         }
 
         [Required]
