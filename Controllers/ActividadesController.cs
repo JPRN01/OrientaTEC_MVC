@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
+using static OrientaTEC_MVC.ViewModels.ActividadesViewModel;
 
 public class ActividadesController : Controller
 {
@@ -18,54 +20,188 @@ public class ActividadesController : Controller
         _configuration = configuration;
         _logger = logger;
     }
+    public async Task<IActionResult> ObtenerProfesores(int generacionId)
+    {
+        List<ProfesorViewModel> profesores = new List<ProfesorViewModel>();
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        string query = @"
+    SELECT DISTINCT p.nombre1, p.nombre2, p.apellido1, p.apellido2
+    FROM dbo.Profesor p
+    JOIN dbo.Profesor_X_Equipo_Guia pxeg ON p.NUMERO = pxeg.NUMERO AND p.CENTRO_ACADEMICO = pxeg.CENTRO_ACADEMICO
+    WHERE pxeg.GENERACION = @Generacion AND pxeg.esta_activo = 1";
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Generacion", generacionId);
+            try
+            {
+                connection.Open();
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        string nombreCompleto = $"{reader["nombre1"]} {reader["nombre2"]} {reader["apellido1"]} {reader["apellido2"]}".Replace("  ", " ").Trim();
+                        profesores.Add(new ProfesorViewModel
+                        {
+                            Nombre1 = reader["nombre1"].ToString(),
+                            NombreCompleto = nombreCompleto
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error en ObtenerProfesores: {ex.Message}");
+                return StatusCode(500, "Error al cargar profesores");
+            }
+        }
+        return Json(profesores);
+    }
 
 
-   [HttpPost]
-    public async Task<IActionResult> CrearActividad(string nombre, int generacionId, string tipo, string modalidad, string estado, string enlace, int diasPreviosParaAnunciar)
+    [HttpGet]
+    public async Task<IActionResult> ObtenerDetallesActividad(int idActividad)
+    {
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        string query = @"
+        SELECT 
+            a.ID_ACTIVIDAD, 
+            a.Nombre, 
+            a.Descripcion, 
+            a.Semana, 
+            a.es_virtual, 
+            a.reunion_url, 
+            a.afiche_url, 
+            a.dias_previos_para_anunciar, 
+            a.dias_para_recordar,
+            e.ID_ESTADO_ACTIVIDAD AS EstadoNombre,
+            t.tipo AS TipoNombre,
+            STRING_AGG(p.nombre1 + ' ' + p.apellido1, ', ') AS Responsables
+        FROM Actividad a
+        JOIN Estado_Registrado e ON a.ID_ESTADO_REGISTRADO = e.ID_ESTADO_REGISTRADO
+        JOIN Tipo_Actividad t ON a.ID_TIPO_ACTIVIDAD = t.ID_TIPO_ACTIVIDAD
+        LEFT JOIN Profesor_X_Equipo_Guia_X_Actividad pa ON a.ID_ACTIVIDAD = pa.ID_ACTIVIDAD
+        LEFT JOIN Profesor p ON pa.NUMERO = p.NUMERO 
+        WHERE a.ID_ACTIVIDAD = @idActividad
+        GROUP BY 
+            a.ID_ACTIVIDAD, 
+            a.Nombre, 
+            a.Descripcion, 
+            a.Semana, 
+            a.es_virtual, 
+            a.reunion_url, 
+            a.afiche_url, 
+            a.dias_previos_para_anunciar, 
+            a.dias_para_recordar, 
+            e.ID_ESTADO_ACTIVIDAD, 
+            t.tipo;
+    ";
+
+        ActividadesViewModel.ActividadDetalle actividadDetalle = null;
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@IdActividad", idActividad);
+
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                if (reader.Read())
+                {
+                    actividadDetalle = new ActividadesViewModel.ActividadDetalle
+                    {
+                        IdActividad = (int)reader["ID_ACTIVIDAD"],
+                        Nombre = reader["Nombre"].ToString(),
+                        Descripcion = reader["Descripcion"].ToString(),
+                        Semana = (int)reader["Semana"],
+                        EsVirtual = (bool)reader["es_virtual"],
+                        ReunionUrl = reader["reunion_url"]?.ToString(),
+                        AficheUrl = reader["afiche_url"]?.ToString(),
+                        DiasPreviosParaAnunciar = (int)reader["dias_previos_para_anunciar"],
+                        DiasParaRecordar = (int)reader["dias_para_recordar"],
+                        Estado = reader["EstadoNombre"].ToString(),
+                        Tipo = reader["TipoNombre"].ToString(),
+                        Responsables = reader["Responsables"]?.ToString()
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al obtener los detalles de la actividad: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor: No se pudo obtener los detalles de la actividad");
+            }
+        }
+
+        if (actividadDetalle == null)
+        {
+            return NotFound("Actividad no encontrada");
+        }
+
+        return Json(actividadDetalle); 
+    }
+
+
+    public async Task<IActionResult> CrearActividad(string nombre, int generacionId, string tipoId, bool esVirtual, string estadoId, string enlace, int diasPreviosParaAnunciar, int diasPreviosParaRecordar, int semana, string descripcion, IFormFile afiche, string[] profesoresNombres)
     {
         try
         {
+            _logger.LogInformation($"Profesores Nombres recibidos: {string.Join(", ", profesoresNombres)}");
+
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-
-
-
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
+                string afichePath = null;
 
-                // Validar si la generación 
-                string checkGeneracion = "SELECT COUNT(1) FROM Equipo_Guia WHERE GENERACION = @Generacion";
-                SqlCommand checkCommand = new SqlCommand(checkGeneracion, connection);
-                checkCommand.Parameters.AddWithValue("@Generacion", generacionId);
-                int exists = (int)checkCommand.ExecuteScalar();
-
-                if (exists == 0)
+                if (afiche != null)
                 {
-                    _logger.LogError("La generación especificada no existe.");
-                    return View("Error");
+                    string fileName = Path.GetFileName(afiche.FileName);
+                    afichePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+                    using (var stream = new FileStream(afichePath, FileMode.Create))
+                    {
+                        await afiche.CopyToAsync(stream);
+                    }
                 }
 
-                // Insertar en Plan_Trabajo
                 string planInsert = "INSERT INTO Plan_Trabajo (GENERACION) OUTPUT INSERTED.ID_PLAN VALUES (@Generacion)";
                 SqlCommand planCommand = new SqlCommand(planInsert, connection);
                 planCommand.Parameters.AddWithValue("@Generacion", generacionId);
                 int idPlan = (int)planCommand.ExecuteScalar();
 
-                // Insertar en Actividad
-                string actividadInsert = @"
-                INSERT INTO Actividad (Nombre, ID_PLAN, ID_TIPO_ACTIVIDAD, Descripcion, Semana, Fecha_Exacta, Dias_Previos_Para_Anunciar, Dias_Para_Recordar, Es_Virtual, Reunion_URL, Afiche_URL, ID_ESTADO_REGISTRADO)
-                VALUES (@Nombre, @IdPlan, @Tipo, 'Descripción default', 1, GETDATE(), @DiasPreviosParaAnunciar, 0, @Modalidad, @Enlace, '', @Estado)";
+           
+                string actividadInsert = "INSERT INTO Actividad (nombre, ID_PLAN, ID_TIPO_ACTIVIDAD, descripcion, semana, fecha_exacta, dias_previos_para_anunciar, dias_para_recordar, es_virtual, reunion_url, afiche_url, ID_ESTADO_REGISTRADO) OUTPUT INSERTED.ID_ACTIVIDAD VALUES (@Nombre, @IdPlan, @TipoId, @Descripcion, @Semana, GETDATE(), @DiasPreviosParaAnunciar, @DiasParaRecordar, @EsVirtual, @Enlace, @AficheURL, @EstadoId)";
                 SqlCommand actividadCommand = new SqlCommand(actividadInsert, connection);
                 actividadCommand.Parameters.AddWithValue("@Nombre", nombre);
                 actividadCommand.Parameters.AddWithValue("@IdPlan", idPlan);
-                actividadCommand.Parameters.AddWithValue("@Tipo", tipo);
-                actividadCommand.Parameters.AddWithValue("@Modalidad", modalidad == "Presencial" ? 0 : 1); // Asume que '0' es Presencial y '1' es Remoto
-                actividadCommand.Parameters.AddWithValue("@Estado", estado); // Asegúrate de que el estado es un ID numérico si es foráneo
-                actividadCommand.Parameters.AddWithValue("@Enlace", enlace);
+                actividadCommand.Parameters.AddWithValue("@TipoId", tipoId);
+                actividadCommand.Parameters.AddWithValue("@Descripcion", descripcion);
+                actividadCommand.Parameters.AddWithValue("@Semana", semana);
                 actividadCommand.Parameters.AddWithValue("@DiasPreviosParaAnunciar", diasPreviosParaAnunciar);
+                actividadCommand.Parameters.AddWithValue("@DiasParaRecordar", diasPreviosParaRecordar);
+                actividadCommand.Parameters.AddWithValue("@EsVirtual", esVirtual ? 1 : 0);
+                actividadCommand.Parameters.AddWithValue("@Enlace", enlace);
+                actividadCommand.Parameters.AddWithValue("@AficheURL", afichePath);
+                actividadCommand.Parameters.AddWithValue("@EstadoId", estadoId);
 
-                await actividadCommand.ExecuteNonQueryAsync();
+                int idActividad = (int)actividadCommand.ExecuteScalar();
+
+                foreach (string profesorNombre in profesoresNombres)
+                {
+                    string asignacionInsert = @"
+                INSERT INTO Profesor_X_Equipo_Guia_X_Actividad (ID_ACTIVIDAD, NUMERO, GENERACION)
+                SELECT @IdActividad, p.NUMERO, @Generacion
+                FROM Profesor p
+                WHERE p.nombre1 = @ProfesorNombre";
+
+                    SqlCommand asignacionCommand = new SqlCommand(asignacionInsert, connection);
+                    asignacionCommand.Parameters.AddWithValue("@IdActividad", idActividad);
+                    asignacionCommand.Parameters.AddWithValue("@ProfesorNombre", profesorNombre);
+                    asignacionCommand.Parameters.AddWithValue("@Generacion", generacionId);
+                    await asignacionCommand.ExecuteNonQueryAsync();
+                }
             }
             return RedirectToAction("PlaneacionActividades");
         }
@@ -73,6 +209,105 @@ public class ActividadesController : Controller
         {
             _logger.LogError($"Error al crear actividad: {ex.Message}");
             return View("Error");
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DetalleActividad(int idActividad)
+    {
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        string query = @"
+        SELECT a.ID_ACTIVIDAD, a.nombre, a.descripcion, a.semana, a.es_virtual, a.reunion_url, a.afiche_url,
+               e.estado AS EstadoNombre
+        FROM Actividad a
+        JOIN Estado_Registrado e ON a.ID_ESTADO_REGISTRADO = e.ID_ESTADO_REGISTRADO
+        WHERE a.ID_ACTIVIDAD = @IdActividad";
+
+        ActividadesViewModel.ActividadDetalle actividadDetalle = null;
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@IdActividad", idActividad);
+
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                if (reader.Read())
+                {
+                    actividadDetalle = new ActividadesViewModel.ActividadDetalle
+                    {
+                        IdActividad = (int)reader["ID_ACTIVIDAD"],
+                        Nombre = reader["nombre"].ToString(),
+                        Descripcion = reader["descripcion"].ToString(),
+                        Semana = (int)reader["semana"],
+                        EsVirtual = (bool)reader["es_virtual"],
+                        ReunionUrl = reader["reunion_url"]?.ToString(),
+                        AficheUrl = reader["afiche_url"]?.ToString(),
+                        Estado = reader["EstadoNombre"].ToString()
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al obtener los detalles de la actividad: {ex.Message}");
+                return StatusCode(500, "Internal Server Error: No se pudo obtener los detalles de la actividad");
+            }
+        }
+
+        if (actividadDetalle == null)
+        {
+            return NotFound("Actividad no encontrada");
+        }
+
+        return View(actividadDetalle); 
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ActualizarActividad([FromBody] ActividadesViewModel.ActividadDetalle model)
+    {
+        List<string> updates = new List<string>();
+        if (model.Nombre != null) updates.Add("nombre = @Nombre");
+        if (model.Descripcion != null) updates.Add("descripcion = @Descripcion");
+        if (model.Semana != 0) updates.Add("semana = @Semana");
+        if (model.EsVirtual != null) updates.Add("es_virtual = @EsVirtual");
+        if (model.ReunionUrl != null) updates.Add("reunion_url = @ReunionUrl");
+
+        if (!updates.Any())
+        {
+            return Json(new { success = false, message = "No hay datos para actualizar" });
+        }
+
+        string setClause = string.Join(", ", updates);
+        string query = $"UPDATE Actividad SET {setClause} WHERE ID_ACTIVIDAD = @IdActividad";
+
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            if (model.Nombre != null) command.Parameters.AddWithValue("@Nombre", model.Nombre);
+            if (model.Descripcion != null) command.Parameters.AddWithValue("@Descripcion", model.Descripcion);
+            if (model.Semana != 0) command.Parameters.AddWithValue("@Semana", model.Semana);
+            if (model.EsVirtual != null) command.Parameters.AddWithValue("@EsVirtual", model.EsVirtual);
+            if (model.ReunionUrl != null) command.Parameters.AddWithValue("@ReunionUrl", model.ReunionUrl ?? (object)DBNull.Value);
+            command.Parameters.AddWithValue("@IdActividad", model.IdActividad);
+
+            try
+            {
+                connection.Open();
+                int result = await command.ExecuteNonQueryAsync();
+                if (result > 0)
+                {
+                    return Json(new { success = true, message = "Actividad actualizada correctamente." });
+                }
+                return Json(new { success = false, message = "No se pudo actualizar la actividad" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al actualizar la actividad: {ex.Message}");
+                return StatusCode(500, "Internal Server Error: No se pudo actualizar la actividad");
+            }
         }
     }
 
@@ -153,7 +388,7 @@ public class ActividadesController : Controller
             }
         }
 
-        // Asegúrate de que los modelos no son null antes de pasar a la vista
+   
         ViewBag.ActividadesViewModel = actividadesViewModel ?? new ActividadesViewModel();
         return View("~/Views/Pages/PlaneacionActividades.cshtml", equipoGuiaViewModel ?? new EquipoGuiaViewModel());
 
