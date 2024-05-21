@@ -65,16 +65,7 @@
 </style>
 
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - OrientaTEC</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/OrientaTEC_MVC.styles.css" asp-append-version="true" />
-    <!-- Import Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+
 
 <body class="bg-white p-8">
     <div class="max-w-7xl mx-auto">
@@ -155,7 +146,7 @@
                 <div>
                     <label class="block mb-2">Responsables</label>
                     <div id="responsablesContainer">
-                   
+                    
                     </div>
                 </div>
 
@@ -179,7 +170,7 @@
                 <div>
                     <label class="block mb-2">Días previos para recordar</label>
                     <select id="diasPreviosParaRecordar" class="w-full p-2 border border-gray-300 rounded">
-                     
+                      
                     </select>
                 </div>
 
@@ -234,14 +225,27 @@
 <div id="overlayInfo" class="overlay" onclick="closeInfoPopup()"></div>
 
 <div id="infoPopup" class="info-popup bg-white p-6 mt-10 rounded-lg shadow-lg">
+
+    <input type="hidden" id="popupIdActividad" value="" />
+
     <div class="max-w-lg mx-auto bg-white p-6 mt-10 rounded-lg shadow-lg relative">
         <button class="absolute top-0 right-0 mt-4 mr-4 text-gray-400 hover:text-gray-600" onclick="closeInfoPopup()">
             <i class="fas fa-times"></i>
         </button>
 
+      
+
+
         <h2 id="popupTitulo" class="text-2xl font-bold mb-4">Titulo de la Actividad</h2>
 
-        <button id="editButton" onclick="toggleEdit()" class="mb-4 bg-blue-500 text-white rounded-md px-4 py-2 text-sm">Editar</button>
+
+
+
+      
+
+        <button id="saveChangesButton" onclick="submitEditActivity()" class="hidden mb-4 bg-green-500 text-white rounded-md px-4 py-2 text-sm">Guardar Cambios</button>
+
+     
         <div class="grid grid-cols-2 gap-4 mb-4">
             <div>
                 <label class="block text-sm font-medium mb-1">Semana</label>
@@ -290,16 +294,28 @@
         <div class="mb-4">
             <label class="block text-sm font-medium mb-1">Comentarios</label>
             <div id="comments-container" class="space-y-2">
-             
+            
             </div>
             <button onclick="openCommentModal()" class="mt-2 bg-blue-500 text-white rounded-md px-4 py-2">Comentar</button>
         </div>
         <div class="flex justify-end">
             <button onclick="closeInfoPopup()" class="bg-red-500 text-white rounded-md px-4 py-2">Salir</button>
         </div>
+
+        <div>
+            <button id="editButton" onclick="toggleEdit(true)" class="mb-4 bg-blue-500 text-white rounded-md px-4 py-2 text-sm">Editar</button>
+        </div>
+
+
+        <div>
+
+            <button id="deleteActivityButton" onclick="deleteActivity()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>
+        </div>
+        
+       
     </div>
 
-   
+    
     <div id="commentModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <h3 class="text-lg font-bold mb-4">Nuevo Comentario</h3>
@@ -362,7 +378,7 @@
 
 
 
-        <!--CAJASSSS-->
+        
 
         <div id="actividadesContainer" class="mt-4"></div>
 
@@ -384,12 +400,14 @@
 
                     };
 
-                    <div class="relative @color p-4 rounded-lg shadow-md" onclick="openInfoPopup(this)" data-id="@actividad.IdActividad">
+                    <div class="relative @color p-4 rounded-lg shadow-md" data-id="@actividad.IdActividad">
                         <h2 class="text-lg font-bold">@actividad.Nombre</h2>
-                        <button class="absolute top-0 right-2 text-blue-700 text-xl" onclick="deleteActivity(@actividad.IdActividad)">
+                        <button class="absolute top-0 right-2 text-blue-700 text-xl"
+                                onclick="deleteActivity(@actividad.IdActividad, event)">
                             x
                         </button>
                     </div>
+
                 }
             }
         </div>
@@ -405,20 +423,59 @@
 
 <script>
 
+    function toggleEdit(enableEdit) {
+        const isEditable = enableEdit || false;
+        $('#popupNombre').prop('readonly', !isEditable);
+        $('#popupDescripcion').prop('readonly', !isEditable);
+        $('#popupSemana').prop('readonly', !isEditable);
+        $('#popupModalidad').prop('disabled', !isEditable);
+        $('#popupEnlace').prop('readonly', !isEditable);
+        $('#popupDiasAnunciar').prop('readonly', !isEditable);
+        $('#popupDiasRecordar').prop('readonly', !isEditable);
+        $('#popupEstado').prop('disabled', !isEditable);
+        $('#popupTipo').prop('disabled', !isEditable);
 
+        // Toggle button visibility
+        $('#editButton').toggle(!isEditable);
+        $('#saveChangesButton').toggle(isEditable);
+    }
 
+    function deleteActivity() {
+        var idActividad = $('#popupIdActividad').val(); 
 
+        if (confirm('¿Estás seguro de que quieres eliminar esta actividad?')) {
+            $.ajax({
+                url: '/Actividades/EliminarActividad',
+                type: 'POST',
+                data: { idActividad: idActividad },
+                success: function (response) {
+                    if (response.success) {
+                        alert('Actividad eliminada con éxito');
+                        closeInfoPopup(); 
+                      
+                    } else {
+                        alert('Error al eliminar la actividad: ' + response.message);
+                    }
+                },
+                error: function () {
+                    alert('Error al eliminar la actividad');
+                }
+            });
+        }
+    }
 
     $(document).ready(function () {
- 
+    
         $('#generacionSelect').change(function () {
-     
+          
             $('#selectedGeneracionId').val($(this).val());
         });
 
-
+     
         $('#selectedGeneracionId').val($('#generacionSelect').val());
     });
+
+
 
     function submitActivity() {
         var formData = new FormData();
@@ -436,11 +493,12 @@
             formData.append('afiche', $('#afiche')[0].files[0]);
         }
 
+       
         $('input[name="profesoresIds"]:checked').each(function () {
             formData.append('profesoresNombres', $(this).val());
         });
 
-      
+       
         for (var pair of formData.entries()) {
             console.log(`${pair[0]}: ${pair[1]}`);
         }
@@ -529,7 +587,7 @@
                         </div>
                         `;
                     });
-                    $('.grid.grid-cols-4.gap-4').html(actividadesHtml); 
+                    $('.grid.grid-cols-4.gap-4').html(actividadesHtml);
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", xhr, status, error);
@@ -547,6 +605,42 @@
     function closeCommentModal() {
         document.getElementById('commentModal').classList.add('hidden');
     }
+
+
+    function submitEditActivity() {
+    var formData = new FormData();
+    formData.append('IdActividad', $('#popupIdActividad').val()); 
+    formData.append('Nombre', $('#popupTitulo').val());
+    formData.append('Descripcion', $('#popupDescripcion').val());
+    formData.append('Semana', $('#popupSemana').val());
+    formData.append('EsVirtual', $('#popupModalidad').val() === "True" ? true : false);
+    formData.append('ReunionUrl', $('#popupEnlace').val());
+    formData.append('DiasPreviosParaAnunciar', $('#popupDiasAnunciar').val());
+    formData.append('DiasParaRecordar', $('#popupDiasRecordar').val());
+    formData.append('EstadoId', $('#popupEstado').val());
+
+    $.ajax({
+        url: '/Actividades/EditarActividad',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            if(response.success) {
+                alert('Actividad actualizada exitosamente');
+                closeInfoPopup();
+               
+            } else {
+                alert('Error al actualizar la actividad: ' + response.message);
+            }
+        },
+        error: function() {
+            alert('Error al enviar la solicitud de edición');
+        }
+    });
+}
+
+
 
     function saveComment() {
         const name = document.getElementById('commentName').value;
@@ -613,6 +707,15 @@
 
 
 
+   
+
+
+
+
+
+
+
+
     function closePopup() {
         document.getElementById('popup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
@@ -635,17 +738,17 @@
     }
 
     function openInfoPopup(element) {
-        var actividadId = element.getAttribute('data-id'); 
+        var actividadId = element.getAttribute('data-id');  
 
         $.ajax({
-            url: '/Actividades/ObtenerDetallesActividad', 
+            url: '/Actividades/ObtenerDetallesActividad',
             type: 'GET',
             data: { idActividad: actividadId },
             success: function (data) {
-            
                 console.log("Datos recibidos:", data);
 
-
+               
+                $('#popupIdActividad').val(data.idActividad);  
                 $('#popupTitulo').text(data.nombre);
                 $('#popupSemana').val(data.semana);
                 $('#popupTipo').val(data.tipo);
@@ -656,6 +759,7 @@
                 $('#popupEstado').val(getEstadoDescripcion(data.estado));
                 $('#popupDescripcion').val(data.descripcion);
 
+                
                 $('#infoPopup').show();
                 $('#overlayInfo').show();
             },
@@ -665,6 +769,30 @@
         });
     }
 
+
+    function deleteActivity() {
+        var idActividad = $('#popupIdActividad').val();  
+
+        if (confirm('¿Estás seguro de que quieres eliminar esta actividad?')) {
+            $.ajax({
+                url: '/Actividades/EliminarActividad',
+                type: 'POST',
+                data: { idActividad: idActividad },
+                success: function (response) {
+                    if (response.success) {
+                        alert('Actividad eliminada con éxito');
+                        closeInfoPopup();
+                        
+                    } else {
+                        alert('Error al eliminar la actividad: ' + response.message);
+                    }
+                },
+                error: function () {
+                    alert('Error al eliminar la actividad');
+                }
+            });
+        }
+    }
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -702,73 +830,66 @@
         btn.addEventListener('click', closePopup);
     });
 
-
-    function toggleEdit() {
-        var isReadOnly = $('#popupSemana').prop('readonly');
-     
-        $('#popupSemana, #popupResponsables, #popupTipo, #popupDiasAnunciar, #popupModalidad, #popupEnlace, #popupDescripcion').prop('readonly', !isReadOnly);
-        $('#editButton').text(isReadOnly ? 'Guardar' : 'Editar');
-
-        if (!isReadOnly) {
-           
-            guardarCambios();
-        }
-    }
-
-    function guardarCambios() {
-        var actividadId = $('#popupTitulo').data('actividadId'); 
-        var updatedData = {
-            idActividad: actividadId,
-            semana: $('#popupSemana').val(),
-            responsables: $('#popupResponsables').val(),
-            tipo: $('#popupTipo').val(),
-            diasPreviosParaAnunciar: $('#popupDiasAnunciar').val(),
-            modalidad: $('#popupModalidad').val() === "True" ? 1 : 0,
-            enlace: $('#popupEnlace').val(),
-            descripcion: $('#popupDescripcion').val()
+    function addComment() {
+        var comentarioData = {
+            mensaje: $('#commentText').val(),
+            idActividad: $('#IdActividad').val(),
+            centroAcademico: 'Código del centro académico', 
+            numero: 123, 
+            idComentarioPadre: null 
         };
 
         $.ajax({
-            url: '/Actividades/ActualizarActividad',
+            url: '/Actividades/AgregarComentario',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(updatedData),
+            data: JSON.stringify(comentarioData),
             success: function (response) {
-                alert('Información actualizada con éxito');
-                closeInfoPopup(); 
-                location.reload(); 
+                if (response.success) {
+                 
+                    alert('Comentario agregado exitosamente');
+                    $('#comments-container').prepend(`<div>${comentarioData.mensaje}</div>`);
+                } else {
+                    alert('Error al agregar comentario: ' + response.message);
+                }
             },
-            error: function (error) {
-                alert('Error al actualizar la información');
-                console.error(error);
+            error: function () {
+                alert('Error al enviar comentario');
             }
         });
     }
-    function submitActivity() {
+
+
+    function submitEditActivity() {
         var formData = new FormData();
-        formData.append('idActividad', $('#idActividad').val()); 
-        formData.append('nombre', $('#activityName').val());
-        formData.append('descripcion', $('#descripcion').val());
-        formData.append('semana', $('#semana').val());
-        formData.append('esVirtual', $('#modalidad').val() === "True");
-        formData.append('estadoId', $('#estado').val());
-        formData.append('enlace', $('#enlace').val());
-        formData.append('afiche', $('#afiche')[0].files[0]);
+        formData.append('IdActividad', $('#popupIdActividad').val());
+        formData.append('Nombre', $('#popupNombre').val());
+        formData.append('Descripcion', $('#popupDescripcion').val());
+        formData.append('Semana', $('#popupSemana').val());
+        formData.append('EsVirtual', $('#popupModalidad').val() === "True");
+        formData.append('ReunionUrl', $('#popupEnlace').val());
+        formData.append('DiasPreviosParaAnunciar', $('#popupDiasAnunciar').val());
+        formData.append('DiasParaRecordar', $('#popupDiasRecordar').val());
+        formData.append('EstadoId', $('#popupEstado').val());
+        formData.append('TipoId', $('#popupTipo').val()); 
 
         $.ajax({
-            url: '/Actividades/GuardarActividad',
+            url: '/Actividades/EditarActividad',
             type: 'POST',
             data: formData,
             processData: false,
             contentType: false,
             success: function (response) {
-                alert('Actividad guardada exitosamente');
-                closePopup();
-             
+                if (response.success) {
+                    alert('Actividad actualizada exitosamente');
+                    closeInfoPopup(); 
+                    location.reload(); 
+                } else {
+                    alert('Error al actualizar la actividad: ' + response.message);
+                }
             },
-            error: function (error) {
-                console.error('Error al guardar la actividad: ' + error.responseText);
-                alert('Error al guardar la actividad: ' + error.responseText);
+            error: function () {
+                alert('Error al enviar la solicitud de edición');
             }
         });
     }

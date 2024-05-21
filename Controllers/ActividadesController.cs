@@ -8,7 +8,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
-using static OrientaTEC_MVC.ViewModels.ActividadesViewModel;
 
 public class ActividadesController : Controller
 {
@@ -166,12 +165,13 @@ public class ActividadesController : Controller
                     }
                 }
 
+           
                 string planInsert = "INSERT INTO Plan_Trabajo (GENERACION) OUTPUT INSERTED.ID_PLAN VALUES (@Generacion)";
                 SqlCommand planCommand = new SqlCommand(planInsert, connection);
                 planCommand.Parameters.AddWithValue("@Generacion", generacionId);
                 int idPlan = (int)planCommand.ExecuteScalar();
 
-           
+              
                 string actividadInsert = "INSERT INTO Actividad (nombre, ID_PLAN, ID_TIPO_ACTIVIDAD, descripcion, semana, fecha_exacta, dias_previos_para_anunciar, dias_para_recordar, es_virtual, reunion_url, afiche_url, ID_ESTADO_REGISTRADO) OUTPUT INSERTED.ID_ACTIVIDAD VALUES (@Nombre, @IdPlan, @TipoId, @Descripcion, @Semana, GETDATE(), @DiasPreviosParaAnunciar, @DiasParaRecordar, @EsVirtual, @Enlace, @AficheURL, @EstadoId)";
                 SqlCommand actividadCommand = new SqlCommand(actividadInsert, connection);
                 actividadCommand.Parameters.AddWithValue("@Nombre", nombre);
@@ -264,53 +264,168 @@ public class ActividadesController : Controller
         return View(actividadDetalle); 
     }
 
-    [HttpPost]
-    public async Task<IActionResult> ActualizarActividad([FromBody] ActividadesViewModel.ActividadDetalle model)
+    [HttpGet]
+    public async Task<IActionResult> ObtenerComentariosPorActividad(int idActividad)
     {
-        List<string> updates = new List<string>();
-        if (model.Nombre != null) updates.Add("nombre = @Nombre");
-        if (model.Descripcion != null) updates.Add("descripcion = @Descripcion");
-        if (model.Semana != 0) updates.Add("semana = @Semana");
-        if (model.EsVirtual != null) updates.Add("es_virtual = @EsVirtual");
-        if (model.ReunionUrl != null) updates.Add("reunion_url = @ReunionUrl");
-
-        if (!updates.Any())
-        {
-            return Json(new { success = false, message = "No hay datos para actualizar" });
-        }
-
-        string setClause = string.Join(", ", updates);
-        string query = $"UPDATE Actividad SET {setClause} WHERE ID_ACTIVIDAD = @IdActividad";
-
+        List<ComentarioViewModel> comentarios = new List<ComentarioViewModel>();
         string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        string query = @"
+    SELECT ID_COMENTARIO, mensaje, emision, NUMERO, ID_COMENTARIO_PADRE
+    FROM dbo.Comentario
+    WHERE ID_ACTIVIDAD = @IdActividad
+    ORDER BY emision DESC;";
+
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
             SqlCommand command = new SqlCommand(query, connection);
-            if (model.Nombre != null) command.Parameters.AddWithValue("@Nombre", model.Nombre);
-            if (model.Descripcion != null) command.Parameters.AddWithValue("@Descripcion", model.Descripcion);
-            if (model.Semana != 0) command.Parameters.AddWithValue("@Semana", model.Semana);
-            if (model.EsVirtual != null) command.Parameters.AddWithValue("@EsVirtual", model.EsVirtual);
-            if (model.ReunionUrl != null) command.Parameters.AddWithValue("@ReunionUrl", model.ReunionUrl ?? (object)DBNull.Value);
-            command.Parameters.AddWithValue("@IdActividad", model.IdActividad);
+            command.Parameters.AddWithValue("@IdActividad", idActividad);
 
             try
             {
-                connection.Open();
-                int result = await command.ExecuteNonQueryAsync();
-                if (result > 0)
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
                 {
-                    return Json(new { success = true, message = "Actividad actualizada correctamente." });
+                    comentarios.Add(new ComentarioViewModel
+                    {
+                        IdComentario = reader.GetInt32(reader.GetOrdinal("ID_COMENTARIO")),
+                        Mensaje = reader.GetString(reader.GetOrdinal("mensaje")),
+                        FechaEmision = reader.GetDateTime(reader.GetOrdinal("emision")),
+                        IdActividad = idActividad,
+                        Numero = reader.GetInt32(reader.GetOrdinal("NUMERO")),
+                        IdComentarioPadre = reader.IsDBNull(reader.GetOrdinal("ID_COMENTARIO_PADRE")) ? null : reader.GetInt32(reader.GetOrdinal("ID_COMENTARIO_PADRE"))
+                    });
                 }
-                return Json(new { success = false, message = "No se pudo actualizar la actividad" });
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error al actualizar la actividad: {ex.Message}");
-                return StatusCode(500, "Internal Server Error: No se pudo actualizar la actividad");
+                _logger.LogError("Error al obtener comentarios: " + ex.Message);
+                return StatusCode(500, "Error interno del servidor");
+            }
+        }
+        return Json(comentarios);
+    }
+
+
+
+    [HttpPost]
+    public async Task<IActionResult> AgregarComentario(ComentarioViewModel comentarioViewModel)
+    {
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        string insertQuery = @"
+    INSERT INTO dbo.Comentario (mensaje, emision, ID_ACTIVIDAD, CENTRO_ACADEMICO, NUMERO, ID_COMENTARIO_PADRE)
+    VALUES (@Mensaje, @FechaEmision, @IdActividad, @CentroAcademico, @Numero, @IdComentarioPadre);";
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command = new SqlCommand(insertQuery, connection);
+            command.Parameters.AddWithValue("@Mensaje", comentarioViewModel.Mensaje);
+            command.Parameters.AddWithValue("@FechaEmision", DateTime.Now);
+            command.Parameters.AddWithValue("@IdActividad", comentarioViewModel.IdActividad);
+            command.Parameters.AddWithValue("@CentroAcademico", comentarioViewModel.CentroAcademico);
+            command.Parameters.AddWithValue("@Numero", comentarioViewModel.Numero);
+            command.Parameters.AddWithValue("@IdComentarioPadre", comentarioViewModel.IdComentarioPadre ?? (object)DBNull.Value);
+
+            try
+            {
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error al agregar comentario: " + ex.Message);
+                return Json(new { success = false, message = "Error al guardar el comentario" });
             }
         }
     }
 
+
+    [HttpPost]
+    public async Task<IActionResult> EditarActividad(int IdActividad, string Nombre, string Descripcion, int Semana, bool EsVirtual, string ReunionUrl, int DiasPreviosParaAnunciar, int DiasParaRecordar, string EstadoId, string TipoId)
+    {
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            string updateQuery = @"
+            UPDATE Actividad
+            SET 
+                nombre = @Nombre, 
+                descripcion = @Descripcion, 
+                semana = @Semana, 
+                es_virtual = @EsVirtual, 
+                reunion_url = @ReunionUrl, 
+                dias_previos_para_anunciar = @DiasPreviosParaAnunciar, 
+                dias_para_recordar = @DiasParaRecordar, 
+                ID_ESTADO_REGISTRADO = @EstadoId, 
+                ID_TIPO_ACTIVIDAD = @TipoId
+            WHERE ID_ACTIVIDAD = @IdActividad";
+
+            SqlCommand command = new SqlCommand(updateQuery, connection);
+            command.Parameters.AddWithValue("@IdActividad", IdActividad);
+            command.Parameters.AddWithValue("@Nombre", Nombre);
+            command.Parameters.AddWithValue("@Descripcion", Descripcion);
+            command.Parameters.AddWithValue("@Semana", Semana);
+            command.Parameters.AddWithValue("@EsVirtual", EsVirtual);
+            command.Parameters.AddWithValue("@ReunionUrl", ReunionUrl ?? (object)DBNull.Value);
+            command.Parameters.AddWithValue("@DiasPreviosParaAnunciar", DiasPreviosParaAnunciar);
+            command.Parameters.AddWithValue("@DiasParaRecordar", DiasParaRecordar);
+            command.Parameters.AddWithValue("@EstadoId", EstadoId);
+            command.Parameters.AddWithValue("@TipoId", TipoId);
+
+            try
+            {
+                await connection.OpenAsync();
+                int result = await command.ExecuteNonQueryAsync();
+                if (result > 0)
+                    return Json(new { success = true });
+                else
+                    return Json(new { success = false, message = "No se encontró la actividad para actualizar." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error al editar la actividad: " + ex.Message);
+                return StatusCode(500, "Error interno del servidor");
+            }
+        }
+    }
+
+
+    [HttpPost]
+    [HttpPost]
+    public async Task<IActionResult> EliminarActividad(int idActividad)
+    {
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            SqlCommand command;
+            try
+            {
+                await connection.OpenAsync();
+
+             
+                string deleteDependentsQuery = "DELETE FROM Profesor_X_Equipo_Guia_X_Actividad WHERE ID_ACTIVIDAD = @IdActividad";
+                command = new SqlCommand(deleteDependentsQuery, connection);
+                command.Parameters.AddWithValue("@IdActividad", idActividad);
+                await command.ExecuteNonQueryAsync();
+
+                // Ahora elimina la actividad
+                string deleteActivityQuery = "DELETE FROM Actividad WHERE ID_ACTIVIDAD = @IdActividad";
+                command = new SqlCommand(deleteActivityQuery, connection);
+                command.Parameters.AddWithValue("@IdActividad", idActividad);
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+                if (rowsAffected > 0)
+                    return Json(new { success = true });
+                else
+                    return Json(new { success = false, message = "No se encontró la actividad para eliminar." });
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError("Error al eliminar actividad: " + ex.Message);
+                return Json(new { success = false, message = "Error al eliminar la actividad debido a: " + ex.Message });
+            }
+        }
+    }
 
 
     [HttpGet]
@@ -388,7 +503,6 @@ public class ActividadesController : Controller
             }
         }
 
-   
         ViewBag.ActividadesViewModel = actividadesViewModel ?? new ActividadesViewModel();
         return View("~/Views/Pages/PlaneacionActividades.cshtml", equipoGuiaViewModel ?? new EquipoGuiaViewModel());
 
