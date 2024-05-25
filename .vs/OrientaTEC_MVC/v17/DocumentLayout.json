@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\planeacionactividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\planeacionactividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\controllers\\actividadescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\actividadescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\gestorestudiantes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorestudiantes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\viewmodels\\actividadesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:viewmodels\\actividadesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\planeacionactividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\planeacionactividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\actividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\actividades.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\viewmodels\\actividadesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:viewmodels\\actividadesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\gestorestudiantes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\gestorestudiantes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\pages\\_profesorestable.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -70,17 +70,17 @@
       "DocumentGroups": [
         {
           "DockedHeight": 346,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "PlaneacionActividades.cshtml",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\PlaneacionActividades.cshtml",
               "RelativeDocumentMoniker": "Views\\Pages\\PlaneacionActividades.cshtml",
               "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\PlaneacionActividades.cshtml",
               "RelativeToolTip": "Views\\Pages\\PlaneacionActividades.cshtml",
-              "ViewState": "AQIAAIMDAAAAAAAAAAAAAD0BAAAEAAAA",
+              "ViewState": "AQIAAJ0BAAAAAAAAAAAewLEBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-05-13T02:05:53.036Z",
               "IsPinned": true,
@@ -88,13 +88,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "ActividadesController.cs",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ActividadesController.cs",
               "RelativeDocumentMoniker": "Controllers\\ActividadesController.cs",
               "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ActividadesController.cs",
               "RelativeToolTip": "Controllers\\ActividadesController.cs",
-              "ViewState": "AQIAAO4AAAAAAAAAAADwv60BAAAAAAAA",
+              "ViewState": "AQIAADAAAAAAAAAAAAAvwD8AAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-13T01:33:04.667Z",
               "EditorCaption": ""
@@ -109,11 +109,12 @@
               "RelativeToolTip": "Views\\Pages\\Actividades.cshtml",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-13T02:04:59.901Z"
+              "WhenOpened": "2024-05-13T02:04:59.901Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "GestorEstudiantes.cshtml",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\GestorEstudiantes.cshtml",
               "RelativeDocumentMoniker": "Views\\Pages\\GestorEstudiantes.cshtml",
@@ -137,15 +138,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "ActividadesViewModel.cs",
               "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\ViewModels\\ActividadesViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\ActividadesViewModel.cs",
               "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\ViewModels\\ActividadesViewModel.cs",
               "RelativeToolTip": "ViewModels\\ActividadesViewModel.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAswCEAAAApAAAA",
+              "ViewState": "AQIAABYAAAAAAAAAAAAAwBkAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-20T17:03:51.718Z"
+              "WhenOpened": "2024-05-20T17:03:51.718Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

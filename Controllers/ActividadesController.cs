@@ -65,36 +65,37 @@ public class ActividadesController : Controller
         string connectionString = _configuration.GetConnectionString("DefaultConnection");
         string query = @"
         SELECT 
-            a.ID_ACTIVIDAD, 
-            a.Nombre, 
-            a.Descripcion, 
-            a.Semana, 
-            a.es_virtual, 
-            a.reunion_url, 
-            a.afiche_url, 
-            a.dias_previos_para_anunciar, 
-            a.dias_para_recordar,
-            e.ID_ESTADO_ACTIVIDAD AS EstadoNombre,
-            t.tipo AS TipoNombre,
-            STRING_AGG(p.nombre1 + ' ' + p.apellido1, ', ') AS Responsables
-        FROM Actividad a
-        JOIN Estado_Registrado e ON a.ID_ESTADO_REGISTRADO = e.ID_ESTADO_REGISTRADO
-        JOIN Tipo_Actividad t ON a.ID_TIPO_ACTIVIDAD = t.ID_TIPO_ACTIVIDAD
-        LEFT JOIN Profesor_X_Equipo_Guia_X_Actividad pa ON a.ID_ACTIVIDAD = pa.ID_ACTIVIDAD
-        LEFT JOIN Profesor p ON pa.NUMERO = p.NUMERO 
-        WHERE a.ID_ACTIVIDAD = @idActividad
-        GROUP BY 
-            a.ID_ACTIVIDAD, 
-            a.Nombre, 
-            a.Descripcion, 
-            a.Semana, 
-            a.es_virtual, 
-            a.reunion_url, 
-            a.afiche_url, 
-            a.dias_previos_para_anunciar, 
-            a.dias_para_recordar, 
-            e.ID_ESTADO_ACTIVIDAD, 
-            t.tipo;
+    a.ID_ACTIVIDAD, 
+    a.Nombre, 
+    a.Descripcion, 
+    a.Semana, 
+    a.es_virtual, 
+    a.reunion_url, 
+    a.afiche_url, 
+    a.dias_previos_para_anunciar, 
+    a.dias_para_recordar,
+    e.ID_ESTADO_ACTIVIDAD AS EstadoNombre,
+    a.ID_TIPO_ACTIVIDAD AS TipoId,
+
+    STRING_AGG(p.nombre1 + ' ' + p.apellido1, ', ') AS Responsables
+FROM Actividad a
+JOIN Estado_Registrado e ON a.ID_ESTADO_REGISTRADO = e.ID_ESTADO_REGISTRADO
+LEFT JOIN Profesor_X_Equipo_Guia_X_Actividad pa ON a.ID_ACTIVIDAD = pa.ID_ACTIVIDAD
+LEFT JOIN Profesor p ON pa.NUMERO = p.NUMERO 
+WHERE a.ID_ACTIVIDAD = @idActividad
+GROUP BY 
+    a.ID_ACTIVIDAD, 
+    a.Nombre, 
+    a.Descripcion, 
+    a.Semana, 
+    a.es_virtual, 
+    a.reunion_url, 
+    a.afiche_url, 
+    a.dias_previos_para_anunciar, 
+    a.dias_para_recordar, 
+    e.ID_ESTADO_ACTIVIDAD,
+    a.ID_TIPO_ACTIVIDAD;
+
     ";
 
         ActividadesViewModel.ActividadDetalle actividadDetalle = null;
@@ -122,7 +123,7 @@ public class ActividadesController : Controller
                         DiasPreviosParaAnunciar = (int)reader["dias_previos_para_anunciar"],
                         DiasParaRecordar = (int)reader["dias_para_recordar"],
                         Estado = reader["EstadoNombre"].ToString(),
-                        Tipo = reader["TipoNombre"].ToString(),
+                        Tipo = reader["TipoId"].ToString(),
                         Responsables = reader["Responsables"]?.ToString()
                     };
                 }
@@ -212,57 +213,6 @@ public class ActividadesController : Controller
         }
     }
 
-    [HttpGet]
-    public async Task<IActionResult> DetalleActividad(int idActividad)
-    {
-        string connectionString = _configuration.GetConnectionString("DefaultConnection");
-        string query = @"
-        SELECT a.ID_ACTIVIDAD, a.nombre, a.descripcion, a.semana, a.es_virtual, a.reunion_url, a.afiche_url,
-               e.estado AS EstadoNombre
-        FROM Actividad a
-        JOIN Estado_Registrado e ON a.ID_ESTADO_REGISTRADO = e.ID_ESTADO_REGISTRADO
-        WHERE a.ID_ACTIVIDAD = @IdActividad";
-
-        ActividadesViewModel.ActividadDetalle actividadDetalle = null;
-
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@IdActividad", idActividad);
-
-            try
-            {
-                connection.Open();
-                SqlDataReader reader = await command.ExecuteReaderAsync();
-                if (reader.Read())
-                {
-                    actividadDetalle = new ActividadesViewModel.ActividadDetalle
-                    {
-                        IdActividad = (int)reader["ID_ACTIVIDAD"],
-                        Nombre = reader["nombre"].ToString(),
-                        Descripcion = reader["descripcion"].ToString(),
-                        Semana = (int)reader["semana"],
-                        EsVirtual = (bool)reader["es_virtual"],
-                        ReunionUrl = reader["reunion_url"]?.ToString(),
-                        AficheUrl = reader["afiche_url"]?.ToString(),
-                        Estado = reader["EstadoNombre"].ToString()
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error al obtener los detalles de la actividad: {ex.Message}");
-                return StatusCode(500, "Internal Server Error: No se pudo obtener los detalles de la actividad");
-            }
-        }
-
-        if (actividadDetalle == null)
-        {
-            return NotFound("Actividad no encontrada");
-        }
-
-        return View(actividadDetalle); 
-    }
 
     [HttpGet]
     public async Task<IActionResult> ObtenerComentariosPorActividad(int idActividad)
@@ -342,7 +292,8 @@ public class ActividadesController : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> EditarActividad(int IdActividad, string Nombre, string Descripcion, int Semana, bool EsVirtual, string ReunionUrl, int DiasPreviosParaAnunciar, int DiasParaRecordar, string EstadoId, string TipoId)
+    public async Task<IActionResult> EditarActividad(int IdActividad, string Nombre, string Descripcion, int Semana, bool EsVirtual, string ReunionUrl, int DiasPreviosParaAnunciar, int DiasParaRecordar, int EstadoId, int TipoId)
+
     {
         string connectionString = _configuration.GetConnectionString("DefaultConnection");
         using (SqlConnection connection = new SqlConnection(connectionString))
@@ -389,6 +340,9 @@ public class ActividadesController : Controller
             }
         }
     }
+
+
+
 
 
     [HttpPost]
