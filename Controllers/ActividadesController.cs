@@ -140,7 +140,7 @@ GROUP BY
             return NotFound("Actividad no encontrada");
         }
 
-        return Json(actividadDetalle); 
+        return Json(actividadDetalle);
     }
 
 
@@ -166,13 +166,13 @@ GROUP BY
                     }
                 }
 
-           
+
                 string planInsert = "INSERT INTO Plan_Trabajo (GENERACION) OUTPUT INSERTED.ID_PLAN VALUES (@Generacion)";
                 SqlCommand planCommand = new SqlCommand(planInsert, connection);
                 planCommand.Parameters.AddWithValue("@Generacion", generacionId);
                 int idPlan = (int)planCommand.ExecuteScalar();
 
-              
+
                 string actividadInsert = "INSERT INTO Actividad (nombre, ID_PLAN, ID_TIPO_ACTIVIDAD, descripcion, semana, fecha_exacta, dias_previos_para_anunciar, dias_para_recordar, es_virtual, reunion_url, afiche_url, ID_ESTADO_REGISTRADO) OUTPUT INSERTED.ID_ACTIVIDAD VALUES (@Nombre, @IdPlan, @TipoId, @Descripcion, @Semana, GETDATE(), @DiasPreviosParaAnunciar, @DiasParaRecordar, @EsVirtual, @Enlace, @AficheURL, @EstadoId)";
                 SqlCommand actividadCommand = new SqlCommand(actividadInsert, connection);
                 actividadCommand.Parameters.AddWithValue("@Nombre", nombre);
@@ -214,81 +214,6 @@ GROUP BY
     }
 
 
-    [HttpGet]
-    public async Task<IActionResult> ObtenerComentariosPorActividad(int idActividad)
-    {
-        List<ComentarioViewModel> comentarios = new List<ComentarioViewModel>();
-        string connectionString = _configuration.GetConnectionString("DefaultConnection");
-        string query = @"
-    SELECT ID_COMENTARIO, mensaje, emision, NUMERO, ID_COMENTARIO_PADRE
-    FROM dbo.Comentario
-    WHERE ID_ACTIVIDAD = @IdActividad
-    ORDER BY emision DESC;";
-
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@IdActividad", idActividad);
-
-            try
-            {
-                await connection.OpenAsync();
-                SqlDataReader reader = await command.ExecuteReaderAsync();
-                while (reader.Read())
-                {
-                    comentarios.Add(new ComentarioViewModel
-                    {
-                        IdComentario = reader.GetInt32(reader.GetOrdinal("ID_COMENTARIO")),
-                        Mensaje = reader.GetString(reader.GetOrdinal("mensaje")),
-                        FechaEmision = reader.GetDateTime(reader.GetOrdinal("emision")),
-                        IdActividad = idActividad,
-                        Numero = reader.GetInt32(reader.GetOrdinal("NUMERO")),
-                        IdComentarioPadre = reader.IsDBNull(reader.GetOrdinal("ID_COMENTARIO_PADRE")) ? null : reader.GetInt32(reader.GetOrdinal("ID_COMENTARIO_PADRE"))
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Error al obtener comentarios: " + ex.Message);
-                return StatusCode(500, "Error interno del servidor");
-            }
-        }
-        return Json(comentarios);
-    }
-
-
-
-    [HttpPost]
-    public async Task<IActionResult> AgregarComentario(ComentarioViewModel comentarioViewModel)
-    {
-        string connectionString = _configuration.GetConnectionString("DefaultConnection");
-        string insertQuery = @"
-    INSERT INTO dbo.Comentario (mensaje, emision, ID_ACTIVIDAD, CENTRO_ACADEMICO, NUMERO, ID_COMENTARIO_PADRE)
-    VALUES (@Mensaje, @FechaEmision, @IdActividad, @CentroAcademico, @Numero, @IdComentarioPadre);";
-
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            SqlCommand command = new SqlCommand(insertQuery, connection);
-            command.Parameters.AddWithValue("@Mensaje", comentarioViewModel.Mensaje);
-            command.Parameters.AddWithValue("@FechaEmision", DateTime.Now);
-            command.Parameters.AddWithValue("@IdActividad", comentarioViewModel.IdActividad);
-            command.Parameters.AddWithValue("@CentroAcademico", comentarioViewModel.CentroAcademico);
-            command.Parameters.AddWithValue("@Numero", comentarioViewModel.Numero);
-            command.Parameters.AddWithValue("@IdComentarioPadre", comentarioViewModel.IdComentarioPadre ?? (object)DBNull.Value);
-
-            try
-            {
-                await connection.OpenAsync();
-                await command.ExecuteNonQueryAsync();
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Error al agregar comentario: " + ex.Message);
-                return Json(new { success = false, message = "Error al guardar el comentario" });
-            }
-        }
-    }
 
 
     [HttpPost]
@@ -357,7 +282,7 @@ GROUP BY
             {
                 await connection.OpenAsync();
 
-             
+
                 string deleteDependentsQuery = "DELETE FROM Profesor_X_Equipo_Guia_X_Actividad WHERE ID_ACTIVIDAD = @IdActividad";
                 command = new SqlCommand(deleteDependentsQuery, connection);
                 command.Parameters.AddWithValue("@IdActividad", idActividad);
@@ -379,6 +304,80 @@ GROUP BY
                 return Json(new { success = false, message = "Error al eliminar la actividad debido a: " + ex.Message });
             }
         }
+    }
+
+
+
+    [HttpPost]
+    public async Task<IActionResult> AgregarComentario(int idActividad, string mensaje)
+    {
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            string query = @"
+            INSERT INTO Comentario (ID_ACTIVIDAD, mensaje, emision)
+            VALUES (@IdActividad, @Mensaje, GETDATE())";
+
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@IdActividad", idActividad);
+            command.Parameters.AddWithValue("@Mensaje", mensaje);
+
+            try
+            {
+                await connection.OpenAsync();
+                int result = await command.ExecuteNonQueryAsync();
+                if (result > 0)
+                    return Json(new { success = true });
+                else
+                    return Json(new { success = false, message = "No se pudo agregar el comentario." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al agregar comentario: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor");
+            }
+        }
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> ObtenerComentarios(int idActividad)
+    {
+        List<ComentarioViewModel> comentarios = new List<ComentarioViewModel>();
+        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            string query = @"
+            SELECT mensaje, emision
+            FROM Comentario
+            WHERE ID_ACTIVIDAD = @IdActividad
+            ORDER BY emision DESC";
+
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@IdActividad", idActividad);
+
+            try
+            {
+                connection.Open();
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        comentarios.Add(new ComentarioViewModel
+                        {
+                            Mensaje = reader["mensaje"].ToString(),
+                            Emision = (DateTime)reader["emision"]
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al obtener comentarios: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor");
+            }
+        }
+        return Json(comentarios);
     }
 
 
@@ -449,7 +448,7 @@ GROUP BY
 
                 return Json(actividadesViewModel.Actividades.Select(a => new {
                     a.IdActividad,
-                   
+
                     a.Nombre,
                     a.Descripcion,
                     Estado = a.Estado.Estado.ToString()

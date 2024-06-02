@@ -11,14 +11,19 @@
 
 <style>
 
-
+    
 
     body {
         font-family: 'Arial', sans-serif;
     }
 
-   
+  
+    .navbar-collapse.collapse {
+        visibility: visible !important; /* Asegura que el menú siempre sea visible */
+    }
 
+   
+  
 
     #popup, .info-popup {
         position: fixed;
@@ -65,17 +70,7 @@
 
 
 
-
-
 <body>
-
-
-    <header>
-
-
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    </header>
-
 
     <div class="bg-white p-8">
         <div class="max-w-7xl mx-auto">
@@ -116,7 +111,10 @@
                     <h1 class="text-2xl font-bold text-blue-500">
                         Crear nueva actividad
                     </h1>
+
                     <button id="closeButton" class="text-xl font-bold" onclick="closePopup()">X</button>
+
+
                 </div>
                 <div class="grid grid-cols-2 gap-6 mb-6">
                     <div>
@@ -242,8 +240,7 @@
 
 
 
-
-            <h2 id="popupTitulo" class="text-2xl font-bold mb-4">Titulo de la Actividad</h2>
+            <input id="popupTitulo" type="text" class="w-full border-gray-300 rounded-md shadow-sm" value="" readonly>
 
 
 
@@ -264,20 +261,34 @@
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-4 mb-4">
+
+
+
                 <div>
                     <label class="block text-sm font-medium mb-1">Tipo</label>
-                    <input id="popupTipo" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                    <select id="popupTipo" class="w-full border-gray-300 rounded-md shadow-sm" disabled>
+                        <!-- Opciones generadas dinámicamente -->
+                    </select>
                 </div>
+
+
                 <div>
                     <label class="block text-sm font-medium mb-1">Días previos para anunciar</label>
                     <input id="popupDiasAnunciar" type="number" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-4 mb-4">
+
+
                 <div>
                     <label class="block text-sm font-medium mb-1">Modalidad</label>
-                    <input id="popupModalidad" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                    <select id="popupModalidad" class="w-full border-gray-300 rounded-md shadow-sm" disabled>
+                        <option value="False">Presencial</option>
+                        <option value="True">Remoto</option>
+                    </select>
                 </div>
+
+
                 <div>
                     <label class="block text-sm font-medium mb-1">Enlace</label>
                     <input id="popupEnlace" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
@@ -290,8 +301,15 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1">Estado</label>
-                    <input id="popupEstado" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                    <select id="popupEstado" class="w-full border-gray-300 rounded-md shadow-sm" disabled>
+                        <option value="1">Planeada</option>
+                        <option value="2">Notificada</option>
+                        <option value="3">Realizada</option>
+                        <option value="4">Cancelada</option>
+                    </select>
                 </div>
+
+
             </div>
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Descripción</label>
@@ -408,10 +426,7 @@
 
                         <div class="relative @color p-4 rounded-lg shadow-md" data-id="@actividad.IdActividad">
                             <h2 class="text-lg font-bold">@actividad.Nombre</h2>
-                            <button class="absolute top-0 right-2 text-blue-700 text-xl"
-                                    onclick="deleteActivity(@actividad.IdActividad, event)">
-                                x
-                            </button>
+                          
                         </div>
 
                     }
@@ -434,7 +449,13 @@
 <script>
 
     function toggleEdit(enableEdit) {
+
+   
         const isEditable = enableEdit || false;
+
+
+        $('#popupTitulo').prop('readonly', !enableEdit);
+
         $('#popupNombre').prop('readonly', !isEditable);
         $('#popupDescripcion').prop('readonly', !isEditable);
         $('#popupSemana').prop('readonly', !isEditable);
@@ -442,13 +463,69 @@
         $('#popupEnlace').prop('readonly', !isEditable);
         $('#popupDiasAnunciar').prop('readonly', !isEditable);
         $('#popupDiasRecordar').prop('readonly', !isEditable);
-        $('#popupEstado').prop('disabled', !isEditable);
+
+
+        $('#popupEstado').prop('disabled', !isEditable); 
+
         $('#popupTipo').prop('disabled', !isEditable);
 
-        // Toggle button visibility
+        if (isEditable) {
+            cargarTipos();
+            cargarEstados();
+        }
+
         $('#editButton').toggle(!isEditable);
         $('#saveChangesButton').toggle(isEditable);
     }
+
+    function cargarTipos() {
+        var tipos = [
+            { id: "1", text: 'Motivacionales' },
+            { id: "2", text: 'Orientadora' },
+            { id: "3", text: 'Vida Estudiantil' },
+            { id: "4", text: 'Técnica' },
+            { id: "5", text: 'Recreación' }
+        ];
+        var selectTipo = $('#popupTipo');
+
+        tipos.forEach(function (tipo) {
+            if (!selectTipo.find('option[value="' + tipo.id + '"]').length) {
+                selectTipo.append($('<option>').val(tipo.id).text(tipo.text));
+            }
+        });
+    }
+
+    function cargarModalidades() {
+        var modalidades = [
+            { value: "True", text: 'Remoto' },
+            { value: "False", text: 'Presencial' }
+        ];
+        var selectModalidad = $('#popupModalidad');
+
+        modalidades.forEach(function (modalidad) {
+            if (!selectModalidad.find('option[value="' + modalidad.value + '"]').length) {
+                selectModalidad.append($('<option>').val(modalidad.value).text(modalidad.text));
+            }
+        });
+    }
+
+    function cargarEstados() {
+        var estados = [
+            { id: "1", text: 'Planeada' },
+            { id: "2", text: 'Notificada' },
+            { id: "3", text: 'Realizada' },
+            { id: "4", text: 'Cancelada' }
+        ];
+        var selectEstado = $('#popupEstado');
+
+        estados.forEach(function (estado) {
+            if (!selectEstado.find('option[value="' + estado.id + '"]').length) {
+                selectEstado.append($('<option>').val(estado.id).text(estado.text));
+            }
+        });
+    }
+
+
 
     function deleteActivity() {
         var idActividad = $('#popupIdActividad').val(); 
@@ -475,6 +552,10 @@
     }
 
     $(document).ready(function () {
+
+        document.querySelectorAll('[b-8j8zx55j8k]').forEach(el => el.removeAttribute('b-8j8zx55j8k'));
+
+
     
         $('#generacionSelect').change(function () {
           
@@ -493,7 +574,12 @@
         formData.append('generacionId', $('#selectedGeneracionId').val());
         formData.append('tipoId', $('#tipo').val());
         formData.append('esVirtual', $('#modalidad').val() === "True");
-        formData.append('estadoId', $('#estado').val());
+
+
+        formData.append('EstadoId', $('#estado').val());  // Cambio aquí
+
+
+
         formData.append('enlace', $('#enlace').val());
         formData.append('descripcion', $('#descripcion').val());
         formData.append('diasPreviosParaAnunciar', $('#diasPreviosParaAnunciar').val());
@@ -593,7 +679,7 @@
                              data-descripcion="${act.descripcion}"
                              data-estado="${act.estado}">
                             <h2 class="text-lg font-bold">${act.nombre}</h2>
-                            <button class="absolute top-0 right-2 text-blue-700 text-xl">x</button>
+                       
                         </div>
                         `;
                     });
@@ -615,42 +701,30 @@
     function closeCommentModal() {
         document.getElementById('commentModal').classList.add('hidden');
     }
-
-    function submitEditActivity() {
-        var formData = new FormData();
-        formData.append('IdActividad', parseInt($('#popupIdActividad').val(), 10));
-        formData.append('Nombre', $('#popupTitulo').text()); // Verifica que sea text() o val()
-        formData.append('Descripcion', $('#popupDescripcion').val());
-        formData.append('Semana', parseInt($('#popupSemana').val(), 10));
-        formData.append('EsVirtual', $('#popupModalidad').val() === "True");
-        formData.append('ReunionUrl', $('#popupEnlace').val());
-        formData.append('DiasPreviosParaAnunciar', parseInt($('#popupDiasAnunciar').val(), 10));
-        formData.append('DiasParaRecordar', parseInt($('#popupDiasRecordar').val(), 10));
-        formData.append('EstadoId', parseInt($('#popupEstado').data('estadoId'), 10));
-        formData.append('TipoId', parseInt($('#popupTipo').data('tipoId'), 10));
-
+   
+    function loadActivityDetails(actividadId) {
         $.ajax({
-            url: '/Actividades/EditarActividad',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                if (response.success) {
-                    alert('Actividad actualizada exitosamente');
-                    closeInfoPopup();
-                } else {
-                    alert('Error al actualizar la actividad: ' + response.message);
-                }
+            url: '/Actividades/ObtenerDetallesActividad',
+            type: 'GET',
+            data: { idActividad: actividadId },
+            success: function (data) {
+                $('#popupTitulo').val(data.nombre); 
+                $('#popupSemana').val(data.semana);
+                $('#popupDiasAnunciar').val(data.diasPreviosParaAnunciar);
+                $('#popupResponsables').val(data.responsables);
+                $('#popupModalidad').val(data.esVirtual ? 'True' : 'False');
+                $('#popupEnlace').val(data.reunionUrl);
+                $('#popupDescripcion').val(data.descripcion);
+                $('#popupEstado').val(data.estado);
+                $('#popupTipo').val(data.tipo);
+
+                console.log('Información actualizada con éxito');
             },
             error: function () {
-                alert('Error al enviar la solicitud de edición');
+                alert('Error al cargar los detalles de la actividad');
             }
         });
     }
-
-
-
     function saveComment() {
         const name = document.getElementById('commentName').value;
         const title = document.getElementById('commentTitle').value;
@@ -747,44 +821,69 @@
             data: { idActividad: actividadId },
             success: function (data) {
 
-
-
-
-
-
                 console.log("Datos recibidos:", data);
+
                 $('#popupIdActividad').val(data.idActividad);
-                $('#popupTitulo').text(data.nombre);
+
+                $('#popupTitulo').val(data.nombre);  // Asegúrate de que este cambio se refleje correctamente.
+
+
                 $('#popupSemana').val(data.semana);
                 $('#popupDiasAnunciar').val(data.diasPreviosParaAnunciar);
                 $('#popupResponsables').val(data.responsables || 'No asignados');
-                $('#popupModalidad').val(data.esVirtual ? 'Remoto' : 'Presencial');
+                $('#popupModalidad').val(data.esVirtual ? 'True' : 'False');
                 $('#popupEnlace').val(data.reunionUrl || 'No existe');
                 $('#popupDescripcion').val(data.descripcion);
 
+                // Asegúrate de que los IDs son correctos
+                $('#popupEstado').val(data.estado); // Usar directamente el ID de estado
+                $('#popupTipo').val(data.tipo); // Usar directamente el ID de tipo
 
-
-
-
-                $('#popupEstado').data('estadoId', data.estado);
-                $('#popupEstado').val(getEstadoDescripcion(data.estado));
-
-                $('#popupTipo').data('tipoId', data.tipo);
-                $('#popupTipo').val(getTipoDescripcion(data.tipo)); // Asegúrate de que esta función maneje correctamente los valores
-
-                // Asegúrate de que 'data.tipo' es correcto aquí
-                console.log('Tipo ID recibido:', data.tipo);
-
-
+                console.log("Estado actual al abrir el popup:", $('#popupEstado').val());
+                console.log("Tipo actual al abrir el popup:", $('#popupTipo').val());
 
                 $('#infoPopup').show();
                 $('#overlayInfo').show();
+
+                $('#saveChangesButton').hide();
+                $('#editButton').show();
+
+                loadComments(actividadId);
+
+
             },
             error: function () {
                 alert('Error al cargar los detalles de la actividad');
             }
         });
     }
+
+
+    function loadComments(actividadId) {
+        $.ajax({
+            url: '/Actividades/ObtenerComentarios',
+            type: 'GET',
+            data: { idActividad: actividadId },
+            success: function (comentarios) {
+                const commentsContainer = $('#comments-container');
+                commentsContainer.empty(); // Limpia cualquier comentario anterior
+                comentarios.forEach(function (comentario) {
+                    commentsContainer.append(`
+                        <div class="p-2 bg-gray-100 rounded-md">
+                            <p class="font-semibold">${comentario.mensaje}</p>
+                            <p class="text-xs">${new Date(comentario.emision).toLocaleString()}</p>
+                        </div>
+                    `);
+                });
+            },
+            error: function () {
+                alert('Error al cargar los comentarios');
+            }
+        });
+    }
+
+
+
 
     function deleteActivity() {
         var idActividad = $('#popupIdActividad').val();  
@@ -812,6 +911,9 @@
 
 
     document.addEventListener('DOMContentLoaded', function () {
+
+        cargarTipos(); // Pre-cargar tipos al cargar la página
+
         var semanaSelect = document.getElementById('semana');
         var selectAnunciar = document.getElementById('diasPreviosParaAnunciar');
         var selectRecordar = document.getElementById('diasPreviosParaRecordar');
@@ -837,10 +939,25 @@
     });
 
 
+
+
+
+
+
+
+
+
+
+
+
     function closeInfoPopup() {
         document.getElementById('infoPopup').style.display = 'none';
         document.getElementById('overlayInfo').style.display = 'none';
+
+        // Resetear el formulario para que vuelva al estado no editable
+        toggleEdit(false);
     }
+
     document.getElementById('createButton').addEventListener('click', openPopup);
     document.querySelectorAll('.closeButton').forEach(btn => {
         btn.addEventListener('click', closePopup);
@@ -876,15 +993,45 @@
     }
 
     function submitEditActivity() {
+
         var formData = new FormData();
+
+        $('#popupEstado').prop('disabled', false);  // Habilitar para captura
+        var estadoId = $('#popupEstado').val();
+        console.log("Capturando estado ID:", estadoId);
+        $('#popupEstado').prop('disabled', true);  // Deshabilitar nuevamente
+
+
+        $('#popupTipo').prop('disabled', false);
+        var tipoId = $('#popupTipo').val();
+        console.log("Capturando tipo ID:", tipoId);
+        $('#popupTipo').prop('disabled', true); // Deshabilitar nuevamente después de capturar
+
+        $('#popupModalidad').prop('disabled', false);
+        var modalidad = $('#popupModalidad').val();
+        console.log("Capturando modalidad:", modalidad);
+        $('#popupModalidad').prop('disabled', true); // Deshabilitar nuevamente
+
+
+        
+
         formData.append('IdActividad', parseInt($('#popupIdActividad').val(), 10));
-        formData.append('Nombre', $('#popupTitulo').text());
+
+        formData.append('Nombre', $('#popupTitulo').val());
+
+
         formData.append('Descripcion', $('#popupDescripcion').val());
+
         formData.append('Semana', parseInt($('#popupSemana').val(), 10));
         formData.append('EsVirtual', $('#popupModalidad').val() === "True" ? true : false);
         formData.append('ReunionUrl', $('#popupEnlace').val());
         formData.append('DiasPreviosParaAnunciar', parseInt($('#popupDiasAnunciar').val(), 10));
         formData.append('DiasParaRecordar', parseInt($('#popupDiasRecordar').val(), 10));
+        formData.append('EstadoId', estadoId);
+        formData.append('TipoId', tipoId);
+
+        formData.append('EsVirtual', modalidad === "True" ? true : false);
+
         formData.append('EstadoId', parseInt($('#popupEstado').data('estadoId'), 10));
         formData.append('TipoId', parseInt($('#popupTipo').data('tipoId'), 10));
 
@@ -896,8 +1043,11 @@
             contentType: false,
             success: function (response) {
                 if (response.success) {
+
                     alert('Actividad actualizada exitosamente');
+
                     closeInfoPopup();
+
                 } else {
                     alert('Error al actualizar la actividad: ' + response.message);
                 }
