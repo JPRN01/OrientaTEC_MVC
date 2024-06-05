@@ -1,11 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\Controllers",
-    "\\Models",
-    "\\Views",
-    "\\Views\\Pages"
+    ""
   ],
-  "SelectedNode": "\\Controllers\\GestorProfesoresController.cs",
   "PreviewInSolutionExplorer": false
 }
