@@ -85,6 +85,8 @@ CREATE TABLE Estudiante (
     correo VARCHAR(100) UNIQUE NOT NULL,
     tel_celular INT NOT NULL,
     centro_academico VARCHAR(3) NOT NULL,
+    hashed_password VARCHAR(100) NOT NULL,
+    salt_password VARCHAR(100) NOT NULL,
     FOREIGN KEY (centro_academico) REFERENCES Centro_Academico(INICIALES)
 );
 GO
