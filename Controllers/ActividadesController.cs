@@ -189,6 +189,10 @@ GROUP BY
 
                 int idActividad = (int)actividadCommand.ExecuteScalar();
 
+
+
+
+
                 foreach (string profesorNombre in profesoresNombres)
                 {
                     string asignacionInsert = @"
