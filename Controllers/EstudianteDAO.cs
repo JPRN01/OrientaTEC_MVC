@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using OrientaTEC_MVC.Models;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace OrientaTEC_MVC.Controllers
 {
@@ -13,11 +15,35 @@ namespace OrientaTEC_MVC.Controllers
             IConfiguration config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             connectionString = config.GetConnectionString("DefaultConnection");
         }
+        private static byte[] GenerateSalt()
+        {
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                var randomNumber = new byte[32]; // Tamaño del salt
+                rng.GetBytes(randomNumber);
+                return randomNumber;
+            }
+        }
+
+        // Crea el hash del password con SHA256
+        public static (string, string) HashPassword(string password)
+        {
+            byte[] salt = GenerateSalt();
+            byte[] bytes = Encoding.UTF8.GetBytes(password + Convert.ToBase64String(salt));
+
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] hashedBytes = sha256.ComputeHash(bytes);
+                string hash = Convert.ToBase64String(hashedBytes);
+                string saltString = Convert.ToBase64String(salt);
+                return (hash, saltString);
+            }
+        }
 
         public bool RegistrarEstudiante(Estudiante estudiante)
         {
-            string query = "INSERT INTO Estudiante (Carne, Nombre1, Nombre2, Apellido1, Apellido2, Correo, Tel_Celular, centro_academico) " +
-                           "VALUES (@Carne, @Nombre1, @Nombre2, @Apellido1, @Apellido2, @Correo, @TelCelular, @CentroAcademico)";
+            string query = "INSERT INTO Estudiante (CARNE, nombre1, nombre2, apellido1, apellido2, correo, tel_celular, centro_academico, hashed_password, salt_password) " +
+                           "VALUES (@Carne, @Nombre1, @Nombre2, @Apellido1, @Apellido2, @Correo, @TelCelular, @CentroAcademico, @hash, @salt)";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -33,6 +59,9 @@ namespace OrientaTEC_MVC.Controllers
                         command.Parameters.AddWithValue("@Correo", estudiante.Correo);
                         command.Parameters.AddWithValue("@TelCelular", estudiante.TelCelular);
                         command.Parameters.AddWithValue("@CentroAcademico", estudiante.CentroAcademico);
+                        var (hash, salt) = HashPassword(estudiante.Carne.ToString());
+                        command.Parameters.AddWithValue("@hash", hash);
+                        command.Parameters.AddWithValue("@salt", salt);
 
                         conn.Open();
                         int rows = command.ExecuteNonQuery();

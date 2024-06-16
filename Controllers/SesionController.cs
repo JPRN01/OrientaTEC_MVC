@@ -24,6 +24,7 @@ public class SesionController : Controller
         if (usuario != null && VerificarPassword(password, usuario.SaltPassword, usuario.HashedPassword))
         {
             SesionSingleton.Instance.UsuarioActual = usuario;
+            //if(SesionSingleton.Instance.UsuarioActual.Rol=="Estudiante") return RedirectToAction("MenuEstudiante", "Pages");
             return RedirectToAction("MenuPrincipal", "Pages");
         }
         else
@@ -36,7 +37,18 @@ public class SesionController : Controller
     private Usuario ObtenerUsuarioPorCorreo(string correo)
     {
         Usuario usuario = null;
-        string query = "SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Profesor' as Rol FROM Profesor WHERE correo = @Correo UNION SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Asistente' as Rol FROM Asistente_Administrativa WHERE correo = @Correo";
+        string query = @"
+            SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Profesor' as Rol 
+            FROM Profesor 
+            WHERE correo = @Correo 
+            UNION 
+            SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Asistente' as Rol 
+            FROM Asistente_Administrativa 
+            WHERE correo = @Correo 
+            UNION 
+            SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Estudiante' as Rol 
+            FROM Estudiante 
+            WHERE correo = @Correo";
 
         using (SqlConnection conn = new SqlConnection(connectionString))
         {
