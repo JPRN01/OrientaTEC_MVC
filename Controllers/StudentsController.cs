@@ -16,9 +16,19 @@ namespace OrientaTEC_MVC.Controllers
 
             return View("~/Views/Pages/Students.cshtml");
         }
+		public IActionResult Info(int id)
+		{
+			var notification = notificationDAO.GetNotificationById(id);
+			if (notification == null)
+			{
+				return NotFound(); // Si no encuentra la notificación, retorna un error 404
+			}
+			// Asegúrate de especificar la ruta completa a la vista
+			return View("~/Views/Pages/Info.cshtml", notification); // Pasa la notificación encontrada a la vista
+		}
 
 
-        public IActionResult Logout()
+		public IActionResult Logout()
         {
            
 

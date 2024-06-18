@@ -38,7 +38,7 @@
             }
 
             .sub .container2 {
-                padding-right: 50px;
+                padding-right: 60px;
             }
 
         .container2 {
@@ -59,11 +59,11 @@
             cursor: pointer;
             color: #1D4ED8; /* Color azul */
             white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
-            width: 100%; /* Asegúrate de que el input se expanda para ocupar todo el espacio disponible en su contenedor. */
+            width: 120%;
         }
 
         .sub .container2 {
-            padding-right: 10px; /* Reduce el padding si es demasiado grande */
+            padding-right: 5px; /* Reduce el padding si es demasiado grande */
         }
 
         .panel {
@@ -233,7 +233,7 @@
         <div class="content" id="section1">
             @foreach (var notification in notifications)
             {
-                <div class="notification" onclick="moveToSection2(this)">
+                <div class="notification" data-id="@notification.Id"    onclick="moveToSection2(this)">
                     <div>
                         <h3>@notification.Title</h3>
                         <p>@notification.Message</p>
@@ -385,11 +385,18 @@
         }
     }
 
-    // Mover notificación a la segunda sección y activar el icono de tareas
-    function moveToSection2(notification) {
-        document.getElementById('section2').appendChild(notification);
+    function moveToInfoPage(activityId) {
+    window.location.href = '@Url.Action("Info", "Students", new { id = "__id__" })'.replace("__id__", activityId);
+}
+
+
+    function moveToSection2(notificationElement) {
+        var notificationId = notificationElement.getAttribute('data-id');
+        document.getElementById('section2').appendChild(notificationElement);
         showSection('section2');
+        window.location.href = '@Url.Action("Info", "Students", new { id = "__id__" })'.replace("__id__", notificationId);
     }
+
 
     // Eliminar notificación al hacer clic en el icono de cerrar
     function removeNotification(event, closeIcon) {

@@ -7,6 +7,8 @@ namespace OrientaTEC_MVC.Models
     public class Notification
     {
         private int id;
+        private Actividad actividad;  
+
 
         [Required]
         public int Id
@@ -46,6 +48,16 @@ namespace OrientaTEC_MVC.Models
         {
             get => dateTime;
             set => dateTime = value;
+        }
+
+
+
+        //PONGO ACTIVIDAD DAVID
+
+        public Actividad Actividad
+        {
+            get => actividad;
+            set => actividad = value;
         }
 
 

@@ -1,4 +1,7 @@
-﻿@{
+﻿@model OrientaTEC_MVC.Models.Notification
+
+
+@{
     ViewData["Title"] = "Info Page";
 }
 
@@ -21,6 +24,7 @@
 		body {
 			margin: 0;
 			font: 16px/1.3 sans-serif;
+			overflow: hidden; /* Esto elimina las barras de desplazamiento en todo el documento */
 		}
 
 		/*
@@ -31,7 +35,7 @@
 		.CSSgal {
 			position: relative;
 			overflow: hidden;
-			height: 100%; /* Or set a fixed height */
+			height: 100vh; /* Or set a fixed height */
 		}
 
 			/* SLIDER */
@@ -223,9 +227,43 @@
 
     </style>
 </head>
+
+<!-- 
+
+<h1>Detalle de Notificación</h1>
+<div>
+	<h2>@Model.Title</h2>
+	<p>@Model.Message</p>
+	<p>Fecha y Hora: @Model.DateTime.ToString("dd MMM yyyy HH:mm")</p>
+
+@if (Model.Actividad != null)
+{
+			<h3>Detalles de la Actividad</h3>
+			<p>Nombre: @Model.Actividad.Nombre</p>
+			<p>Descripción: @Model.Actividad.Descripcion</p>
+			<p>Fecha de la Actividad: @Model.Actividad.FechaExacta.ToString("dd MMM yyyy")</p>
+			<p>Tipo de Actividad: @Model.Actividad.Tipo.ToString()</p>
+			<p>URL de Reunión: <a href="@Model.Actividad.ReunionURL">@Model.Actividad.ReunionURL</a></p>
+			<p>Estado: @Model.Actividad.Estado.Estado.ToString()</p>
+			<p>Justificación del Estado: @Model.Actividad.Estado.Justificacion</p>
+}
+else
+{
+			<p>Esta notificación no está vinculada a ninguna actividad específica.</p>
+}
+</div>
+
+<a href="@Url.Action("Students", "Students")">Volver a la lista de notificaciones</a>
+
+
+-->
+
+
+
+
 <div class="CSSgal">
 
-    <!-- Don't wrap targets in parent -->
+ 
     <s id="s1"></s>
     <s id="s2"></s>
     <s id="s3"></s>
@@ -233,8 +271,16 @@
 
     <div class="slider">
         <div style="background:#5b8;">
-            <h2>PURE <b>CSS</b> SLIDESHOW</h2>
-            <p>Responsive Slideshow Gallery created using CSS only<br>by Roko</p>
+
+
+            <h2>@Model.Actividad.Nombre</h2>
+
+			<p>@Model.Actividad.Descripcion</p>
+
+			<p>Fecha de la  Actividad: @Model.DateTime.ToString("dd MMM yyyy HH:mm")</p>
+
+
+
         </div>
         <div style="background:#85b;">
             <h2>Slide 2</h2>
