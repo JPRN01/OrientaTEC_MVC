@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jpabl\\source\\repos\\JPRN01\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj": {}
+    "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jpabl\\source\\repos\\JPRN01\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj": {
+    "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jpabl\\source\\repos\\JPRN01\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
+        "projectUniqueName": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
         "projectName": "OrientaTEC_MVC",
-        "projectPath": "C:\\Users\\jpabl\\source\\repos\\JPRN01\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
-        "packagesPath": "C:\\Users\\jpabl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jpabl\\source\\repos\\JPRN01\\OrientaTEC_MVC\\obj\\",
+        "projectPath": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
+        "packagesPath": "C:\\Users\\josep\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\jpabl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\josep\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -98,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

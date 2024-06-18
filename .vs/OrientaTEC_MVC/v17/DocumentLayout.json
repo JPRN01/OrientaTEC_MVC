@@ -7,24 +7,16 @@
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\pages\\students.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\controllers\\studentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\studentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\controllers\\actividadescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\actividadescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|c:\\users\\josep\\onedrive\\documents\\tec\\orientatec_mvc\\controllers\\profesordao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{712CC37C-0AE8-4A82-81EF-8D5553EEB958}|OrientaTEC_MVC.csproj|solutionrelative:controllers\\profesordao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,15 +30,15 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TestController.cs",
-              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\TestController.cs",
-              "RelativeDocumentMoniker": "Controllers\\TestController.cs",
-              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\TestController.cs",
-              "RelativeToolTip": "Controllers\\TestController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 3,
+              "Title": "ActividadesController.cs",
+              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ActividadesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ActividadesController.cs",
+              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ActividadesController.cs",
+              "RelativeToolTip": "Controllers\\ActividadesController.cs",
+              "ViewState": "AQIAAIsBAAAAAAAAAAAjwJYBAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T22:38:24.194Z",
+              "WhenOpened": "2024-06-18T18:35:00.983Z",
               "EditorCaption": ""
             },
             {
@@ -57,61 +49,35 @@
               "RelativeDocumentMoniker": "Views\\Pages\\Students.cshtml",
               "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Pages\\Students.cshtml",
               "RelativeToolTip": "Views\\Pages\\Students.cshtml",
-              "ViewState": "AQIAACEAAAAAAAAAAAAqwCsAAAAFAAAA",
+              "ViewState": "AQIAAAUBAAAAAAAAAAAmwBsBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-15T22:36:39.914Z",
+              "WhenOpened": "2024-06-18T18:32:45.55Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAAAA0AAAAHAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-15T22:25:17.666Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ProfesorDAO.cs",
-              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ProfesorDAO.cs",
-              "RelativeDocumentMoniker": "Controllers\\ProfesorDAO.cs",
-              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ProfesorDAO.cs",
-              "RelativeToolTip": "Controllers\\ProfesorDAO.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAAwAAAAAAAAAAA",
+              "Title": "StudentsController.cs",
+              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\StudentsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\StudentsController.cs",
+              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\StudentsController.cs",
+              "RelativeToolTip": "Controllers\\StudentsController.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAowB4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T22:13:17.366Z",
+              "WhenOpened": "2024-06-18T18:32:40.767Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ActividadesController.cs",
-              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ActividadesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ActividadesController.cs",
-              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\ActividadesController.cs",
-              "RelativeToolTip": "Controllers\\ActividadesController.cs",
-              "ViewState": "AQIAAJABAAAAAAAAAAAmwJYBAAAMAAAA",
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T22:07:27.755Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\josep\\OneDrive\\Documents\\TEC\\OrientaTEC_MVC\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T22:06:56.706Z",
+              "WhenOpened": "2024-06-18T18:31:16.373Z",
               "EditorCaption": ""
             }
           ]

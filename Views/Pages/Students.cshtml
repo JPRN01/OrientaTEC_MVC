@@ -1,59 +1,428 @@
 ﻿@{
     ViewData["Title"] = "Students Page";
+    var notifications = ViewData["Notifications"] as List<OrientaTEC_MVC.Models.Notification>;
 }
-
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+
+
+    <style>
+
+
+        .nuevo {
+            margin: 0;
+            padding: 0;
+        }
+
+        .sub {
+            display: flex;
+            list-style: none;
+            text-decoration: none;
+            color: #4082D0;
+            margin-right: 10px;
+            margin-bottom: 0;
+        }
+
+            .sub i {
+                padding: 5px 0;
+                margin: 0px 15px;
+                font-size: 35px;
+                vertical-align: middle;
+                cursor: pointer;
+            }
+
+            .sub .container2 {
+                padding-right: 50px;
+            }
+
+        .container2 {
+            display: flex;
+            align-items: center;
+            color: #1D4ED8; /* Color azul */
+            flex-grow: 1; /* Permitir que el contenedor crezca para ocupar el espacio disponible */
+
+            min-width: 250px;
+        }
+
+        .datetime-picker {
+            font-size: 0.95rem; /* Reduce el tamaño de la fuente */
+            font-weight: 600; /* font-semibold */
+            background: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            color: #1D4ED8; /* Color azul */
+            white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+            width: 100%; /* Asegúrate de que el input se expanda para ocupar todo el espacio disponible en su contenedor. */
+        }
+
+        .sub .container2 {
+            padding-right: 10px; /* Reduce el padding si es demasiado grande */
+        }
+
+        .panel {
+            display: none;
+            position: absolute;
+            right: 16px;
+            top: 60px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            width: 320px;
+            z-index: 10;
+        }
+
+            /* HEADER DEL PANEL*/
+
+
+            .panel .header {
+                padding: 16px;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+                /*letra del header*/
+
+                .panel .header h2 {
+                    margin: 0;
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #374151;
+                }
+
+
+            /*DONDE SE TIENEN LOS ICONOS*/
+            .panel .icons {
+                display: flex;
+                justify-content: space-around;
+                padding: 8px;
+                border-bottom: 1px solid #e5e7eb;
+                color: #9ca3af;
+            }
+
+
+                /*LOS ICONOS*/
+
+                .panel .icons .icon {
+                    color: #3b82f6;
+                    cursor: pointer;
+                }
+
+
+            /*LA INFO DE ABAJO*/
+
+            .panel .content {
+                padding: 16px;
+            }
+
+                .panel .content .notification {
+                    display: flex;
+                    justify-content: space-between; /*por que*/
+                    align-items: center;
+                    padding: 8px 0;
+                    border-bottom: 1px solid #e5e7eb;
+                    cursor: pointer;
+                }
+
+                    .panel .content .notification h3 {
+                        margin: 0;
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: #374151;
+                    }
+
+                    .panel .content . notification p {
+                        margin: 4px 0;
+                        color: #6b7280;
+                        font-size: 12px;
+                    }
+
+                    .panel .content .notification .close {
+                        color: #9ca3af;
+                        cursor: pointer;
+                    }
+
+                    .panel .content .notification .details {
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        color: #6b7280;
+                        font-size: 12px;
+                        width: 100%
+                    }
+
+                        .panel .content .notification .details .fecha {
+                            padding-right: 20px;
+                            white-space: nowrap;
+                        }
+
+                        .panel .content .notification .details .date-time span {
+                            padding-right: 10px; /* Espacio entre la fecha y la hora */
+                        }
+
+                        .panel .content .notification .details i {
+                            margin-right: 4px;
+                        }
+
+        .logout-button {
+            cursor: pointer;
+        }
+
+
+
+
+        /* Estilos del botón de cerrar sesión */
+        .logout-panel .content .logout {
+            text-align: center;
+            color: #3b82f6;
+            cursor: pointer;
+        }
+
+        /* Estilos para el icono activo */
+        .active-icon {
+            color: #ff0000 !important; /* Cambia el color del icono activo */
+        }
+    </style>
 </head>
+<body>
+    @section StudentHeaderContent {
+        <div class="nuevo">
+            <ul class="sub">
+            
+                <div class="container2">
+                    <input id="datetime-picker" class="datetime-picker" readonly>
+                </div>
 
 
-@section StudentHeaderContent{
+
+                <li><a onclick="openNotifications(event);"> <i class="ri-notification-3-fill" id="notification-icon"></i></a> </li>
+                <li><a onclick="openProfile(event);"><i class="ri-account-circle-line" id="profile-icon"></i></a></li>
 
 
 
-    <div class="nuevo">
+            </ul>
+        </div>
+    }
+    <!--SECCION DE LOS PANELES -->
+    <!--SECCION PANEL DE NOTIFICACION-->
 
-        <ul class="sub">
+    <div class="panel" id="notification-panel">
 
-            <li><a> <i class="ri-notification-3-fill"></i></a> </li>
 
-            <li>
-                <a><i class="ri-account-circle-line"></i></a></li>
+        <div class="header">
+            <h2>Notificaciones</h2>
+        </div>
 
-        </ul>
 
-       
+        <div class="icons">
+
+            <i class="ri-notification-3-fill icon" id="mini-notification-icon" onclick="showSection('section1')"></i>
+
+
+            <i class="ri-checkbox-circle-line icon" id="mini-tasks-icon" onclick="showSection('section2')"></i>
+
+        </div>
+
+        <!--contenidoo de las secciones-->
+
+        <div class="content" id="section1">
+            @foreach (var notification in notifications)
+            {
+                <div class="notification" onclick="moveToSection2(this)">
+                    <div>
+                        <h3>@notification.Title</h3>
+                        <p>@notification.Message</p>
+                        <div class="details">
+                            <i class="ri-eye-line"></i>
+
+                            <div class="fecha">
+
+                                <span>@notification.DateTime.ToString("dd-MM-yyyy")</span>
+                                <span>@notification.DateTime.ToString("HH:mm")</span>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <i class="ri-close-line close" onclick="removeNotification(event, this)"></i>
+                </div>
+            }
+        </div>
+
+
+        <div class="content" id="section2" style="display:none;">
+
+
+
+            <!--AQUI SE MUEVE LAS ACTIVIDADES-->
+        </div>
+    </div>
+
+
+
+
+
+    <!--PANEL DE AYUDA-->
+    <!--SE TOMA EL ID DEL PANEL PROFILE-->
+
+    <div class="panel" id="profile-panel">
+
+        <div class="header">
+            <h2>Ayuda</h2>
+        </div>
+
+
+
+
+        <div class="content" onclick="location.href='@Url.Action("Logout", "Students")'">Cerrar Sesión</div>
+
+
 
     </div>
-}
+</body>
+<script>
+
+    let selectedDate = "martes, 18 de junio de 2024 - 11:25"; // Variable global para almacenar la fecha
+    let clickCount = 0; // Contador de clics
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const datetimePicker = flatpickr("#datetime-picker", {
+            enableTime: true,
+            dateFormat: "l, d \\de F \\de Y - H:i",
+            locale: {
+                firstDayOfWeek: 1,
+                weekdays: {
+                    shorthand: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+                    longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                },
+                months: {
+                    shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                },
+            },
+            defaultDate: "2024-06-18T11:25",
+            onOpen: function (selectedDates, dateStr, instance) {
+                if (clickCount < 3) {
+                    instance.close(); // Cerrar el calendario si no se han hecho 3 clics
+                }
+            },
+            onChange: function (selectedDates, dateStr, instance) {
+                document.getElementById('datetime-picker').value = dateStr;
+                selectedDate = dateStr; // Actualizar la variable global cuando se selecciona una nueva fecha
+            }
+        });
+
+        // Establecer valor inicial
+        document.getElementById('datetime-picker').value = selectedDate;
+
+        // Actualizar la hora cada segundo
+        setInterval(() => {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            const formattedDate = now.toLocaleDateString('es-ES', options).replace(',', ' -');
+            document.getElementById('datetime-picker').value = formattedDate;
+            selectedDate = formattedDate; // Actualizar la variable global con la hora actual
+        }, 1000);
+
+        // Añadir event listener al input
+        document.getElementById('datetime-picker').addEventListener('click', function () {
+            clickCount++;
+            if (clickCount === 3) {
+                datetimePicker.open(); // Abrir el calendario después de 3 clics
+                clickCount = 0; // Reiniciar el contador de clics
+            }
+        });
+    });
 
 
-
-
-<style>
-
-
-    .sub{
-        margin: 0;
-        padding: 0;
-        display:flex;
-        list-style: none;
-        text-decoration: none;
-        color: #4082D0;
+    function openNotifications(event) {
+        event.stopPropagation();
+        //SE GUARDA EL ID DEL PANEL
+        var panel = document.getElementById("notification-panel");
+        // SE CAMBIA DE OCULTA A VISIBLE
+        if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+        }
+        //SI NO SE CAMBIA A OCULTO
+        else {
+            panel.style.display = 'none';
+        }
+        //NO QUEREMOS QUE SE ABRAN 2 PANELES , ENTONCES EL DE PERFIL DEBE DE CERRARSE SI ABRIMOS ESTE
+        document.getElementById('profile-panel').style.display = 'none';
     }
 
-
-   
-
-    .sub i {
-       
-        padding: 5px 0;
-        margin: 0px 30px;
-        font-size:35px;
-        vertical-align:middle;
+    function openProfile(event) {
+        event.stopPropagation();
+        //GUARDAMOS EL ID DEL PANEL DE USUARIO
+        var id = document.getElementById("profile-panel");
+        if (id.style.display === 'none' || id.style.display === '') {
+            id.style.display = 'block';
+        }
+        else {
+            id.style.display = 'none';
+        }
+        document.getElementById('notification-panel').style.display = 'none';
     }
 
-       
+    // Mostrar sección específica en el panel de notificaciones
+    function showSection(sectionId) {
+        document.getElementById('section1').style.display = 'none';
+        document.getElementById('section2').style.display = 'none';
+        document.getElementById(sectionId).style.display = 'block';
 
-</style>
+        // Cambiar el color de los iconos para indicar la sección activa
+        document.getElementById('mini-notification-icon').classList.remove('active-icon');
+        document.getElementById('mini-tasks-icon').classList.remove('active-icon');
+        if (sectionId === 'section1') {
+            document.getElementById('mini-notification-icon').classList.add('active-icon');
+        } else {
+            document.getElementById('mini-tasks-icon').classList.add('active-icon');
+        }
+    }
+
+    // Mover notificación a la segunda sección y activar el icono de tareas
+    function moveToSection2(notification) {
+        document.getElementById('section2').appendChild(notification);
+        showSection('section2');
+    }
+
+    // Eliminar notificación al hacer clic en el icono de cerrar
+    function removeNotification(event, closeIcon) {
+        event.stopPropagation();
+        closeIcon.parentElement.style.display = 'none';
+    }
+
+    // Cerrar paneles al hacer clic fuera de ellos
+    document.addEventListener('click', function (event) {
+        var notificationPanel = document.getElementById('notification-panel');
+        var profilePanel = document.getElementById('profile-panel');
+        if (!notificationPanel.contains(event.target) && !profilePanel.contains(event.target)) {
+            notificationPanel.style.display = 'none';
+            profilePanel.style.display = 'none';
+        }
+    });
+
+    // Evitar que el clic dentro del panel cierre el panel
+    document.getElementById('notification-panel').addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+
+    document.getElementById('profile-panel').addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+
+    // Mostrar mensaje de alerta al hacer clic en "Cerrar Sesión"
+    document.getElementById('logout-button').addEventListener('click', function () {
+        alert('Sesión cerrada');
+    });
+
+
+
+
+
+</script>
