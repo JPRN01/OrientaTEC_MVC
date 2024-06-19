@@ -42,7 +42,7 @@ namespace OrientaTEC_MVC.Controllers
             var usuarioActual = SesionSingleton.Instance.UsuarioActual as EstudianteDecorator;
             if (usuarioActual == null)
             {
-                return RedirectToAction("Home", "Index");
+                return RedirectToAction("Index", "Home");
             }
             return View(usuarioActual);
         }
@@ -52,7 +52,7 @@ namespace OrientaTEC_MVC.Controllers
             var usuarioActual = SesionSingleton.Instance.UsuarioActual as EstudianteDecorator;
             if (usuarioActual == null)
             {
-                return RedirectToAction("Home", "Index");
+                return RedirectToAction("Index", "Home");
             }
             return View(usuarioActual);
         }
@@ -63,18 +63,18 @@ namespace OrientaTEC_MVC.Controllers
             var usuarioActual = SesionSingleton.Instance.UsuarioActual as EstudianteDecorator;
             if (usuarioActual == null)
             {
-                return RedirectToAction("Home", "Index");
+                return RedirectToAction("Index", "Home");
             }
 
             if (newPassword != confirmNewPassword)
             {
-                ViewBag.Error = "Las nuevas contraseñas no coinciden.";
+                ViewBag.Error = "Las nuevas contraseÃ±as no coinciden.";
                 return View("VerPerfil", usuarioActual);
             }
 
             if (!VerificarPassword(currentPassword, usuarioActual.SaltPassword, usuarioActual.HashedPassword))
             {
-                ViewBag.Error = "La contraseña actual es incorrecta.";
+                ViewBag.Error = "La contraseÃ±a actual es incorrecta.";
                 return View("VerPerfil", usuarioActual);
             }
 
@@ -100,7 +100,7 @@ namespace OrientaTEC_MVC.Controllers
             usuarioActual.SaltPassword = newSalt;
             usuarioActual.HashedPassword = newHashedPassword;
 
-            ViewBag.Message = "Contraseña actualizada con éxito.";
+            ViewBag.Message = "ContraseÃ±a actualizada con Ã©xito.";
             return View("VerPerfil", usuarioActual);
         }
 
@@ -110,7 +110,7 @@ namespace OrientaTEC_MVC.Controllers
             var usuarioActual = SesionSingleton.Instance.UsuarioActual as EstudianteDecorator;
             if (usuarioActual == null)
             {
-                return RedirectToAction("Home", "Index");
+                return RedirectToAction("Index", "Home");
             }
 
             usuarioActual.ActualizarTelefono(nuevoTelefono);
@@ -130,7 +130,7 @@ namespace OrientaTEC_MVC.Controllers
                 }
             }
 
-            ViewBag.Message = "Número de teléfono actualizado con éxito.";
+            ViewBag.Message = "NÃºmero de telÃ©fono actualizado con Ã©xito.";
             return View("VerPerfil", usuarioActual);
         }
 
@@ -140,7 +140,7 @@ namespace OrientaTEC_MVC.Controllers
             var usuarioActual = SesionSingleton.Instance.UsuarioActual as EstudianteDecorator;
             if (usuarioActual == null)
             {
-                return RedirectToAction("Home", "Index");
+                return RedirectToAction("Index", "Home");
             }
 
             if (nuevaFotografia != null && nuevaFotografia.Length > 0)
@@ -148,7 +148,7 @@ namespace OrientaTEC_MVC.Controllers
                 var fileName = Path.GetFileName(nuevaFotografia.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
 
-                // Asegúrate de que el directorio exista
+                // AsegÃºrate de que el directorio exista
                 var directory = Path.GetDirectoryName(filePath);
                 if (!Directory.Exists(directory))
                 {
@@ -178,7 +178,7 @@ namespace OrientaTEC_MVC.Controllers
                 }
             }
 
-            ViewBag.Message = "Fotografía actualizada con éxito.";
+            ViewBag.Message = "FotografÃ­a actualizada con Ã©xito.";
             return View("VerPerfil", usuarioActual);
         }
 
