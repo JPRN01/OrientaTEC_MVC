@@ -7,7 +7,8 @@ namespace OrientaTEC_MVC.Models
     public class Notification
     {
         private int id;
-        private Actividad actividad;  
+        private Actividad actividad;
+        private bool visto; 
 
 
         [Required]
@@ -19,6 +20,16 @@ namespace OrientaTEC_MVC.Models
         }
 
         private string title;
+
+
+        // Añade la propiedad Visto al modelo
+        public bool Visto
+        {
+            get => visto;
+            set => visto = value;
+        }
+
+
 
 
         [Required]
@@ -63,15 +74,19 @@ namespace OrientaTEC_MVC.Models
 
         public Notification() { }
 
-        public Notification(int id , string title , string message , string time)
+        public Notification(int id, string title, string message, DateTime dateTime)
+
         {
 
             Id = id;
             Title = title;
             Message = message;
             DateTime = dateTime;
-           
-         
+            Visto = false; 
+
+
+
+
 
 
         }

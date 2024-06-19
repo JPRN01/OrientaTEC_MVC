@@ -38,8 +38,8 @@ public class NotificationDAO
     // Simulamos datos de Notificaciones, ahora incluyendo actividades
     private static List<Notification> notifications = new List<Notification>
     {
-        new Notification { Id = 1, Title = "Bienvenida", Message = "Tu cuenta ha sido creada con éxito.", DateTime = DateTime.Now.AddHours(-2), Actividad = actividades[0] },
-        new Notification { Id = 2, Title = "Recordatorio", Message = "Recuerda completar tu perfil.", DateTime = DateTime.Now.AddDays(-1), Actividad = actividades[1] }
+        new Notification { Id = 1, Title = "Bienvenida", Message = "Tu cuenta ha sido creada con éxito.", DateTime = DateTime.Now.AddHours(-2), Actividad = actividades[0], Visto = false },
+        new Notification { Id = 2, Title = "Recordatorio", Message = "Recuerda completar tu perfil.", DateTime = DateTime.Now.AddDays(-1), Actividad = actividades[1] , Visto = false }
     };
 
     public List<Notification> GetAllNotifications()
@@ -53,4 +53,15 @@ public class NotificationDAO
         // Utiliza el método Find para buscar la notificación que coincida con el ID proporcionado
         return notifications.Find(notification => notification.Id == id);
     }
+
+    public void MarkAsViewed(int id)
+    {
+        var notification = notifications.Find(n => n.Id == id);
+        if (notification != null)
+        {
+            notification.Visto = true;
+        }
+    }
+
+
 }

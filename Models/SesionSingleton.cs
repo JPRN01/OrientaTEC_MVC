@@ -5,6 +5,10 @@
         private static SesionSingleton _instance;
         private static readonly object _lock = new object();
 
+
+
+
+
         public static SesionSingleton Instance
         {
             get
@@ -24,6 +28,9 @@
         }
 
         public Usuario UsuarioActual { get; set; }
+        public DateTime FECHA_DEL_SISTEMA { get; set; }
+
+
 
         private SesionSingleton() { }
     }

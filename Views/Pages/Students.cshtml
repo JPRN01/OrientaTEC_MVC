@@ -396,6 +396,8 @@
                 selectedDate = new Date(selectedDates[0]); // Actualizar la variable global cuando se selecciona una nueva fecha
                 document.getElementById('datetime-picker').value = dateStr;
                 startCustomDateInterval(); // Iniciar la actualización del tiempo personalizado
+                sendDateToServer(selectedDate); // Enviar la fecha seleccionada al servidor
+
             }
         });
 
@@ -435,6 +437,26 @@
 
         // Inicializar con la fecha y hora actual
         startRealDateInterval();
+
+        // Función para enviar la fecha seleccionada al servidor
+        function sendDateToServer(date) {
+            fetch('/Students/UpdateDate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ date: date.toISOString() })
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Date updated successfully:', date.toISOString());
+                } else {
+                    console.log('Failed to update date');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
     });
 
 
