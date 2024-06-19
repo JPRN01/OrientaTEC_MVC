@@ -106,22 +106,37 @@ namespace OrientaTEC_MVC.Controllers
 
         public bool AddNotification(Notification notification)
         {
-            string query = "INSERT INTO Notification (Title, Message, DateTime, Visto, Actividad_Id) VALUES (@Title, @Message, @DateTime, @Visto, @Actividad_Id)";
+            string queryCheck = "SELECT COUNT(*) FROM Notification WHERE Title = @Title AND DateTime = @DateTime AND Actividad_Id = @Actividad_Id";
+            string queryInsert = "INSERT INTO Notification (Title, Message, DateTime, Visto, Actividad_Id) VALUES (@Title, @Message, @DateTime, @Visto, @Actividad_Id)";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 try
                 {
                     conn.Open();
-                    using (SqlCommand command = new SqlCommand(query, conn))
-                    {
-                        command.Parameters.AddWithValue("@Title", notification.Title);
-                        command.Parameters.AddWithValue("@Message", notification.Message);
-                        command.Parameters.AddWithValue("@DateTime", notification.DateTime);
-                        command.Parameters.AddWithValue("@Visto", notification.Visto);
-                        command.Parameters.AddWithValue("@Actividad_Id", notification.Actividad?.IdActividad ?? (object)DBNull.Value);
 
-                        command.ExecuteNonQuery();
+                    using (SqlCommand checkCommand = new SqlCommand(queryCheck, conn))
+                    {
+                        checkCommand.Parameters.AddWithValue("@Title", notification.Title);
+                        checkCommand.Parameters.AddWithValue("@DateTime", notification.DateTime);
+                        checkCommand.Parameters.AddWithValue("@Actividad_Id", notification.Actividad?.IdActividad ?? (object)DBNull.Value);
+
+                        int count = (int)checkCommand.ExecuteScalar();
+                        if (count > 0)
+                        {
+                            return true;
+                        }
+                    }
+
+                    using (SqlCommand insertCommand = new SqlCommand(queryInsert, conn))
+                    {
+                        insertCommand.Parameters.AddWithValue("@Title", notification.Title);
+                        insertCommand.Parameters.AddWithValue("@Message", notification.Message);
+                        insertCommand.Parameters.AddWithValue("@DateTime", notification.DateTime);
+                        insertCommand.Parameters.AddWithValue("@Visto", notification.Visto);
+                        insertCommand.Parameters.AddWithValue("@Actividad_Id", notification.Actividad?.IdActividad ?? (object)DBNull.Value);
+
+                        insertCommand.ExecuteNonQuery();
                     }
                     return true;
                 }
@@ -132,6 +147,7 @@ namespace OrientaTEC_MVC.Controllers
                 }
             }
         }
+
 
         public bool UpdateNotification(Notification notification)
         {

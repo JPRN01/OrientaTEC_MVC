@@ -11,8 +11,11 @@ namespace OrientaTEC_MVC.Models
         {
             DateTime fecha = new DateTime();
             DateTime fechaSistema = SesionSingleton.Instance.FECHA_DEL_SISTEMA;
-            if (actividad.Estado.Estado == EstadoActividad.Planeada && actividad.FechaExacta <= fechaSistema)
+            if (actividad.Estado.Estado == EstadoActividad.Planeada && actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)) <= fechaSistema && actividad.FechaExacta > fechaSistema)
             {
+                Console.WriteLine(actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)));
+                Console.WriteLine(fechaSistema);
+                Console.WriteLine(actividad.FechaExacta);
                 actividad.CambiarEstado(EstadoActividad.Notificada);
                 NotificarObservadores(actividad, $"Notificación: {actividad.Nombre}", $"Una nueva actividad ha sido publicada. La actividad '{actividad.Nombre}' está próxima a suceder.", fechaSistema);
             }

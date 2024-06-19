@@ -28,8 +28,7 @@
         }
 
         public Usuario UsuarioActual { get; set; }
-        public DateTime FECHA_DEL_SISTEMA { get; set; }
-
+        public DateTime FECHA_DEL_SISTEMA { get; set; } = DateTime.Now;
 
 
         private SesionSingleton() { }

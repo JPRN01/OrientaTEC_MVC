@@ -14,20 +14,18 @@ namespace OrientaTEC_MVC.Models
 
         public void VisitarRecordatorio(Actividad actividad)
         {
-            DateTime fechaSistema= SesionSingleton.Instance.FECHA_DEL_SISTEMA;
-            if (actividad.Estado.Estado == EstadoActividad.Notificada)
-            {
-                foreach (var recordatorio in actividad.Recordatorios)
-                {
-                    if (recordatorio.Fecha == fechaSistema)
-                    {
-                        NotificarObservadores(actividad, $"Recordatorio: {actividad.Nombre}", $"La actividad '{actividad.Nombre}' está próxima a suceder.", fechaSistema);
-                    }
-                }
-            }
-        }
+            DateTime fechaSistema = SesionSingleton.Instance.FECHA_DEL_SISTEMA;
+            if (actividad.Estado.Estado == EstadoActividad.Notificada && actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)) <= fechaSistema && actividad.FechaExacta > fechaSistema)
 
-        public void AgregarObservador(Observador observador)
+                for (DateTime nuevoRecordatorio = actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)); nuevoRecordatorio < actividad.FechaExacta && nuevoRecordatorio <= fechaSistema; nuevoRecordatorio.AddDays(actividad.DiasParaRecordar))
+                {
+                    NotificarObservadores(actividad, $"Recordatorio: {actividad.Nombre}", $"La actividad '{actividad.Nombre}' está próxima a suceder.", nuevoRecordatorio);
+                }
+
+        }
+    
+
+    public void AgregarObservador(Observador observador)
         {
             observadores.Add(observador);
         }
