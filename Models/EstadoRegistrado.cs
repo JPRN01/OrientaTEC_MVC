@@ -42,5 +42,10 @@ namespace OrientaTEC_MVC.Models
             get { return estado; }
             set { estado = value; }
         }
+
+        public static implicit operator EstadoRegistrado(EstadoActividad v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
