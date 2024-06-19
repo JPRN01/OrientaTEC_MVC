@@ -85,6 +85,9 @@ CREATE TABLE Estudiante (
     correo VARCHAR(100) UNIQUE NOT NULL,
     tel_celular INT NOT NULL,
     centro_academico VARCHAR(3) NOT NULL,
+    hashed_password VARCHAR(100) NOT NULL,
+    salt_password VARCHAR(100) NOT NULL,
+    esta_activo BIT NULL,
     FOREIGN KEY (centro_academico) REFERENCES Centro_Academico(INICIALES)
 );
 GO
@@ -117,6 +120,7 @@ CREATE TABLE Profesor (
     tel_oficina VARCHAR(21) NULL,
     tel_celular INT NULL,
     imagen_url VARCHAR(300) NULL,
+    esta_activo BIT NULL,
     PRIMARY KEY (CENTRO_ACADEMICO, NUMERO),
     FOREIGN KEY (CENTRO_ACADEMICO) REFERENCES Centro_Academico(INICIALES)
 );

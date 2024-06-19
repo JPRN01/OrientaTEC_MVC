@@ -3,7 +3,6 @@
     ViewData["Title"] = "Gestor de Actividades";
     var actividades = ViewBag.ActividadesViewModel as OrientaTEC_MVC.ViewModels.ActividadesViewModel;
 
-    Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 
@@ -12,14 +11,19 @@
 
 <style>
 
-
+    
 
     body {
         font-family: 'Arial', sans-serif;
     }
 
-   
+  
+    .navbar-collapse.collapse {
+        visibility: visible !important; /* Asegura que el menú siempre sea visible */
+    }
 
+   
+  
 
     #popup, .info-popup {
         position: fixed;
@@ -66,58 +70,238 @@
 
 
 
+<body>
 
-<body class="bg-white p-8">
-    <div class="max-w-7xl mx-auto">
-        <div class="flex justify-between items-center mb-4">
-            <div>
-                <label class="text-lg font-semibold">Selecciona una generación:</label>
-                <select id="generacionSelect" class="form-control">
-                    <option value="">Seleccione...</option>
-                    @foreach (var generacion in Model.EquiposGuia)
-                    {
-                        <option value="@generacion.Value">@generacion.Text</option>
-                    }
-                </select>
+    <div class="bg-white p-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <label class="text-lg font-semibold">Selecciona una generación:</label>
+                    <select id="generacionSelect" class="form-control">
+                        <option value="">Seleccione...</option>
+                        @foreach (var generacion in Model.EquiposGuia)
+                        {
+                            <option value="@generacion.Value">@generacion.Text</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <button id="searchButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Buscar Actividades
+                    </button>
+
+                    <button id="createButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4" onclick="openPopup()">
+                        Crear Actividad
+                    </button>
+
+                </div>
             </div>
-            <div>
-                <button id="searchButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Buscar Actividades
-                </button>
 
-                <button id="createButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4" onclick="openPopup()">
-                    Crear Actividad
-                </button>
-
-            </div>
         </div>
 
+        <input type="hidden" id="selectedGeneracionId" name="selectedGeneracionId" value="">
+
+
+        <div id="overlay" class="overlay" onclick="closePopup()"></div>
+        <div id="popup" class="bg-gray-100 p-6">
+
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-blue-500">
+                        Crear nueva actividad
+                    </h1>
+
+                    <button id="closeButton" class="text-xl font-bold" onclick="closePopup()">X</button>
+
+
+                </div>
+                <div class="grid grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block mb-2">Nombre</label>
+                        <input id="activityName" class="w-full p-2 border border-gray-300 rounded" type="text" />
+                    </div>
+
+
+                    <div>
+                        <label class="block mb-2">Estado</label>
+                        <select id="estado" class="w-full p-2 border border-gray-300 rounded">
+                            <option value="1">Planeada</option>
+                            <option value="2">Notificada</option>
+                            <option value="3">Realizada</option>
+                            <option value="4">Cancelada</option>
+                        </select>
+                    </div>
+
+
+                    <div>
+                        <label class="block mb-2">Tipo</label>
+
+                        <select id="tipo" class="w-full p-2 border border-gray-300 rounded">
+
+                            <option value="">Seleccione Tipo...</option>
+                            <option value="1">Motivacionales</option>
+                            <option value="2">Orientadora</option>
+                            <option value="3">Vida Estudiantil</option>
+                            <option value="4">Técnica</option>
+                            <option value="5">Recreación</option>
+                        </select>
+
+                    </div>
+
+
+
+                    <div>
+                        <label class="block mb-2">Responsables</label>
+                        <div id="responsablesContainer">
+                        </div>
+                    </div>
+
+
+
+                    <div>
+                        <label class="block mb-2">Semana</label>
+                        <select id="semana" class="w-full p-2 border border-gray-300 rounded">
+                        </select>
+                    </div>
+
+
+                    <div>
+                        <label class="block mb-2">Días previos para anunciar</label>
+                        <select id="diasPreviosParaAnunciar" class="w-full p-2 border border-gray-300 rounded">
+                            <option value="">Seleccione los días...</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block mb-2">Días previos para recordar</label>
+                        <select id="diasPreviosParaRecordar" class="w-full p-2 border border-gray-300 rounded">
+                        </select>
+                    </div>
+
+
+
+
+
+                    <div>
+                        <label class="block mb-2">Modalidad</label>
+                        <select id="modalidad" class="w-full p-2 border border-gray-300 rounded">
+                            <option value="False">Presencial</option>
+                            <option value="True">Remoto</option>
+                        </select>
+                    </div>
+
+
+                    <div>
+                        <label class="block mb-2">Enlace</label>
+                        <input id="enlace" class="w-full p-2 border border-gray-300 rounded" type="text" />
+                    </div>
+
+                    <div>
+                        <label class="block mb-2">Descripción</label>
+                        <textarea id="descripcion" class="w-full p-2 border border-gray-300 rounded" rows="3"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block mb-2">Afiche</label>
+                        <input type="file" id="afiche" class="w-full p-2 border border-gray-300 rounded">
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+                <div class="flex justify-end gap-4">
+                    <button id="acceptButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="submitActivity()">Aceptar</button>
+                    <button id="cancelButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="closePopup()">Cancelar</button>
+                </div>
+            </div>
+
+
+        </div>
     </div>
 
-    <input type="hidden" id="selectedGeneracionId" name="selectedGeneracionId" value="">
 
 
-    <div id="overlay" class="overlay" onclick="closePopup()"></div>
-    <div id="popup" class="bg-gray-100 p-6">
+    <div id="overlayInfo" class="overlay" onclick="closeInfoPopup()"></div>
 
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+    <div id="infoPopup" class="info-popup bg-white p-6 mt-10 rounded-lg shadow-lg">
 
-            <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-bold text-blue-500">
-                    Crear nueva actividad
-                </h1>
-                <button id="closeButton" class="text-xl font-bold" onclick="closePopup()">X</button>
-            </div>
-            <div class="grid grid-cols-2 gap-6 mb-6">
+        <input type="hidden" id="popupIdActividad" value="" />
+
+        <div class="max-w-lg mx-auto bg-white p-6 mt-10 rounded-lg shadow-lg relative">
+            <button class="absolute top-0 right-0 mt-4 mr-4 text-gray-400 hover:text-gray-600" onclick="closeInfoPopup()">
+                <i class="fas fa-times"></i>
+            </button>
+
+
+
+            <input id="popupTitulo" type="text" class="w-full border-gray-300 rounded-md shadow-sm" value="" readonly>
+
+
+
+
+
+
+            <button id="saveChangesButton" onclick="submitEditActivity()" class="hidden mb-4 bg-green-500 text-white rounded-md px-4 py-2 text-sm">Guardar Cambios</button>
+
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label class="block mb-2">Nombre</label>
-                    <input id="activityName" class="w-full p-2 border border-gray-300 rounded" type="text" />
+                    <label class="block text-sm font-medium mb-1">Semana</label>
+                    <input id="popupSemana" type="number" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Responsables</label>
+                    <input id="popupResponsables" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+
+
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Tipo</label>
+                    <select id="popupTipo" class="w-full border-gray-300 rounded-md shadow-sm" disabled>
+                        <!-- Opciones generadas dinámicamente -->
+                    </select>
                 </div>
 
 
                 <div>
-                    <label class="block mb-2">Estado</label>
-                    <select id="estado" class="w-full p-2 border border-gray-300 rounded">
+                    <label class="block text-sm font-medium mb-1">Días previos para anunciar</label>
+                    <input id="popupDiasAnunciar" type="number" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Modalidad</label>
+                    <select id="popupModalidad" class="w-full border-gray-300 rounded-md shadow-sm" disabled>
+                        <option value="False">Presencial</option>
+                        <option value="True">Remoto</option>
+                    </select>
+                </div>
+
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Enlace</label>
+                    <input id="popupEnlace" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Adjuntar evidencia</label>
+                    <button class="bg-gray-300 text-gray-700 rounded-md px-4 py-2" disabled>Cargar</button>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Estado</label>
+                    <select id="popupEstado" class="w-full border-gray-300 rounded-md shadow-sm" disabled>
                         <option value="1">Planeada</option>
                         <option value="2">Notificada</option>
                         <option value="3">Realizada</option>
@@ -126,295 +310,136 @@
                 </div>
 
 
-                <div>
-                    <label class="block mb-2">Tipo</label>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">Descripción</label>
+                <textarea id="popupDescripcion" class="w-full border-gray-300 rounded-md shadow-sm" rows="3" readonly></textarea>
+            </div>
 
-                    <select id="tipo" class="w-full p-2 border border-gray-300 rounded">
-                      
-                        <option value="">Seleccione Tipo...</option>
-                        <option value="1">Motivacionales</option>
-                        <option value="2">Orientadora</option>
-                        <option value="3">Vida Estudiantil</option>
-                        <option value="4">Técnica</option>
-                        <option value="5">Recreación</option>
-                    </select>
-
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">Comentarios</label>
+                <div id="comments-container" class="space-y-2">
                 </div>
+                <button onclick="openCommentModal()" class="mt-2 bg-blue-500 text-white rounded-md px-4 py-2">Comentar</button>
+            </div>
+            <div class="flex justify-end">
+                <button onclick="closeInfoPopup()" class="bg-red-500 text-white rounded-md px-4 py-2">Salir</button>
+            </div>
 
-
-
-                <div>
-                    <label class="block mb-2">Responsables</label>
-                    <div id="responsablesContainer">
-                    
-                    </div>
-                </div>
-
-
-
-                <div>
-                    <label class="block mb-2">Semana</label>
-                    <select id="semana" class="w-full p-2 border border-gray-300 rounded">
-                     
-                    </select>
-                </div>
-
-
-                <div>
-                    <label class="block mb-2">Días previos para anunciar</label>
-                    <select id="diasPreviosParaAnunciar" class="w-full p-2 border border-gray-300 rounded">
-                        <option value="">Seleccione los días...</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block mb-2">Días previos para recordar</label>
-                    <select id="diasPreviosParaRecordar" class="w-full p-2 border border-gray-300 rounded">
-                      
-                    </select>
-                </div>
-
-
-
-
-
-                <div>
-                    <label class="block mb-2">Modalidad</label>
-                    <select id="modalidad" class="w-full p-2 border border-gray-300 rounded">
-                        <option value="False">Presencial</option>
-                        <option value="True">Remoto</option>
-                    </select>
-                </div>
-
-
-                <div>
-                    <label class="block mb-2">Enlace</label>
-                    <input id="enlace" class="w-full p-2 border border-gray-300 rounded" type="text" />
-                </div>
-
-                <div>
-                    <label class="block mb-2">Descripción</label>
-                    <textarea id="descripcion" class="w-full p-2 border border-gray-300 rounded" rows="3"></textarea>
-                </div>
-
-                <div>
-                    <label class="block mb-2">Afiche</label>
-                    <input type="file" id="afiche" class="w-full p-2 border border-gray-300 rounded">
-                </div>
-
-               
+            <div>
+                <button id="editButton" onclick="toggleEdit(true)" class="mb-4 bg-blue-500 text-white rounded-md px-4 py-2 text-sm">Editar</button>
             </div>
 
 
-           
+            <div>
+
+                <button id="deleteActivityButton" onclick="deleteActivity()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>
+            </div>
 
 
+        </div>
 
-            <div class="flex justify-end gap-4">
-                <button id="acceptButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="submitActivity()">Aceptar</button>
-                <button id="cancelButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="closePopup()">Cancelar</button>
+
+        <div id="commentModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h3 class="text-lg font-bold mb-4">Nuevo Comentario</h3>
+                <input id="commentName" type="text" placeholder="Nombre" class="w-full border-gray-300 rounded-md shadow-sm mb-2">
+                <input id="commentTitle" type="text" placeholder="Título" class="w-full border-gray-300 rounded-md shadow-sm mb-2">
+                <textarea id="commentText" placeholder="Comentario" class="w-full border-gray-300 rounded-md shadow-sm mb-4"></textarea>
+                <button onclick="saveComment()" class="bg-green-500 text-white rounded-md px-4 py-2">Guardar</button>
+                <button onclick="closeCommentModal()" class="ml-2 bg-red-500 text-white rounded-md px-4 py-2">Cancelar</button>
             </div>
         </div>
+
+
+        <div id="commentPopup" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" style="display:none;">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                <h2 class="text-lg font-bold mb-4">COMENTA</h2>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Nombre de usuario</label>
+                    <input type="text" id="commentUserName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Título</label>
+                    <input type="text" id="commentTitle" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Comentario</label>
+                    <textarea id="commentText" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" rows="3"></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="addComment()">Enviar</button>
+                    <button class="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onclick="closeCommentPopup()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="flex space-x-4 mb-6">
+        <div class="flex items-center">
+            <span class="h-4 w-4 bg-green-400 rounded-full mr-2"></span>
+            <span>Planeada</span>
+        </div>
+        <div class="flex items-center">
+            <span class="h-4 w-4 bg-blue-400 rounded-full mr-2"></span>
+            <span>Notificada</span>
+        </div>
+        <div class="flex items-center">
+            <span class="h-4 w-4 bg-gray-400 rounded-full mr-2"></span>
+            <span>Realizada</span>
+        </div>
+        <div class="flex items-center">
+            <span class="h-4 w-4 bg-red-400 rounded-full mr-2"></span>
+            <span>Cancelada</span>
+        </div>
+    </div>
+
+    <div class="bg-blue-100 p-6 rounded-lg shadow-lg">
+        <div class="bg-blue-100 p-6 rounded-lg shadow-lg">
+
+
+
+
+
+
+            <div id="actividadesContainer" class="mt-4"></div>
+
+
+            <div class="grid grid-cols-4 gap-4">
+                @if (actividades != null && actividades.Actividades.Any())
+                {
+                    foreach (var actividad in actividades.Actividades)
+                    {
+
+                        string color = actividad.Estado.Estado switch
+                        {
+                            EstadoActividad.Planeada => "bg-green-300",
+                            EstadoActividad.Notificada => "bg-blue-300",
+                            EstadoActividad.Realizada => "bg-gray-300",
+
+                            EstadoActividad.Cancelada => "bg-red-300",
+                            _ => "bg-white"
+
+                        };
+
+                        <div class="relative @color p-4 rounded-lg shadow-md" data-id="@actividad.IdActividad">
+                            <h2 class="text-lg font-bold">@actividad.Nombre</h2>
+                          
+                        </div>
+
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 
 </body>
-        </div>
-
-
-
-<div id="overlayInfo" class="overlay" onclick="closeInfoPopup()"></div>
-
-<div id="infoPopup" class="info-popup bg-white p-6 mt-10 rounded-lg shadow-lg">
-
-    <input type="hidden" id="popupIdActividad" value="" />
-
-    <div class="max-w-lg mx-auto bg-white p-6 mt-10 rounded-lg shadow-lg relative">
-        <button class="absolute top-0 right-0 mt-4 mr-4 text-gray-400 hover:text-gray-600" onclick="closeInfoPopup()">
-            <i class="fas fa-times"></i>
-        </button>
-
-      
-
-
-        <h2 id="popupTitulo" class="text-2xl font-bold mb-4">Titulo de la Actividad</h2>
-
-
-
-
-      
-
-        <button id="saveChangesButton" onclick="submitEditActivity()" class="hidden mb-4 bg-green-500 text-white rounded-md px-4 py-2 text-sm">Guardar Cambios</button>
-
-     
-        <div class="grid grid-cols-2 gap-4 mb-4">
-            <div>
-                <label class="block text-sm font-medium mb-1">Semana</label>
-                <input id="popupSemana" type="number" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Responsables</label>
-                <input id="popupResponsables" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
-            </div>
-        </div>
-        <div class="grid grid-cols-2 gap-4 mb-4">
-            <div>
-                <label class="block text-sm font-medium mb-1">Tipo</label>
-                <input id="popupTipo" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Días previos para anunciar</label>
-                <input id="popupDiasAnunciar" type="number" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
-            </div>
-        </div>
-        <div class="grid grid-cols-2 gap-4 mb-4">
-            <div>
-                <label class="block text-sm font-medium mb-1">Modalidad</label>
-                <input id="popupModalidad" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Enlace</label>
-                <input id="popupEnlace" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
-            </div>
-        </div>
-        <div class="grid grid-cols-2 gap-4 mb-4">
-            <div>
-                <label class="block text-sm font-medium mb-1">Adjuntar evidencia</label>
-                <button class="bg-gray-300 text-gray-700 rounded-md px-4 py-2" disabled>Cargar</button>
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Estado</label>
-                <input id="popupEstado" type="text" class="w-full border-gray-300 rounded-md shadow-sm" readonly>
-            </div>
-        </div>
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Descripción</label>
-            <textarea id="popupDescripcion" class="w-full border-gray-300 rounded-md shadow-sm" rows="3" readonly></textarea>
-        </div>
-
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Comentarios</label>
-            <div id="comments-container" class="space-y-2">
-            
-            </div>
-            <button onclick="openCommentModal()" class="mt-2 bg-blue-500 text-white rounded-md px-4 py-2">Comentar</button>
-        </div>
-        <div class="flex justify-end">
-            <button onclick="closeInfoPopup()" class="bg-red-500 text-white rounded-md px-4 py-2">Salir</button>
-        </div>
-
-        <div>
-            <button id="editButton" onclick="toggleEdit(true)" class="mb-4 bg-blue-500 text-white rounded-md px-4 py-2 text-sm">Editar</button>
-        </div>
-
-
-        <div>
-
-            <button id="deleteActivityButton" onclick="deleteActivity()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>
-        </div>
-        
-       
-    </div>
-
-    
-    <div id="commentModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h3 class="text-lg font-bold mb-4">Nuevo Comentario</h3>
-            <input id="commentName" type="text" placeholder="Nombre" class="w-full border-gray-300 rounded-md shadow-sm mb-2">
-            <input id="commentTitle" type="text" placeholder="Título" class="w-full border-gray-300 rounded-md shadow-sm mb-2">
-            <textarea id="commentText" placeholder="Comentario" class="w-full border-gray-300 rounded-md shadow-sm mb-4"></textarea>
-            <button onclick="saveComment()" class="bg-green-500 text-white rounded-md px-4 py-2">Guardar</button>
-            <button onclick="closeCommentModal()" class="ml-2 bg-red-500 text-white rounded-md px-4 py-2">Cancelar</button>
-        </div>
-    </div>
-
-  
-    <div id="commentPopup" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" style="display:none;">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h2 class="text-lg font-bold mb-4">COMENTA</h2>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Nombre de usuario</label>
-                <input type="text" id="commentUserName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Título</label>
-                <input type="text" id="commentTitle" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Comentario</label>
-                <textarea id="commentText" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" rows="3"></textarea>
-            </div>
-            <div class="flex justify-end">
-                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="addComment()">Enviar</button>
-                <button class="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onclick="closeCommentPopup()">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="flex space-x-4 mb-6">
-    <div class="flex items-center">
-        <span class="h-4 w-4 bg-green-400 rounded-full mr-2"></span>
-        <span>Planeada</span>
-    </div>
-    <div class="flex items-center">
-        <span class="h-4 w-4 bg-blue-400 rounded-full mr-2"></span>
-        <span>Notificada</span>
-    </div>
-    <div class="flex items-center">
-        <span class="h-4 w-4 bg-gray-400 rounded-full mr-2"></span>
-        <span>Realizada</span>
-    </div>
-    <div class="flex items-center">
-        <span class="h-4 w-4 bg-red-400 rounded-full mr-2"></span>
-        <span>Cancelada</span>
-    </div>
-</div>
-
-<div class="bg-blue-100 p-6 rounded-lg shadow-lg">
-    <div class="bg-blue-100 p-6 rounded-lg shadow-lg">
-
-
-
-
-        
-
-        <div id="actividadesContainer" class="mt-4"></div>
-
-
-        <div class="grid grid-cols-4 gap-4">
-            @if (actividades !=null && actividades.Actividades.Any())
-            { 
-                foreach (var actividad in actividades.Actividades)
-                {
-
-                    string color = actividad.Estado.Estado switch
-                    {
-                        EstadoActividad.Planeada => "bg-green-300",
-                        EstadoActividad.Notificada => "bg-blue-300",
-                        EstadoActividad.Realizada => "bg-gray-300",
-
-                        EstadoActividad.Cancelada => "bg-red-300",
-                        _ => "bg-white"
-
-                    };
-
-                    <div class="relative @color p-4 rounded-lg shadow-md" data-id="@actividad.IdActividad">
-                        <h2 class="text-lg font-bold">@actividad.Nombre</h2>
-                        <button class="absolute top-0 right-2 text-blue-700 text-xl"
-                                onclick="deleteActivity(@actividad.IdActividad, event)">
-                            x
-                        </button>
-                    </div>
-
-                }
-            }
-        </div>
-    </div>
-</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
 
@@ -424,7 +449,13 @@
 <script>
 
     function toggleEdit(enableEdit) {
+
+   
         const isEditable = enableEdit || false;
+
+
+        $('#popupTitulo').prop('readonly', !enableEdit);
+
         $('#popupNombre').prop('readonly', !isEditable);
         $('#popupDescripcion').prop('readonly', !isEditable);
         $('#popupSemana').prop('readonly', !isEditable);
@@ -432,13 +463,69 @@
         $('#popupEnlace').prop('readonly', !isEditable);
         $('#popupDiasAnunciar').prop('readonly', !isEditable);
         $('#popupDiasRecordar').prop('readonly', !isEditable);
-        $('#popupEstado').prop('disabled', !isEditable);
+
+
+        $('#popupEstado').prop('disabled', !isEditable); 
+
         $('#popupTipo').prop('disabled', !isEditable);
 
-        // Toggle button visibility
+        if (isEditable) {
+            cargarTipos();
+            cargarEstados();
+        }
+
         $('#editButton').toggle(!isEditable);
         $('#saveChangesButton').toggle(isEditable);
     }
+
+    function cargarTipos() {
+        var tipos = [
+            { id: "1", text: 'Motivacionales' },
+            { id: "2", text: 'Orientadora' },
+            { id: "3", text: 'Vida Estudiantil' },
+            { id: "4", text: 'Técnica' },
+            { id: "5", text: 'Recreación' }
+        ];
+        var selectTipo = $('#popupTipo');
+
+        tipos.forEach(function (tipo) {
+            if (!selectTipo.find('option[value="' + tipo.id + '"]').length) {
+                selectTipo.append($('<option>').val(tipo.id).text(tipo.text));
+            }
+        });
+    }
+
+    function cargarModalidades() {
+        var modalidades = [
+            { value: "True", text: 'Remoto' },
+            { value: "False", text: 'Presencial' }
+        ];
+        var selectModalidad = $('#popupModalidad');
+
+        modalidades.forEach(function (modalidad) {
+            if (!selectModalidad.find('option[value="' + modalidad.value + '"]').length) {
+                selectModalidad.append($('<option>').val(modalidad.value).text(modalidad.text));
+            }
+        });
+    }
+
+    function cargarEstados() {
+        var estados = [
+            { id: "1", text: 'Planeada' },
+            { id: "2", text: 'Notificada' },
+            { id: "3", text: 'Realizada' },
+            { id: "4", text: 'Cancelada' }
+        ];
+        var selectEstado = $('#popupEstado');
+
+        estados.forEach(function (estado) {
+            if (!selectEstado.find('option[value="' + estado.id + '"]').length) {
+                selectEstado.append($('<option>').val(estado.id).text(estado.text));
+            }
+        });
+    }
+
+
 
     function deleteActivity() {
         var idActividad = $('#popupIdActividad').val(); 
@@ -465,6 +552,10 @@
     }
 
     $(document).ready(function () {
+
+        document.querySelectorAll('[b-8j8zx55j8k]').forEach(el => el.removeAttribute('b-8j8zx55j8k'));
+
+
     
         $('#generacionSelect').change(function () {
           
@@ -483,7 +574,12 @@
         formData.append('generacionId', $('#selectedGeneracionId').val());
         formData.append('tipoId', $('#tipo').val());
         formData.append('esVirtual', $('#modalidad').val() === "True");
-        formData.append('estadoId', $('#estado').val());
+
+
+        formData.append('EstadoId', $('#estado').val());  // Cambio aquí
+
+
+
         formData.append('enlace', $('#enlace').val());
         formData.append('descripcion', $('#descripcion').val());
         formData.append('diasPreviosParaAnunciar', $('#diasPreviosParaAnunciar').val());
@@ -583,7 +679,7 @@
                              data-descripcion="${act.descripcion}"
                              data-estado="${act.estado}">
                             <h2 class="text-lg font-bold">${act.nombre}</h2>
-                            <button class="absolute top-0 right-2 text-blue-700 text-xl">x</button>
+                       
                         </div>
                         `;
                     });
@@ -605,43 +701,30 @@
     function closeCommentModal() {
         document.getElementById('commentModal').classList.add('hidden');
     }
+   
+    function loadActivityDetails(actividadId) {
+        $.ajax({
+            url: '/Actividades/ObtenerDetallesActividad',
+            type: 'GET',
+            data: { idActividad: actividadId },
+            success: function (data) {
+                $('#popupTitulo').val(data.nombre); 
+                $('#popupSemana').val(data.semana);
+                $('#popupDiasAnunciar').val(data.diasPreviosParaAnunciar);
+                $('#popupResponsables').val(data.responsables);
+                $('#popupModalidad').val(data.esVirtual ? 'True' : 'False');
+                $('#popupEnlace').val(data.reunionUrl);
+                $('#popupDescripcion').val(data.descripcion);
+                $('#popupEstado').val(data.estado);
+                $('#popupTipo').val(data.tipo);
 
-
-    function submitEditActivity() {
-    var formData = new FormData();
-    formData.append('IdActividad', $('#popupIdActividad').val()); 
-    formData.append('Nombre', $('#popupTitulo').val());
-    formData.append('Descripcion', $('#popupDescripcion').val());
-    formData.append('Semana', $('#popupSemana').val());
-    formData.append('EsVirtual', $('#popupModalidad').val() === "True" ? true : false);
-    formData.append('ReunionUrl', $('#popupEnlace').val());
-    formData.append('DiasPreviosParaAnunciar', $('#popupDiasAnunciar').val());
-    formData.append('DiasParaRecordar', $('#popupDiasRecordar').val());
-    formData.append('EstadoId', $('#popupEstado').val());
-
-    $.ajax({
-        url: '/Actividades/EditarActividad',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            if(response.success) {
-                alert('Actividad actualizada exitosamente');
-                closeInfoPopup();
-               
-            } else {
-                alert('Error al actualizar la actividad: ' + response.message);
+                console.log('Información actualizada con éxito');
+            },
+            error: function () {
+                alert('Error al cargar los detalles de la actividad');
             }
-        },
-        error: function() {
-            alert('Error al enviar la solicitud de edición');
-        }
-    });
-}
-
-
-
+        });
+    }
     function saveComment() {
         const name = document.getElementById('commentName').value;
         const title = document.getElementById('commentTitle').value;
@@ -707,13 +790,6 @@
 
 
 
-   
-
-
-
-
-
-
 
 
     function closePopup() {
@@ -738,36 +814,75 @@
     }
 
     function openInfoPopup(element) {
-        var actividadId = element.getAttribute('data-id');  
-
+        var actividadId = element.getAttribute('data-id');
         $.ajax({
             url: '/Actividades/ObtenerDetallesActividad',
             type: 'GET',
             data: { idActividad: actividadId },
             success: function (data) {
+
                 console.log("Datos recibidos:", data);
 
-               
-                $('#popupIdActividad').val(data.idActividad);  
-                $('#popupTitulo').text(data.nombre);
+                $('#popupIdActividad').val(data.idActividad);
+
+                $('#popupTitulo').val(data.nombre);  // Asegúrate de que este cambio se refleje correctamente.
+
+
                 $('#popupSemana').val(data.semana);
-                $('#popupTipo').val(data.tipo);
                 $('#popupDiasAnunciar').val(data.diasPreviosParaAnunciar);
                 $('#popupResponsables').val(data.responsables || 'No asignados');
-                $('#popupModalidad').val(data.esVirtual ? 'Remoto' : 'Presencial');
+                $('#popupModalidad').val(data.esVirtual ? 'True' : 'False');
                 $('#popupEnlace').val(data.reunionUrl || 'No existe');
-                $('#popupEstado').val(getEstadoDescripcion(data.estado));
                 $('#popupDescripcion').val(data.descripcion);
 
-                
+                // Asegúrate de que los IDs son correctos
+                $('#popupEstado').val(data.estado); // Usar directamente el ID de estado
+                $('#popupTipo').val(data.tipo); // Usar directamente el ID de tipo
+
+                console.log("Estado actual al abrir el popup:", $('#popupEstado').val());
+                console.log("Tipo actual al abrir el popup:", $('#popupTipo').val());
+
                 $('#infoPopup').show();
                 $('#overlayInfo').show();
+
+                $('#saveChangesButton').hide();
+                $('#editButton').show();
+
+                loadComments(actividadId);
+
+
             },
             error: function () {
                 alert('Error al cargar los detalles de la actividad');
             }
         });
     }
+
+
+    function loadComments(actividadId) {
+        $.ajax({
+            url: '/Actividades/ObtenerComentarios',
+            type: 'GET',
+            data: { idActividad: actividadId },
+            success: function (comentarios) {
+                const commentsContainer = $('#comments-container');
+                commentsContainer.empty(); // Limpia cualquier comentario anterior
+                comentarios.forEach(function (comentario) {
+                    commentsContainer.append(`
+                        <div class="p-2 bg-gray-100 rounded-md">
+                            <p class="font-semibold">${comentario.mensaje}</p>
+                            <p class="text-xs">${new Date(comentario.emision).toLocaleString()}</p>
+                        </div>
+                    `);
+                });
+            },
+            error: function () {
+                alert('Error al cargar los comentarios');
+            }
+        });
+    }
+
+
 
 
     function deleteActivity() {
@@ -796,6 +911,9 @@
 
 
     document.addEventListener('DOMContentLoaded', function () {
+
+        cargarTipos(); // Pre-cargar tipos al cargar la página
+
         var semanaSelect = document.getElementById('semana');
         var selectAnunciar = document.getElementById('diasPreviosParaAnunciar');
         var selectRecordar = document.getElementById('diasPreviosParaRecordar');
@@ -821,10 +939,25 @@
     });
 
 
+
+
+
+
+
+
+
+
+
+
+
     function closeInfoPopup() {
         document.getElementById('infoPopup').style.display = 'none';
         document.getElementById('overlayInfo').style.display = 'none';
+
+        // Resetear el formulario para que vuelva al estado no editable
+        toggleEdit(false);
     }
+
     document.getElementById('createButton').addEventListener('click', openPopup);
     document.querySelectorAll('.closeButton').forEach(btn => {
         btn.addEventListener('click', closePopup);
@@ -859,19 +992,48 @@
         });
     }
 
-
     function submitEditActivity() {
+
         var formData = new FormData();
-        formData.append('IdActividad', $('#popupIdActividad').val());
-        formData.append('Nombre', $('#popupNombre').val());
+
+        $('#popupEstado').prop('disabled', false);  // Habilitar para captura
+        var estadoId = $('#popupEstado').val();
+        console.log("Capturando estado ID:", estadoId);
+        $('#popupEstado').prop('disabled', true);  // Deshabilitar nuevamente
+
+
+        $('#popupTipo').prop('disabled', false);
+        var tipoId = $('#popupTipo').val();
+        console.log("Capturando tipo ID:", tipoId);
+        $('#popupTipo').prop('disabled', true); // Deshabilitar nuevamente después de capturar
+
+        $('#popupModalidad').prop('disabled', false);
+        var modalidad = $('#popupModalidad').val();
+        console.log("Capturando modalidad:", modalidad);
+        $('#popupModalidad').prop('disabled', true); // Deshabilitar nuevamente
+
+
+        
+
+        formData.append('IdActividad', parseInt($('#popupIdActividad').val(), 10));
+
+        formData.append('Nombre', $('#popupTitulo').val());
+
+
         formData.append('Descripcion', $('#popupDescripcion').val());
-        formData.append('Semana', $('#popupSemana').val());
-        formData.append('EsVirtual', $('#popupModalidad').val() === "True");
+
+        formData.append('Semana', parseInt($('#popupSemana').val(), 10));
+        formData.append('EsVirtual', $('#popupModalidad').val() === "True" ? true : false);
         formData.append('ReunionUrl', $('#popupEnlace').val());
-        formData.append('DiasPreviosParaAnunciar', $('#popupDiasAnunciar').val());
-        formData.append('DiasParaRecordar', $('#popupDiasRecordar').val());
-        formData.append('EstadoId', $('#popupEstado').val());
-        formData.append('TipoId', $('#popupTipo').val()); 
+        formData.append('DiasPreviosParaAnunciar', parseInt($('#popupDiasAnunciar').val(), 10));
+        formData.append('DiasParaRecordar', parseInt($('#popupDiasRecordar').val(), 10));
+        formData.append('EstadoId', estadoId);
+        formData.append('TipoId', tipoId);
+
+        formData.append('EsVirtual', modalidad === "True" ? true : false);
+
+        formData.append('EstadoId', parseInt($('#popupEstado').data('estadoId'), 10));
+        formData.append('TipoId', parseInt($('#popupTipo').data('tipoId'), 10));
 
         $.ajax({
             url: '/Actividades/EditarActividad',
@@ -881,9 +1043,11 @@
             contentType: false,
             success: function (response) {
                 if (response.success) {
+
                     alert('Actividad actualizada exitosamente');
-                    closeInfoPopup(); 
-                    location.reload(); 
+
+                    closeInfoPopup();
+
                 } else {
                     alert('Error al actualizar la actividad: ' + response.message);
                 }
