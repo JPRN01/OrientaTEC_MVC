@@ -256,6 +256,7 @@ GROUP BY
             try
             {
                 await connection.OpenAsync();
+
                 int result = await command.ExecuteNonQueryAsync();
                 if (result > 0)
                     return Json(new { success = true });

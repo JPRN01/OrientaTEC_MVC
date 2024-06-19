@@ -280,7 +280,7 @@
         <!--contenidoo de las secciones-->
 
         <div class="content" id="section1">
-            @foreach (var notification in notifications)
+            @foreach (var notification in notifications.Where( n=> !n.Visto))
             {
                 <div class="notification" data-id="@notification.Id"    onclick="moveToSection2(this)">
                     <div>
@@ -305,6 +305,24 @@
 
 
         <div class="content" id="section2" style="display:none;">
+
+            @foreach (var notification in notifications.Where(n => n.Visto))
+            {
+                <div class="notification" data-id="@notification.Id">
+                    <div>
+                        <h3>@notification.Title</h3>
+                        <p>@notification.Message</p>
+                        <div class="details">
+                            <i class="ri-eye-line"></i>
+                            <div class="fecha">
+                                <span>@notification.DateTime.ToString("dd-MM-yyyy")</span>
+                                <span>@notification.DateTime.ToString("HH:mm")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <i class="ri-close-line close" onclick="removeNotification(event, this)"></i>
+                </div>
+            }
 
 
 
@@ -511,20 +529,65 @@
 
 
     function moveToSection2(notificationElement) {
+
+
+        event.stopPropagation(); // Detener la propagación para evitar que otros manejadores interfieran
+
         var notificationId = notificationElement.getAttribute('data-id');
+
+
+
+
         document.getElementById('section2').appendChild(notificationElement);
+
+        // Seleccionar el contenedor de la sección 2
+        var section2 = document.getElementById('section2');
+        section2.style.display = 'block'; // Asegurarse de que la sección 2 esté visible
+
+        // Mover el elemento de notificación a la sección 2
+        section2.appendChild(notificationElement);
+
+        // Opcional: marcar la notificación como vista si es necesario
+        markNotificationAsViewed(notificationId);
+
         showSection('section2');
         window.location.href = '@Url.Action("Info", "Students", new { id = "__id__" })'.replace("__id__", notificationId);
     }
 
-
-    // Eliminar notificación al hacer clic en el icono de cerrar
-    function removeNotification(event, closeIcon) {
-        event.stopPropagation();
-        closeIcon.parentElement.style.display = 'none';
+    function markNotificationAsViewed(notificationId) {
+        fetch('/Students/MarkAsViewed?id=' + notificationId, {
+            method: 'POST'
+        }).then(response => {
+            if (response.ok) {
+                console.log('Notificación marcada como vista');
+                // Opcional: recargar las notificaciones o actualizar el DOM para reflejar los cambios
+            }
+        }).catch(error => {
+            console.error('Error al marcar la notificación:', error);
+        });
     }
 
-    // Cerrar paneles al hacer clic fuera de ellos
+
+    function removeNotification(event, closeIcon) {
+        event.stopPropagation();
+
+        var notificationElement = closeIcon.parentElement;
+        var notificationId = notificationElement.getAttribute('data-id');
+
+        fetch('/Students/DeleteNotification?id=' + notificationId, {
+            method: 'POST'
+        }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Notificación eliminada');
+                    notificationElement.style.display = 'none'; // Ocultar el elemento del DOM si la eliminación fue exitosa
+                } else {
+                    console.error('Error al eliminar la notificación');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
 
 
@@ -537,7 +600,7 @@
         }
     });
 
-    // Evitar que el clic dentro del panel cierre el panel
+    
     document.getElementById('notification-panel').addEventListener('click', function (event) {
         event.stopPropagation();
     });
@@ -546,7 +609,7 @@
         event.stopPropagation();
     });
 
-    // Mostrar mensaje de alerta al hacer clic en "Cerrar Sesión"
+   
     document.getElementById('logout-button').addEventListener('click', function () {
         alert('Sesión cerrada');
     });
