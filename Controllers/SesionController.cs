@@ -38,7 +38,7 @@ public class SesionController : Controller
                 SesionSingleton.Instance.UsuarioActual = usuario;
             }
 
-            if (usuario.Rol == "Estudiante") return RedirectToAction("Students", "Pages");
+            if (usuario.Rol == "Estudiante") return RedirectToAction("Students", "Students");
             return RedirectToAction("MenuPrincipal", "Pages");
         }
         else

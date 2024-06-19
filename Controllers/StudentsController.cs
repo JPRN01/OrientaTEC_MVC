@@ -30,7 +30,12 @@ namespace OrientaTEC_MVC.Controllers
         {
             List<Notification> notifications = notificationDAO.GetAllNotifications();
             ViewData["Notifications"] = notifications;
-            return View("~/Views/Pages/Students.cshtml");
+            var usuarioActual = SesionSingleton.Instance.UsuarioActual as EstudianteDecorator;
+            if (usuarioActual == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View("~/Views/Pages/Students.cshtml", usuarioActual);
         }
 
         public IActionResult Info(int id)
