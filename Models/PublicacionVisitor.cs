@@ -7,16 +7,21 @@ namespace OrientaTEC_MVC.Models
     {
         private List<Observador> observadores = new List<Observador>();
 
-        public void VisitarPublicacion(Actividad actividad, DateTime fechaSistema)
+        public void VisitarPublicacion(Actividad actividad)
         {
-            if (actividad.Estado.Estado == EstadoActividad.Planeada && actividad.FechaExacta <= fechaSistema)
+            DateTime fecha = new DateTime();
+            DateTime fechaSistema = SesionSingleton.Instance.FECHA_DEL_SISTEMA;
+            if (actividad.Estado.Estado == EstadoActividad.Planeada && actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)) <= fechaSistema && actividad.FechaExacta > fechaSistema)
             {
+                Console.WriteLine(actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)));
+                Console.WriteLine(fechaSistema);
+                Console.WriteLine(actividad.FechaExacta);
                 actividad.CambiarEstado(EstadoActividad.Notificada);
-                NotificarObservadores();
+                NotificarObservadores(actividad, $"Notificación: {actividad.Nombre}", $"Una nueva actividad ha sido publicada. La actividad '{actividad.Nombre}' está próxima a suceder.", actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)));
             }
         }
 
-        public void VisitarRecordatorio(Actividad actividad, DateTime fechaSistema)
+        public void VisitarRecordatorio(Actividad actividad)
         {
             // No hace nada ya que no es su responsabilidad generar Recordatorios
         }
@@ -31,11 +36,11 @@ namespace OrientaTEC_MVC.Models
             observadores.Remove(observador);
         }
 
-        public void NotificarObservadores()
+        public void NotificarObservadores(Actividad actividad, string titulo, string mensaje, DateTime fecha)
         {
             foreach (var observador in observadores)
             {
-                observador.Actualizar();
+                observador.Actualizar(actividad, titulo, mensaje, fecha);
             }
         }
     }

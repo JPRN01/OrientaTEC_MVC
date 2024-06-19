@@ -4,6 +4,6 @@ namespace OrientaTEC_MVC.Models
 {
     public interface Elemento
     {
-        void Aceptar(Visitor visitor, DateTime fechaSistema);
+        void Aceptar(Visitor visitor);
     }
 }

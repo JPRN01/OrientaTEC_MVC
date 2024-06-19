@@ -1,4 +1,5 @@
-﻿using System;
+﻿// SesionController.cs
+using System;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 
 public class SesionController : Controller
 {
-
     private readonly string connectionString;
 
     public SesionController()
@@ -20,11 +20,25 @@ public class SesionController : Controller
     [HttpPost]
     public IActionResult IniciarSesion(string email, string password)
     {
-        Usuario usuario = ObtenerUsuarioPorCorreo(email);
+        var (usuario, numeroTelefono, fotografia, carne) = ObtenerUsuarioPorCorreo(email);
         if (usuario != null && VerificarPassword(password, usuario.SaltPassword, usuario.HashedPassword))
         {
-            SesionSingleton.Instance.UsuarioActual = usuario;
-            //if(SesionSingleton.Instance.UsuarioActual.Rol=="Estudiante") return RedirectToAction("MenuEstudiante", "Pages");
+            if (usuario.Rol == "Estudiante")
+            {
+                var estudianteDecorator = new EstudianteDecorator(usuario)
+                {
+                    NumeroTelefono = numeroTelefono,
+                    Fotografia = fotografia,
+                    Carnet = carne
+                };
+                SesionSingleton.Instance.UsuarioActual = estudianteDecorator;
+            }
+            else
+            {
+                SesionSingleton.Instance.UsuarioActual = usuario;
+            }
+
+            if (usuario.Rol == "Estudiante") return RedirectToAction("Students", "Students");
             return RedirectToAction("MenuPrincipal", "Pages");
         }
         else
@@ -34,19 +48,23 @@ public class SesionController : Controller
         }
     }
 
-    private Usuario ObtenerUsuarioPorCorreo(string correo)
+    private (IUsuario, int?, string, string) ObtenerUsuarioPorCorreo(string correo)
     {
-        Usuario usuario = null;
+        IUsuario usuario = null;
+        int? numeroTelefono = null;
+        string fotografia = null;
+        string carne = null;
+
         string query = @"
-            SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Profesor' as Rol 
+            SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Profesor' as Rol, NULL as tel_celular, NULL as imagen_url, NULL as CARNE
             FROM Profesor 
             WHERE correo = @Correo 
             UNION 
-            SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Asistente' as Rol 
+            SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Asistente' as Rol, NULL as tel_celular, NULL as imagen_url, NULL as CARNE
             FROM Asistente_Administrativa 
             WHERE correo = @Correo 
             UNION 
-            SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Estudiante' as Rol 
+            SELECT nombre1, nombre2, apellido1, apellido2, correo, hashed_password, salt_password, 'Estudiante' as Rol, tel_celular, imagen_url, CARNE
             FROM Estudiante 
             WHERE correo = @Correo";
 
@@ -70,9 +88,15 @@ public class SesionController : Controller
                     SaltPassword = reader["salt_password"].ToString(),
                     Rol = reader["Rol"].ToString()
                 };
+                if (usuario.Rol == "Estudiante")
+                {
+                    numeroTelefono = reader["tel_celular"] != DBNull.Value ? Convert.ToInt32(reader["tel_celular"]) : (int?)null;
+                    fotografia = reader["imagen_url"]?.ToString();
+                    carne = reader["CARNE"]?.ToString();
+                }
             }
         }
-        return usuario;
+        return (usuario, numeroTelefono, fotografia, carne);
     }
 
     private bool VerificarPassword(string passwordIngresado, string salt, string hashedPassword)

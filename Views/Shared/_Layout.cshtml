@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,72 +8,48 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OrientaTEC_MVC.styles.css" asp-append-version="true" />
-
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons/css/boxicons.min.css">
-
 </head>
 <body>
-
-
-
-
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-
-
             <div class="container-fluid">
-
-                @if (ViewData["Title"].ToString() == "Students Page" || ViewData["Title"].ToString() == "Info Page")
-
+                @if (ViewData["Title"].ToString() == "Students Page" || ViewData["Title"].ToString() == "Info Page" || ViewData["Title"].ToString() == "Ver Perfil")
                 {
-                    <span id="Title_Header" class="navbar-brand"><p class="Header_Estilo1">Orienta</p><p class="Header_Estilo2">TEC</p></span>
-
-
+                    <a id="Title_Header" class="navbar-brand" asp-area="" asp-controller="Students" asp-action="Students">
+                        <p class="Header_Estilo1">Orienta</p><p class="Header_Estilo2">TEC</p>
+                    </a>
                     @RenderSection("StudentHeaderContent", required: false)
-
                 }
                 else
-                
                 {
-                    
-                        <a id="Title_Header" class="navbar-brand" asp-area="" asp-controller="Pages" asp-action="MenuPrincipal"><p class="Header_Estilo1">Orienta</p><p class="Header_Estilo2">TEC</p></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-
-
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-
-                    <ul class="navbar-nav flex-grow-1">
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Actividades" asp-action="PlaneacionActividades">Actividades</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="GestorEquiposGuia" asp-action="GestorEquiposGuia">Equipos Guía</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="GestorProfesores" asp-action="GestorProfesores">Profesores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="GestorEstudiantes" asp-action="GestorEstudiantes">Estudiantes</a>
-                        </li>
-                    </ul>
-                </div>
-           
-
+                    <a id="Title_Header" class="navbar-brand" asp-area="" asp-controller="Pages" asp-action="MenuPrincipal">
+                        <p class="Header_Estilo1">Orienta</p><p class="Header_Estilo2">TEC</p>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Actividades" asp-action="PlaneacionActividades">Actividades</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="GestorEquiposGuia" asp-action="GestorEquiposGuia">Equipos Guía</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="GestorProfesores" asp-action="GestorProfesores">Profesores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="GestorEstudiantes" asp-action="GestorEstudiantes">Estudiantes</a>
+                            </li>
+                        </ul>
+                    </div>
                 }
             </div>
-
         </nav>
-
     </header>
-
-
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -80,26 +57,14 @@
         </main>
     </div>
 
-
     <style>
-        #Title_Header{
+        #Title_Header {
             color: #4082D0;
-
         }
 
         .Header_Estilo1 {
             font-family: 'Roboto', sans-serif;
-            font-weight: 500; 
-            font-size: 25px;
-            letter-spacing: 0px; 
-            text-align: left; 
-            text-transform: none; 
-            display: inline;
-        }
-
-        .Header_Estilo2 {
-            font-family: 'Roboto', sans-serif;
-            font-weight: bold; 
+            font-weight: 500;
             font-size: 25px;
             letter-spacing: 0px;
             text-align: left;
@@ -107,8 +72,16 @@
             display: inline;
         }
 
+        .Header_Estilo2 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            font-size: 25px;
+            letter-spacing: 0px;
+            text-align: left;
+            text-transform: none;
+            display: inline;
+        }
     </style>
-
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
