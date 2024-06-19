@@ -29,7 +29,9 @@ namespace OrientaTEC_MVC.Controllers
         public IActionResult Students()
         {
             List<Notification> notifications = notificationDAO.GetAllNotifications();
-            ViewData["Notifications"] = notifications;
+            List<Notification> sortedNotifications = notifications.OrderByDescending(n => n.DateTime).ToList();
+
+            ViewData["Notifications"] = sortedNotifications;
             return View("~/Views/Pages/Students.cshtml");
         }
 

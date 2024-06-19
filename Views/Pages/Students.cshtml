@@ -279,7 +279,7 @@
 
         <!--contenidoo de las secciones-->
 
-        <div class="content" id="section1">
+        <div class="content" id="section1" style="overflow-y:auto; max-height:400px;">
             @foreach (var notification in notifications.Where( n=> !n.Visto))
             {
                 <div class="notification" data-id="@notification.Id"    onclick="moveToSection2(this)">
