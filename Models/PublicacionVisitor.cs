@@ -17,7 +17,7 @@ namespace OrientaTEC_MVC.Models
                 Console.WriteLine(fechaSistema);
                 Console.WriteLine(actividad.FechaExacta);
                 actividad.CambiarEstado(EstadoActividad.Notificada);
-                NotificarObservadores(actividad, $"Notificación: {actividad.Nombre}", $"Una nueva actividad ha sido publicada. La actividad '{actividad.Nombre}' está próxima a suceder.", fechaSistema);
+                NotificarObservadores(actividad, $"Notificación: {actividad.Nombre}", $"Una nueva actividad ha sido publicada. La actividad '{actividad.Nombre}' está próxima a suceder.", actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)));
             }
         }
 

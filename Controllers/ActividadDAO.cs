@@ -205,7 +205,7 @@ namespace OrientaTEC_MVC.Controllers
                     using (SqlCommand command = new SqlCommand(query, conn))
                     {
                         command.Parameters.AddWithValue("@IdActividad", idActividad);
-                        command.Parameters.AddWithValue("@NuevoEstado", (int)nuevoEstado);
+                        command.Parameters.AddWithValue("@NuevoEstado", (int)nuevoEstado+1);
 
                         command.ExecuteNonQuery();
                     }

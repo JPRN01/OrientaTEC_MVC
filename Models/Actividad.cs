@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrientaTEC_MVC.Controllers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -85,7 +86,16 @@ namespace OrientaTEC_MVC.Models
             get => aficheURL;
             set => aficheURL = value;
         }
-
+        public void CambiarEstado(EstadoActividad estado)
+        {
+            Estado.Estado = estado;
+            ActividadDAO actividadDAO = new ActividadDAO();
+            actividadDAO.ActualizarEstado(this.idActividad, estado);
+            if (estado == EstadoActividad.Cancelada)
+            {
+                NotificarObservadores(this, $"Cancelación: {this.Nombre}", $"La actividad '{this.Nombre}' ha sido cancelada.", new DateTime());
+            }
+        }
         public EstadoRegistrado Estado
         {
             get => estado;
@@ -120,15 +130,6 @@ namespace OrientaTEC_MVC.Models
         {
             visitor.VisitarPublicacion(this);
             visitor.VisitarRecordatorio(this);
-        }
-
-        public void CambiarEstado(EstadoActividad estado)
-        {
-            Estado.Estado = estado;
-            if (estado == EstadoActividad.Cancelada)
-            {
-                NotificarObservadores(this, $"Cancelación: {this.Nombre}", $"La actividad '{this.Nombre}' ha sido cancelada.", new DateTime());
-            }
         }
 
         public void AgregarObservador(Observador observador)

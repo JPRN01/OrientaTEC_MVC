@@ -17,7 +17,7 @@ namespace OrientaTEC_MVC.Models
             DateTime fechaSistema = SesionSingleton.Instance.FECHA_DEL_SISTEMA;
             if (actividad.Estado.Estado == EstadoActividad.Notificada && actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)) <= fechaSistema && actividad.FechaExacta > fechaSistema)
 
-                for (DateTime nuevoRecordatorio = actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)); nuevoRecordatorio < actividad.FechaExacta && nuevoRecordatorio <= fechaSistema; nuevoRecordatorio.AddDays(actividad.DiasParaRecordar))
+                for (DateTime nuevoRecordatorio = actividad.FechaExacta.AddDays(-(actividad.DiasPreviosParaAnunciar)).AddDays(actividad.DiasParaRecordar); nuevoRecordatorio < actividad.FechaExacta && nuevoRecordatorio <= fechaSistema; nuevoRecordatorio=nuevoRecordatorio.AddDays(actividad.DiasParaRecordar))
                 {
                     NotificarObservadores(actividad, $"Recordatorio: {actividad.Nombre}", $"La actividad '{actividad.Nombre}' está próxima a suceder.", nuevoRecordatorio);
                 }

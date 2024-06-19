@@ -24,24 +24,30 @@ namespace OrientaTEC_MVC.Controllers
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand(query, connection))
+                try
                 {
                     connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        while (reader.Read())
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            notifications.Add(new Notification
+                            while (reader.Read())
                             {
-                                Id = Convert.ToInt32(reader["Id"]),
-                                Title = reader["Title"].ToString(),
-                                Message = reader["Message"].ToString(),
-                                DateTime = Convert.ToDateTime(reader["DateTime"]),
-                                Visto = Convert.ToBoolean(reader["Visto"]),
-                                Actividad = reader["Actividad_Id"] != DBNull.Value ? new Actividad { IdActividad = Convert.ToInt32(reader["Actividad_Id"]) } : null
-                            });
+                                notifications.Add(new Notification
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Title = reader["Title"].ToString(),
+                                    Message = reader["Message"].ToString(),
+                                    DateTime = Convert.ToDateTime(reader["DateTime"]),
+                                    Visto = Convert.ToBoolean(reader["Visto"]),
+                                    Actividad = reader["Actividad_Id"] != DBNull.Value ? new Actividad { IdActividad = Convert.ToInt32(reader["Actividad_Id"]) } : null
+                                });
+                            }
                         }
                     }
+                }
+                finally
+                {
                     connection.Close();
                 }
             }
@@ -56,25 +62,31 @@ namespace OrientaTEC_MVC.Controllers
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand(query, connection))
+                try
                 {
-                    command.Parameters.AddWithValue("@Id", id);
                     connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        if (reader.Read())
+                        command.Parameters.AddWithValue("@Id", id);
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            notification = new Notification
+                            if (reader.Read())
                             {
-                                Id = Convert.ToInt32(reader["Id"]),
-                                Title = reader["Title"].ToString(),
-                                Message = reader["Message"].ToString(),
-                                DateTime = Convert.ToDateTime(reader["DateTime"]),
-                                Visto = Convert.ToBoolean(reader["Visto"]),
-                                Actividad = reader["Actividad_Id"] != DBNull.Value ? new Actividad { IdActividad = Convert.ToInt32(reader["Actividad_Id"]) } : null
-                            };
+                                notification = new Notification
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Title = reader["Title"].ToString(),
+                                    Message = reader["Message"].ToString(),
+                                    DateTime = Convert.ToDateTime(reader["DateTime"]),
+                                    Visto = Convert.ToBoolean(reader["Visto"]),
+                                    Actividad = reader["Actividad_Id"] != DBNull.Value ? new Actividad { IdActividad = Convert.ToInt32(reader["Actividad_Id"]) } : null
+                                };
+                            }
                         }
                     }
+                }
+                finally
+                {
                     connection.Close();
                 }
             }
@@ -101,6 +113,10 @@ namespace OrientaTEC_MVC.Controllers
                 {
                     Console.WriteLine("Error marking notification as viewed: " + ex.Message);
                 }
+                finally
+                {
+                    conn.Close();
+                }
             }
         }
 
@@ -111,39 +127,45 @@ namespace OrientaTEC_MVC.Controllers
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                try
+                conn.Open();
+                using (SqlTransaction transaction = conn.BeginTransaction())
                 {
-                    conn.Open();
-
-                    using (SqlCommand checkCommand = new SqlCommand(queryCheck, conn))
+                    try
                     {
-                        checkCommand.Parameters.AddWithValue("@Title", notification.Title);
-                        checkCommand.Parameters.AddWithValue("@DateTime", notification.DateTime);
-                        checkCommand.Parameters.AddWithValue("@Actividad_Id", notification.Actividad?.IdActividad ?? (object)DBNull.Value);
-
-                        int count = (int)checkCommand.ExecuteScalar();
-                        if (count > 0)
+                        using (SqlCommand checkCommand = new SqlCommand(queryCheck, conn, transaction))
                         {
-                            return true;
+                            checkCommand.Parameters.AddWithValue("@Title", notification.Title);
+                            checkCommand.Parameters.AddWithValue("@DateTime", notification.DateTime);
+                            checkCommand.Parameters.AddWithValue("@Actividad_Id", notification.Actividad?.IdActividad ?? (object)DBNull.Value);
+
+                            int count = (int)checkCommand.ExecuteScalar();
+                            if (count > 0)
+                            {
+                                transaction.Commit();
+                                return true;
+                            }
                         }
-                    }
 
-                    using (SqlCommand insertCommand = new SqlCommand(queryInsert, conn))
+                        using (SqlCommand insertCommand = new SqlCommand(queryInsert, conn, transaction))
+                        {
+                            insertCommand.Parameters.AddWithValue("@Title", notification.Title);
+                            insertCommand.Parameters.AddWithValue("@Message", notification.Message);
+                            insertCommand.Parameters.AddWithValue("@DateTime", notification.DateTime);
+                            insertCommand.Parameters.AddWithValue("@Visto", notification.Visto);
+                            insertCommand.Parameters.AddWithValue("@Actividad_Id", notification.Actividad?.IdActividad ?? (object)DBNull.Value);
+
+                            insertCommand.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (SqlException ex)
                     {
-                        insertCommand.Parameters.AddWithValue("@Title", notification.Title);
-                        insertCommand.Parameters.AddWithValue("@Message", notification.Message);
-                        insertCommand.Parameters.AddWithValue("@DateTime", notification.DateTime);
-                        insertCommand.Parameters.AddWithValue("@Visto", notification.Visto);
-                        insertCommand.Parameters.AddWithValue("@Actividad_Id", notification.Actividad?.IdActividad ?? (object)DBNull.Value);
-
-                        insertCommand.ExecuteNonQuery();
+                        transaction.Rollback();
+                        Console.WriteLine("Error adding notification: " + ex.Message);
+                        return false;
                     }
-                    return true;
-                }
-                catch (SqlException ex)
-                {
-                    Console.WriteLine("Error adding notification: " + ex.Message);
-                    return false;
                 }
             }
         }
@@ -176,6 +198,10 @@ namespace OrientaTEC_MVC.Controllers
                     Console.WriteLine("Error updating notification: " + ex.Message);
                     return false;
                 }
+                finally
+                {
+                    conn.Close();
+                }
             }
         }
 
@@ -199,6 +225,10 @@ namespace OrientaTEC_MVC.Controllers
                 {
                     Console.WriteLine("Error deleting notification: " + ex.Message);
                     return false;
+                }
+                finally
+                {
+                    conn.Close();
                 }
             }
         }
