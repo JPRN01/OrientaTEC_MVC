@@ -27,10 +27,10 @@
             }
         }
 
-        public Usuario UsuarioActual { get; set; }
         public DateTime FECHA_DEL_SISTEMA { get; set; }
 
 
+        public IUsuario UsuarioActual { get; set; }
 
         private SesionSingleton() { }
     }
