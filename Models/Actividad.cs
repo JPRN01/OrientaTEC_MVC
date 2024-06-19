@@ -1,6 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OrientaTEC_MVC.Models
 {
@@ -18,106 +18,125 @@ namespace OrientaTEC_MVC.Models
         private string aficheURL;
         private EstadoRegistrado estado;
         private TipoActividad tipo;
-        private List<Comentario> comentarios;
-        private List<Profesor> responsables;
-        private List<FechaRecordatorio> recordatorios;
+        private List<Comentario> comentarios = new List<Comentario>();
+        private List<Profesor> responsables = new List<Profesor>();
+        private List<FechaRecordatorio> recordatorios = new List<FechaRecordatorio>();
 
         [Required]
         public int IdActividad
         {
-            get { return idActividad; }
-            set { idActividad = value; }
+            get => idActividad;
+            set => idActividad = value;
         }
 
         [Required]
         public string Nombre
         {
-            get { return nombre; }
-            set { nombre = value; }
+            get => nombre;
+            set => nombre = value;
         }
 
         public string Descripcion
         {
-            get { return descripcion; }
-            set { descripcion = value; }
+            get => descripcion;
+            set => descripcion = value;
         }
 
-        
         public int Semana
         {
-            get { return semana; }
-            set { semana = value; }
+            get => semana;
+            set => semana = value;
         }
 
-       
         public DateTime FechaExacta
         {
-            get { return fechaExacta; }
-            set { fechaExacta = value; }
+            get => fechaExacta;
+            set => fechaExacta = value;
         }
 
         public int DiasPreviosParaAnunciar
         {
-            get { return diasPreviosParaAnunciar; }
-            set { diasPreviosParaAnunciar = value; }
+            get => diasPreviosParaAnunciar;
+            set => diasPreviosParaAnunciar = value;
         }
 
         public int DiasParaRecordar
         {
-            get { return diasParaRecordar; }
-            set { diasParaRecordar = value; }
+            get => diasParaRecordar;
+            set => diasParaRecordar = value;
         }
 
         public bool EsVirtual
         {
-            get { return esVirtual; }
-            set { esVirtual = value; }
+            get => esVirtual;
+            set => esVirtual = value;
         }
 
         public string ReunionURL
         {
-            get { return reunionURL; }
-            set { reunionURL = value; }
+            get => reunionURL;
+            set => reunionURL = value;
         }
 
         public string AficheURL
         {
-            get { return aficheURL; }
-            set { aficheURL = value; }
+            get => aficheURL;
+            set => aficheURL = value;
         }
 
-     
         public EstadoRegistrado Estado
         {
-            get { return estado; }
-            set { estado = value; }
+            get => estado;
+            set => estado = value;
         }
 
-       
         public TipoActividad Tipo
         {
-            get { return tipo; }
-            set { tipo = value; }
+            get => tipo;
+            set => tipo = value;
         }
 
         public List<Comentario> Comentarios
         {
-            get { return comentarios; }
-            set { comentarios = value ?? new List<Comentario>(); }
+            get => comentarios;
+            set => comentarios = value ?? new List<Comentario>();
         }
 
         public List<Profesor> Responsables
         {
-            get { return responsables; }
-            set { responsables = value ?? new List<Profesor>(); }
+            get => responsables;
+            set => responsables = value ?? new List<Profesor>();
         }
 
         public List<FechaRecordatorio> Recordatorios
         {
-            get { return recordatorios; }
-            set { recordatorios = value ?? new List<FechaRecordatorio>(); }
+            get => recordatorios;
+            set => recordatorios = value ?? new List<FechaRecordatorio>();
+        }
+
+        public void Aceptar(Visitor visitor, DateTime fechaSistema)
+        {
+            visitor.VisitarPublicacion(this, fechaSistema);
+        }
+
+        public void CambiarEstado(EstadoActividad estado)
+        {
+            Estado = estado;
+        }
+
+        public void AgregarObservador(Observador observador)
+        {
+            // Lógica para agregar un observador
+        }
+
+        public void EliminarObservador(Observador observador)
+        {
+            // Lógica para eliminar un observador
+        }
+
+        public void NotificarObservadores()
+        {
+            // Lógica para notificar observadores
         }
     }
 }
-
-
