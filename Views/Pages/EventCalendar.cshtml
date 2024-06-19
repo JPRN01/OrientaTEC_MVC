@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Calendario de Actividades";
 }
-@model List<OrientaTEC_MVC.Models.Notification>
+@model List<OrientaTEC_MVC.Models.Actividad>
 
 
 
@@ -27,9 +27,9 @@
 
             var events = @Html.Raw(Json.Serialize(Model.Select(notification => new
         {
-            title = notification.Actividad.Nombre,
-            start = notification.Actividad.FechaExacta.ToString("yyyy-MM-dd"),
-            description = notification.Actividad.Descripcion
+            title = notification.Nombre,
+            start = notification.FechaExacta.ToString("yyyy-MM-dd"),
+            description = notification.Descripcion
         })));
 
             var calendar = new FullCalendar.Calendar(calendarEl, {

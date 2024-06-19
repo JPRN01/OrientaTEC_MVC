@@ -22,7 +22,7 @@ namespace OrientaTEC_MVC.Models
         private List<Comentario> comentarios = new List<Comentario>();
         private List<Profesor> responsables = new List<Profesor>();
         private List<FechaRecordatorio> recordatorios = new List<FechaRecordatorio>();
-        private List<Observador> observadores = new List<Observador>();
+        private List<Observador> observadores = new List<Observador>() { };
 
 
         [Required]
@@ -91,6 +91,7 @@ namespace OrientaTEC_MVC.Models
             Estado.Estado = estado;
             ActividadDAO actividadDAO = new ActividadDAO();
             actividadDAO.ActualizarEstado(this.idActividad, estado);
+            AgregarObservador(new BuzonDeEstudiante());
             if (estado == EstadoActividad.Cancelada)
             {
                 NotificarObservadores(this, $"Cancelación: {this.Nombre}", $"La actividad '{this.Nombre}' ha sido cancelada.", new DateTime());

@@ -30,6 +30,8 @@ namespace OrientaTEC_MVC.Controllers
         {
             List<Notification> notifications = notificationDAO.GetAllNotifications();
             ViewData["Notifications"] = notifications;
+            List<Actividad> actividades = actividadDAO.ObtenerTodasLasActividades();
+            ViewData["Actividades"] = actividades;
             var usuarioActual = SesionSingleton.Instance.UsuarioActual as EstudianteDecorator;
             if (usuarioActual == null)
             {

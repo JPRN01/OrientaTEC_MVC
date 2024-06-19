@@ -17,103 +17,105 @@ namespace OrientaTEC_MVC.Controllers
             connectionString = config.GetConnectionString("DefaultConnection");
         }
 
-		public List<Notification> GetAllNotifications()
-		{
-			List<Notification> notifications = new List<Notification>();
-			string query = @"
+        public List<Notification> GetAllNotifications()
+        {
+            List<Notification> notifications = new List<Notification>();
+            string query = @"
                 SELECT n.Id, n.Title, n.Message, n.DateTime, n.Visto, n.Actividad_Id, 
-                       a.nombre AS ActividadNombre, a.descripcion AS ActividadDescripcion 
+                       a.nombre AS ActividadNombre, a.descripcion AS ActividadDescripcion, a.fecha_exacta AS ActividadFechaExacta
                 FROM Notification n
                 LEFT JOIN Actividad a ON n.Actividad_Id = a.ID_ACTIVIDAD";
 
-			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				try
-				{
-					connection.Open();
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						using (SqlDataReader reader = command.ExecuteReader())
-						{
-							while (reader.Read())
-							{
-								notifications.Add(new Notification
-								{
-									Id = Convert.ToInt32(reader["Id"]),
-									Title = reader["Title"].ToString(),
-									Message = reader["Message"].ToString(),
-									DateTime = Convert.ToDateTime(reader["DateTime"]),
-									Visto = Convert.ToBoolean(reader["Visto"]),
-									Actividad = reader["Actividad_Id"] != DBNull.Value ? new Actividad
-									{
-										IdActividad = Convert.ToInt32(reader["Actividad_Id"]),
-										Nombre = reader["ActividadNombre"].ToString(),
-										Descripcion = reader["ActividadDescripcion"].ToString()
-									} : null
-								});
-							}
-						}
-					}
-				}
-				finally
-				{
-					connection.Close();
-				}
-			}
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                notifications.Add(new Notification
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Title = reader["Title"].ToString(),
+                                    Message = reader["Message"].ToString(),
+                                    DateTime = Convert.ToDateTime(reader["DateTime"]),
+                                    Visto = Convert.ToBoolean(reader["Visto"]),
+                                    Actividad = reader["Actividad_Id"] != DBNull.Value ? new Actividad
+                                    {
+                                        IdActividad = Convert.ToInt32(reader["Actividad_Id"]),
+                                        Nombre = reader["ActividadNombre"].ToString(),
+                                        Descripcion = reader["ActividadDescripcion"].ToString(),
+                                        FechaExacta = Convert.ToDateTime(reader["ActividadFechaExacta"])
+                                    } : null
+                                });
+                            }
+                        }
+                    }
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
 
-			return notifications;
-		}
+            return notifications;
+        }
 
-		public Notification GetNotificationById(int id)
-		{
-			Notification notification = null;
-			string query = @"
+        public Notification GetNotificationById(int id)
+        {
+            Notification notification = null;
+            string query = @"
                 SELECT n.Id, n.Title, n.Message, n.DateTime, n.Visto, n.Actividad_Id, 
-                       a.nombre AS ActividadNombre, a.descripcion AS ActividadDescripcion 
+                       a.nombre AS ActividadNombre, a.descripcion AS ActividadDescripcion, a.fecha_exacta AS ActividadFechaExacta
                 FROM Notification n
                 LEFT JOIN Actividad a ON n.Actividad_Id = a.ID_ACTIVIDAD 
                 WHERE n.Id = @Id";
 
-			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				try
-				{
-					connection.Open();
-					using (SqlCommand command = new SqlCommand(query, connection))
-					{
-						command.Parameters.AddWithValue("@Id", id);
-						using (SqlDataReader reader = command.ExecuteReader())
-						{
-							if (reader.Read())
-							{
-								notification = new Notification
-								{
-									Id = Convert.ToInt32(reader["Id"]),
-									Title = reader["Title"].ToString(),
-									Message = reader["Message"].ToString(),
-									DateTime = Convert.ToDateTime(reader["DateTime"]),
-									Visto = Convert.ToBoolean(reader["Visto"]),
-									Actividad = reader["Actividad_Id"] != DBNull.Value ? new Actividad
-									{
-										IdActividad = Convert.ToInt32(reader["Actividad_Id"]),
-										Nombre = reader["ActividadNombre"].ToString(),
-										Descripcion = reader["ActividadDescripcion"].ToString()
-									} : null
-								};
-							}
-						}
-					}
-				}
-				finally
-				{
-					connection.Close();
-				}
-			}
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                notification = new Notification
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Title = reader["Title"].ToString(),
+                                    Message = reader["Message"].ToString(),
+                                    DateTime = Convert.ToDateTime(reader["DateTime"]),
+                                    Visto = Convert.ToBoolean(reader["Visto"]),
+                                    Actividad = reader["Actividad_Id"] != DBNull.Value ? new Actividad
+                                    {
+                                        IdActividad = Convert.ToInt32(reader["Actividad_Id"]),
+                                        Nombre = reader["ActividadNombre"].ToString(),
+                                        Descripcion = reader["ActividadDescripcion"].ToString(),
+                                        FechaExacta = Convert.ToDateTime(reader["ActividadFechaExacta"])
+                                    } : null
+                                };
+                            }
+                        }
+                    }
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
 
-			return notification;
-		}
+            return notification;
+        }
 
-		public void MarkAsViewed(int id)
+        public void MarkAsViewed(int id)
         {
             string query = "UPDATE Notification SET Visto = 1 WHERE Id = @Id";
 

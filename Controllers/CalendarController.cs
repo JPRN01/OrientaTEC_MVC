@@ -8,25 +8,26 @@ using System.Data.SqlClient;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
+using OrientaTEC_MVC.Controllers;
 
 
 public class CalendarController : Controller
 {
 
-    private readonly NotificationDAO _notificationDao;
+    private readonly ActividadDAO actividadDAO;
 
 
     public CalendarController()
     {
-        _notificationDao = new NotificationDAO(); 
+        actividadDAO = new ActividadDAO(); 
     }
 
     [Route("Calendar/EventCalendar")]
     public IActionResult EventCalendar()
     {
-        var notifications = _notificationDao.GetAllNotifications();
+        var actividades = actividadDAO.ObtenerTodasLasActividades();
 
-        return View("~/Views/Pages/EventCalendar.cshtml", notifications);
+        return View("~/Views/Pages/EventCalendar.cshtml", actividades);
 
     }
 

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jpabl\\Documents\\3OrientaTEC_MVC\\OrientaTEC_MVC.csproj": {}
+    "C:\\GitHub\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jpabl\\Documents\\3OrientaTEC_MVC\\OrientaTEC_MVC.csproj": {
+    "C:\\GitHub\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jpabl\\Documents\\3OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
+        "projectUniqueName": "C:\\GitHub\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
         "projectName": "OrientaTEC_MVC",
-        "projectPath": "C:\\Users\\jpabl\\Documents\\3OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
-        "packagesPath": "C:\\Users\\jpabl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jpabl\\Documents\\3OrientaTEC_MVC\\obj\\",
+        "projectPath": "C:\\GitHub\\OrientaTEC_MVC\\OrientaTEC_MVC.csproj",
+        "packagesPath": "C:\\Users\\david\\.nuget\\packages\\",
+        "outputPath": "C:\\GitHub\\OrientaTEC_MVC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\jpabl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\david\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -98,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
