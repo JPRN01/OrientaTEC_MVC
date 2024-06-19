@@ -12,7 +12,7 @@ namespace OrientaTEC_MVC.Controllers
         {
             List<Notification> notifications = notificationDAO.GetAllNotifications();
 
-            ViewData["Notifications"] = notifications; //PASAMOS LAS NOTIFICACIONES A LA VISTA VIEWDATA
+            ViewData["Notifications"] = notifications; 
 
             return View("~/Views/Pages/Students.cshtml");
         }
@@ -21,20 +21,51 @@ namespace OrientaTEC_MVC.Controllers
 			var notification = notificationDAO.GetNotificationById(id);
 			if (notification == null)
 			{
-				return NotFound(); // Si no encuentra la notificación, retorna un error 404
+				return NotFound(); 
 			}
-			// Asegúrate de especificar la ruta completa a la vista
-			return View("~/Views/Pages/Info.cshtml", notification); // Pasa la notificación encontrada a la vista
+		
+			return View("~/Views/Pages/Info.cshtml", notification); 
 		}
 
 
 		public IActionResult Logout()
         {
            
-
-            // Redirige al usuario a la página principal o a donde prefieras
             return RedirectToAction("Index", "Home");
         }
+
+
+        [HttpPost]
+        public IActionResult MarkAsViewed(int id)
+        {
+            notificationDAO.MarkAsViewed(id); 
+            return Ok();
+        }
+
+
+
+
+
+
+
+        [HttpPost]
+        public IActionResult UpdateDate([FromBody] DateTimeModel model)
+        {
+            DateTime selectedDate = model.Date;
+
+            SesionSingleton.Instance.FECHA_DEL_SISTEMA = selectedDate;
+
+            ViewData["SelectedDate"] = selectedDate;
+
+            return Ok();
+        }
+
+        public class DateTimeModel
+        {
+            public DateTime Date { get; set; }
+        }
+
+
 
     }
 }
