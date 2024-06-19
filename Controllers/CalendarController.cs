@@ -10,25 +10,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using OrientaTEC_MVC.Controllers;
 
-
-public class CalendarController : Controller
+namespace OrientaTEC_MVC.Controllers
 {
-
-    private readonly ActividadDAO actividadDAO;
-
-
-    public CalendarController()
+    public class CalendarController : Controller
     {
-        actividadDAO = new ActividadDAO(); 
+    
+        private readonly ActividadDAO actividadDAO;
+    
+    
+        public CalendarController()
+        {
+            actividadDAO = new ActividadDAO(); 
+        }
+    
+        [Route("Calendar/EventCalendar")]
+        public IActionResult EventCalendar()
+        {
+            var actividades = actividadDAO.ObtenerTodasLasActividades();
+    
+            return View("~/Views/Pages/EventCalendar.cshtml", actividades);
+    
+        }
+    
     }
-
-    [Route("Calendar/EventCalendar")]
-    public IActionResult EventCalendar()
-    {
-        var actividades = actividadDAO.ObtenerTodasLasActividades();
-
-        return View("~/Views/Pages/EventCalendar.cshtml", actividades);
-
-    }
-
 }
