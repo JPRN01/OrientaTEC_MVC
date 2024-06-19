@@ -16,7 +16,6 @@ namespace OrientaTEC_MVC.Models
         {
             get => id;
             set => id = value;
-
         }
 
         private string title;
@@ -74,21 +73,14 @@ namespace OrientaTEC_MVC.Models
 
         public Notification() { }
 
-        public Notification(int id, string title, string message, DateTime dateTime)
+        public Notification(int id, string title, string message, DateTime dateTime, bool visto=false)
 
         {
-
             Id = id;
             Title = title;
             Message = message;
             DateTime = dateTime;
-            Visto = false; 
-
-
-
-
-
-
+            Visto = visto; 
         }
 
 

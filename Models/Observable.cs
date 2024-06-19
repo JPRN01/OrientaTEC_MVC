@@ -4,6 +4,6 @@
     {
         void AgregarObservador(Observador observador);
         void EliminarObservador(Observador observador);
-        void NotificarObservadores();
+        void NotificarObservadores(Actividad actividad, string titulo, string mensaje, DateTime fecha);
     }
 }

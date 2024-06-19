@@ -2,6 +2,6 @@
 {
     public interface Observador
     {
-        void Actualizar();
+        void Actualizar(Actividad actividad, string titulo, string mensaje, DateTime fecha);
     }
 }

@@ -7,30 +7,21 @@ namespace OrientaTEC_MVC.Models
     {
         private List<Observador> observadores = new List<Observador>();
 
-        public void VisitarPublicacion(Actividad actividad, DateTime fechaSistema)
+        public void VisitarPublicacion(Actividad actividad)
         {
             // No hace nada ya que no es su responsabilidad generar Publicaciones
         }
 
-        public void VisitarRecordatorio(Actividad actividad, DateTime fechaSistema)
+        public void VisitarRecordatorio(Actividad actividad)
         {
+            DateTime fechaSistema= SesionSingleton.Instance.FECHA_DEL_SISTEMA;
             if (actividad.Estado.Estado == EstadoActividad.Notificada)
             {
                 foreach (var recordatorio in actividad.Recordatorios)
                 {
                     if (recordatorio.Fecha == fechaSistema)
                     {
-                        // Preparar mensaje de recordatorio
-                        Notification mensaje = new Notification
-                        {
-                            Title = $"Recordatorio: {actividad.Nombre}",
-                            Message = $"La actividad '{actividad.Nombre}' está próxima a suceder.",
-                            DateTime = fechaSistema,
-                            Actividad = actividad
-                        };
-
-                        // Notificar observadores con el nuevo mensaje
-                        //NotificarObservadores(mensaje);
+                        NotificarObservadores(actividad, $"Recordatorio: {actividad.Nombre}", $"La actividad '{actividad.Nombre}' está próxima a suceder.", fechaSistema);
                     }
                 }
             }
@@ -46,11 +37,11 @@ namespace OrientaTEC_MVC.Models
             observadores.Remove(observador);
         }
 
-        public void NotificarObservadores()
+        public void NotificarObservadores(Actividad actividad, string titulo, string mensaje, DateTime fecha)
         {
             foreach (var observador in observadores)
             {
-                observador.Actualizar();
+                observador.Actualizar(actividad, titulo, mensaje, fecha);
             }
         }
     }

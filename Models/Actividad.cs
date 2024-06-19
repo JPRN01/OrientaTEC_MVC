@@ -116,15 +116,19 @@ namespace OrientaTEC_MVC.Models
             set => recordatorios = value ?? new List<FechaRecordatorio>();
         }
 
-        public void Aceptar(Visitor visitor, DateTime fechaSistema)
+        public void Aceptar(Visitor visitor)
         {
-            visitor.VisitarPublicacion(this, fechaSistema);
-            visitor.VisitarRecordatorio(this, fechaSistema);
+            visitor.VisitarPublicacion(this);
+            visitor.VisitarRecordatorio(this);
         }
 
         public void CambiarEstado(EstadoActividad estado)
         {
-            Estado = estado;
+            Estado.Estado = estado;
+            if (estado == EstadoActividad.Cancelada)
+            {
+                NotificarObservadores(this, $"Cancelación: {this.Nombre}", $"La actividad '{this.Nombre}' ha sido cancelada.", new DateTime());
+            }
         }
 
         public void AgregarObservador(Observador observador)
@@ -137,11 +141,11 @@ namespace OrientaTEC_MVC.Models
             observadores.Remove(observador);
         }
 
-        public void NotificarObservadores()
+        public void NotificarObservadores(Actividad actividad, string titulo, string mensaje, DateTime fecha)
         {
             foreach (var observador in observadores)
             {
-                observador.Actualizar();
+                observador.Actualizar(actividad, titulo, mensaje, fecha);
             }
         }
     }

@@ -4,7 +4,7 @@ namespace OrientaTEC_MVC.Models
 {
     public interface Visitor
     {
-        void VisitarPublicacion(Actividad actividad, DateTime fechaSistema);
-        void VisitarRecordatorio(Actividad actividad, DateTime fechaSistema);
+        void VisitarPublicacion(Actividad actividad);
+        void VisitarRecordatorio(Actividad actividad);
     }
 }

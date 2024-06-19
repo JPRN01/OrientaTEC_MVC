@@ -12,14 +12,22 @@ namespace OrientaTEC_MVC.Models
             set => mensajes = value;
         }
 
-        public void Actualizar()
+        public void Actualizar(Actividad actividad, string titulo, string texto, DateTime fecha)
         {
-            // Lógica para actualizar el buzón
+            Notification nuevo_mensaje = new Notification
+            {
+                Title = titulo,
+                Message = texto,
+                DateTime = fecha,
+                Actividad = actividad
+            };
+            AgregarMensaje(nuevo_mensaje);
         }
 
         public void AgregarMensaje(Notification mensaje)
         {
             Mensajes.Add(mensaje);
+
         }
 
         public void EliminarMensaje(Notification mensaje)
@@ -27,9 +35,5 @@ namespace OrientaTEC_MVC.Models
             Mensajes.Remove(mensaje);
         }
 
-        public List<Notification> FiltrarMensajes(bool leidas)
-        {
-            return new List<Notification>();
-        }
     }
 }
