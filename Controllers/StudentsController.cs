@@ -42,6 +42,14 @@ namespace OrientaTEC_MVC.Controllers
             return Ok();
         }
 
+        public IActionResult DeleteNotification(int id)
+        {
+            var dao = new NotificationDAO();
+            dao.DeleteNotification(id);
+            return Json(new { success = true });
+        }
+
+
 
 
 

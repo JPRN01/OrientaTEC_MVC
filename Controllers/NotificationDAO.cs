@@ -50,7 +50,7 @@ public class NotificationDAO
     // Método para obtener una notificación específica por ID
     public Notification GetNotificationById(int id)
     {
-        // Utiliza el método Find para buscar la notificación que coincida con el ID proporcionado
+        
         return notifications.Find(notification => notification.Id == id);
     }
 
@@ -62,6 +62,16 @@ public class NotificationDAO
             notification.Visto = true;
         }
     }
+
+    public void DeleteNotification(int id)
+    {
+        var notification = notifications.Find(n => n.Id == id);
+        if (notification != null)
+        {
+            notifications.Remove(notification);
+        }
+    }
+
 
 
 }
