@@ -9,12 +9,31 @@ namespace OrientaTEC_MVC.Models
 
         public void VisitarPublicacion(Actividad actividad, DateTime fechaSistema)
         {
-            // Implementación de la lógica de visita de publicación
+            // No hace nada ya que no es su responsabilidad generar Publicaciones
         }
 
         public void VisitarRecordatorio(Actividad actividad, DateTime fechaSistema)
         {
-            // Implementación de la lógica de visita de recordatorio
+            if (actividad.Estado.Estado == EstadoActividad.Notificada)
+            {
+                foreach (var recordatorio in actividad.Recordatorios)
+                {
+                    if (recordatorio.Fecha == fechaSistema)
+                    {
+                        // Preparar mensaje de recordatorio
+                        Notification mensaje = new Notification
+                        {
+                            Title = $"Recordatorio: {actividad.Nombre}",
+                            Message = $"La actividad '{actividad.Nombre}' está próxima a suceder.",
+                            DateTime = fechaSistema,
+                            Actividad = actividad
+                        };
+
+                        // Notificar observadores con el nuevo mensaje
+                        //NotificarObservadores(mensaje);
+                    }
+                }
+            }
         }
 
         public void AgregarObservador(Observador observador)

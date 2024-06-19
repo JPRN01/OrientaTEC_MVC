@@ -21,6 +21,8 @@ namespace OrientaTEC_MVC.Models
         private List<Comentario> comentarios = new List<Comentario>();
         private List<Profesor> responsables = new List<Profesor>();
         private List<FechaRecordatorio> recordatorios = new List<FechaRecordatorio>();
+        private List<Observador> observadores = new List<Observador>();
+
 
         [Required]
         public int IdActividad
@@ -117,6 +119,7 @@ namespace OrientaTEC_MVC.Models
         public void Aceptar(Visitor visitor, DateTime fechaSistema)
         {
             visitor.VisitarPublicacion(this, fechaSistema);
+            visitor.VisitarRecordatorio(this, fechaSistema);
         }
 
         public void CambiarEstado(EstadoActividad estado)
@@ -126,17 +129,20 @@ namespace OrientaTEC_MVC.Models
 
         public void AgregarObservador(Observador observador)
         {
-            // Lógica para agregar un observador
+            observadores.Add(observador);
         }
 
         public void EliminarObservador(Observador observador)
         {
-            // Lógica para eliminar un observador
+            observadores.Remove(observador);
         }
 
         public void NotificarObservadores()
         {
-            // Lógica para notificar observadores
+            foreach (var observador in observadores)
+            {
+                observador.Actualizar();
+            }
         }
     }
 }
