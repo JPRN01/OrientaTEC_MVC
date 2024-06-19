@@ -29,10 +29,13 @@ namespace OrientaTEC_MVC.Controllers
         public IActionResult Students()
         {
             List<Notification> notifications = notificationDAO.GetAllNotifications();
-            List<Notification> sortedNotifications = notifications.OrderByDescending(n => n.DateTime).ToList();
-
-            ViewData["Notifications"] = sortedNotifications;
-            return View("~/Views/Pages/Students.cshtml");
+            ViewData["Notifications"] = notifications;
+            var usuarioActual = SesionSingleton.Instance.UsuarioActual as EstudianteDecorator;
+            if (usuarioActual == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View("~/Views/Pages/Students.cshtml", usuarioActual);
         }
 
         public IActionResult Info(int id)

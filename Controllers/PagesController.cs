@@ -37,15 +37,6 @@ namespace OrientaTEC_MVC.Controllers
             return View();
         }
 
-        public IActionResult Students()
-        {
-            var usuarioActual = SesionSingleton.Instance.UsuarioActual as EstudianteDecorator;
-            if (usuarioActual == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            return View(usuarioActual);
-        }
 
         public IActionResult VerPerfil()
         {

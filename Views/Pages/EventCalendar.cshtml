@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Calendario de Actividades";
+}
+@model List<OrientaTEC_MVC.Models.Notification>
+
+
+
+<h2>@ViewData["Title"]"</h2>
+
+<head>
+
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css' rel='stylesheet' />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js'></script>
+
+</head>
+
+
+<div id='calendar'></div>
+
+
+<script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var events = @Html.Raw(Json.Serialize(Model.Select(notification => new
+        {
+            title = notification.Actividad.Nombre,
+            start = notification.Actividad.FechaExacta.ToString("yyyy-MM-dd"),
+            description = notification.Actividad.Descripcion
+        })));
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['dayGrid', 'interaction'],
+                initialView: 'dayGridMonth',
+                events: events,
+                eventClick: function (info) {
+                    alert('Event: ' + info.event.title);
+                    // Se podría añadir más lógica aquí para manejar el clic en el evento
+                }
+            });
+
+            calendar.render();
+        });
+
+
+</script>

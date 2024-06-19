@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -15,7 +16,7 @@
             <div class="container-fluid">
                 @if (ViewData["Title"].ToString() == "Students Page" || ViewData["Title"].ToString() == "Info Page" || ViewData["Title"].ToString() == "Ver Perfil")
                 {
-                    <a id="Title_Header" class="navbar-brand" asp-area="" asp-controller="Pages" asp-action="Students">
+                    <a id="Title_Header" class="navbar-brand" asp-area="" asp-controller="Students" asp-action="Students">
                         <p class="Header_Estilo1">Orienta</p><p class="Header_Estilo2">TEC</p>
                     </a>
                     @RenderSection("StudentHeaderContent", required: false)

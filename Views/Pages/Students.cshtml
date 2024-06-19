@@ -1,16 +1,13 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Students Page";
     var notifications = ViewData["Notifications"] as List<OrientaTEC_MVC.Models.Notification>;
 }
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
-  
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-
-
 
     <style>
 
@@ -188,53 +185,48 @@
             color: #ff0000 !important; /* Cambia el color del icono activo */
         }
 
-        .body2{
+        .body2 {
             display: flex;
-         
-
         }
-        .main{
 
+        .main {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-      
         }
 
 
-        .contenido{
-
+        .contenido {
             display: flex;
-            margin-top:130px;
-      
-
-        } 
-
-
-              .contenido img {
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            height: auto;
-        }
-        .contenido .texto {
-            margin-top: 32px;
-            text-align: center;
-        }
-        .contenido .texto h1 {
-            font-size: 36px;
-            font-weight: bold;
-            color: #1E40AF;
-        }
-        .contenido .texto p {
-            margin-top: 16px;
-            font-size: 20px;
-            color: #4B5563;
+            margin-top: 130px;
         }
 
 
+            .contenido img {
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                height: auto;
+            }
+
+            .contenido .texto {
+                margin-top: 32px;
+                text-align: center;
+            }
+
+                .contenido .texto h1 {
+                    font-size: 36px;
+                    font-weight: bold;
+                    color: #1E40AF;
+                }
+
+                .contenido .texto p {
+                    margin-top: 16px;
+                    font-size: 20px;
+                    color: #4B5563;
+                }
 
     </style>
 </head>
@@ -242,7 +234,7 @@
     @section StudentHeaderContent {
         <div class="nuevo">
             <ul class="sub">
-            
+
                 <div class="container2">
                     <input id="datetime-picker" class="datetime-picker" readonly>
                 </div>
@@ -252,6 +244,7 @@
                 <li><a onclick="openNotifications(event);"> <i class="ri-notification-3-fill" id="notification-icon"></i></a> </li>
                 <li><a onclick="openProfile(event);"><i class="ri-account-circle-line" id="profile-icon"></i></a></li>
 
+                <li><i class="ri-calendar-line" id="calendar-icon" onclick="redirectToCalendar();"></i></li>
 
 
             </ul>
@@ -279,10 +272,10 @@
 
         <!--contenidoo de las secciones-->
 
-        <div class="content" id="section1" style="overflow-y:auto; max-height:400px;">
-            @foreach (var notification in notifications.Where( n=> !n.Visto))
+        <div class="content" id="section1">
+            @foreach (var notification in notifications.Where(n => !n.Visto))
             {
-                <div class="notification" data-id="@notification.Id"    onclick="moveToSection2(this)">
+                <div class="notification" data-id="@notification.Id" onclick="moveToSection2(this)">
                     <div>
                         <h3>@notification.Title</h3>
                         <p>@notification.Message</p>
@@ -308,7 +301,7 @@
 
             @foreach (var notification in notifications.Where(n => n.Visto))
             {
-                <div class="notification" data-id="@notification.Id">
+                <div class="notification" data-id="@notification.Id" onclick="navigateToNotificationDetails(@notification.Id)">
                     <div>
                         <h3>@notification.Title</h3>
                         <p>@notification.Message</p>
@@ -344,11 +337,8 @@
 
         <div class="content" onclick="location.href='@Url.Action("VerPerfil", "Pages")'">Ver perfil</div>
         <div class="content" onclick="location.href='@Url.Action("Logout", "Students")'">Cerrar Sesión</div>
-         </div>
+    </div>
     <div>
-
-
-
     </div>
 
     <div class="body2">
@@ -367,14 +357,17 @@
         </main>
     </div>
 
-   
-  
+
+
 </body>
 
 
 
 
 <script>
+    function navigateToNotificationDetails(notificationId) {
+        window.location.href = '@Url.Action("Info", "Students", new { id = "__id__" })'.replace("__id__", notificationId);
+    }
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -459,6 +452,7 @@
 
         // Inicializar con la fecha y hora actual
         startRealDateInterval();
+        sendDateToServer(selectedDate);
 
         // Función para enviar la fecha seleccionada al servidor
         function sendDateToServer(date) {
@@ -528,8 +522,8 @@
     }
 
     function moveToInfoPage(activityId) {
-    window.location.href = '@Url.Action("Info", "Students", new { id = "__id__" })'.replace("__id__", activityId);
-}
+        window.location.href = '@Url.Action("Info", "Students", new { id = "__id__" })'.replace("__id__", activityId);
+    }
 
 
     function moveToSection2(notificationElement) {
@@ -559,6 +553,8 @@
     }
 
     function markNotificationAsViewed(notificationId) {
+
+
         fetch('/Students/MarkAsViewed?id=' + notificationId, {
             method: 'POST'
         }).then(response => {
@@ -604,7 +600,7 @@
         }
     });
 
-    
+
     document.getElementById('notification-panel').addEventListener('click', function (event) {
         event.stopPropagation();
     });
@@ -613,7 +609,7 @@
         event.stopPropagation();
     });
 
-   
+
     document.getElementById('logout-button').addEventListener('click', function () {
         alert('Sesión cerrada');
     });
@@ -621,5 +617,8 @@
 
 
 
+    function redirectToCalendar() {
+        window.location.href = '@Url.Action("EventCalendar", "Calendar")';
+    }
 
 </script>
