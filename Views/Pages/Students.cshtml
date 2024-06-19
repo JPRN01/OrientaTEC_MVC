@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-
-
-
     <style>
 
 
@@ -252,6 +249,7 @@
                 <li><a onclick="openNotifications(event);"> <i class="ri-notification-3-fill" id="notification-icon"></i></a> </li>
                 <li><a onclick="openProfile(event);"><i class="ri-account-circle-line" id="profile-icon"></i></a></li>
 
+                <li><i class="ri-calendar-line" id="calendar-icon" onclick="redirectToCalendar();"></i></li>
 
 
             </ul>
@@ -308,7 +306,7 @@
 
             @foreach (var notification in notifications.Where(n => n.Visto))
             {
-                <div class="notification" data-id="@notification.Id">
+                <div class="notification" data-id="@notification.Id" onclick="navigateToNotificationDetails(@notification.Id)">
                     <div>
                         <h3>@notification.Title</h3>
                         <p>@notification.Message</p>
@@ -371,6 +369,9 @@
 
 
 <script>
+    function navigateToNotificationDetails(notificationId) {
+        window.location.href = '@Url.Action("Info", "Students", new { id = "__id__" })'.replace("__id__", notificationId);
+    }
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -555,6 +556,8 @@
     }
 
     function markNotificationAsViewed(notificationId) {
+
+
         fetch('/Students/MarkAsViewed?id=' + notificationId, {
             method: 'POST'
         }).then(response => {
@@ -617,5 +620,8 @@
 
 
 
+    function redirectToCalendar() {
+        window.location.href = '@Url.Action("EventCalendar", "Calendar")';
+    }
 
 </script>
