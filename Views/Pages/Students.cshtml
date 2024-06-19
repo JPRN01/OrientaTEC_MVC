@@ -187,6 +187,55 @@
         .active-icon {
             color: #ff0000 !important; /* Cambia el color del icono activo */
         }
+
+        .body2{
+            display: flex;
+         
+
+        }
+        .main{
+
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+      
+        }
+
+
+        .contenido{
+
+            display: flex;
+            margin-top:130px;
+      
+
+        } 
+
+
+              .contenido img {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: auto;
+        }
+        .contenido .texto {
+            margin-top: 32px;
+            text-align: center;
+        }
+        .contenido .texto h1 {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1E40AF;
+        }
+        .contenido .texto p {
+            margin-top: 16px;
+            font-size: 20px;
+            color: #4B5563;
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -264,9 +313,6 @@
     </div>
 
 
-
-
-
     <!--PANEL DE AYUDA-->
     <!--SE TOMA EL ID DEL PANEL PROFILE-->
 
@@ -275,24 +321,54 @@
         <div class="header">
             <h2>Ayuda</h2>
         </div>
-
-
-
-
         <div class="content" onclick="location.href='@Url.Action("Logout", "Students")'">Cerrar Sesión</div>
+         </div>
+    <div>
 
 
 
     </div>
+
+    <div class="body2">
+        <main>
+            <div class="contenido">
+                <div>
+                    <img src="~/images/2.png" alt="" />
+                </div>
+
+
+                <div class="texto">
+                    <h1>ZONA ESTUDIANTE</h1>
+                    <p>En OrientaTEC, nos preocupamos por el bienestar y el éxito de nuestros estudiantes. Aquí encontrarás recursos, apoyo y una comunidad dedicada a ayudarte a alcanzar tus metas académicas y personales.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+   
+  
 </body>
+
+
+
+
 <script>
 
 
     document.addEventListener('DOMContentLoaded', function () {
         let selectedDate = new Date(); // Variable global para almacenar la fecha y hora seleccionada
+
+
+
         let clickCount = 0; // Contador de clics
+
+
         let isCustomDate = false; // Indicador para saber si se ha configurado una fecha y hora personalizada
+
+
         let intervalId;
+
+
 
         const datetimePicker = flatpickr("#datetime-picker", {
             enableTime: true,
@@ -427,6 +503,9 @@
     }
 
     // Cerrar paneles al hacer clic fuera de ellos
+
+
+
     document.addEventListener('click', function (event) {
         var notificationPanel = document.getElementById('notification-panel');
         var profilePanel = document.getElementById('profile-panel');
