@@ -1,0 +1,187 @@
+﻿@model OrientaTEC_MVC.Models.EstudianteDecorator
+
+@{
+    ViewData["Title"] = "Ver Perfil";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+            .section h2 {
+                margin-top: 0;
+            }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 8px;
+                box-sizing: border-box;
+            }
+
+        .btn {
+            background-color: #1D4ED8;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #153e75;
+            }
+
+        .edit-icon {
+            cursor: pointer;
+            color: #1D4ED8;
+            margin-left: 10px;
+        }
+
+        .img-preview {
+            max-width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section">
+            <h2>Perfil</h2>
+            <div class="form-group">
+                <label>Carnet:</label>
+                <p>@Model.Carnet</p>
+            </div>
+            <div class="form-group">
+                <label>Nombre:</label>
+                <p>@Model.Nombre1 @Model.Nombre2 @Model.Apellido1 @Model.Apellido2</p>
+            </div>
+            <div class="form-group">
+                <label>Correo:</label>
+                <p>@Model.Correo</p>
+            </div>
+            <div class="form-group">
+                <label>Número de Teléfono:</label>
+                <p>@Model.NumeroTelefono <i class="ri-edit-line edit-icon" data-bs-toggle="modal" data-bs-target="#editPhoneModal"></i></p>
+            </div>
+            <div class="form-group">
+                <label>Fotografía:</label>
+                <img id="currentPhoto" src="@Model.Fotografia" alt="Foto del Estudiante" class="img-preview">
+                <i class="ri-edit-line edit-icon" data-bs-toggle="modal" data-bs-target="#editPhotoModal"></i>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Modificar Contraseña</h2>
+            <form method="post" action="@Url.Action("ModificarContrasena", "Pages")">
+                <div class="form-group">
+                    <label>Contraseña Actual:</label>
+                    <input type="password" name="currentPassword" required />
+                </div>
+                <div class="form-group">
+                    <label>Nueva Contraseña:</label>
+                    <input type="password" name="newPassword" required />
+                </div>
+                <div class="form-group">
+                    <label>Confirmar Nueva Contraseña:</label>
+                    <input type="password" name="confirmNewPassword" required />
+                </div>
+                <button type="submit" class="btn">Actualizar Contraseña</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para editar teléfono -->
+    <div class="modal fade" id="editPhoneModal" tabindex="-1" aria-labelledby="editPhoneModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPhoneModalLabel">Editar Teléfono</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="@Url.Action("ModificarTelefono", "Pages")">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nuevoTelefono">Nuevo Teléfono:</label>
+                            <input type="text" class="form-control" id="nuevoTelefono" name="nuevoTelefono" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar fotografía -->
+    <div class="modal fade" id="editPhotoModal" tabindex="-1" aria-labelledby="editPhotoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPhotoModalLabel">Editar Fotografía</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" enctype="multipart/form-data" action="@Url.Action("ModificarFotografia", "Pages")">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nuevaFotografia">Nueva Fotografía:</label>
+                            <input type="file" class="form-control" id="nuevaFotografia" name="nuevaFotografia" accept="image/*" onchange="previewImage(event)">
+                            <img id="preview" src="" alt="Previsualización de la nueva fotografía" class="img-preview" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('preview');
+                output.src = reader.result;
+                output.style.display = 'block';
+
+                var currentPhoto = document.getElementById('currentPhoto');
+                currentPhoto.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>
