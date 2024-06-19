@@ -45,9 +45,6 @@ namespace OrientaTEC_MVC.Controllers
 
 
 
-
-
-
         [HttpPost]
         public IActionResult UpdateDate([FromBody] DateTimeModel model)
         {

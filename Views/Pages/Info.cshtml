@@ -196,14 +196,7 @@
 			transform: translateX(-300%);
 			-webkit-transform: translateX(-300%);
 		}
-		/* More slides? Add here more rules */
-
-
-		/* YOU'RE THE DESIGNER!
-		   ____________________
-		   All above was mainly to get it working :)
-		   CSSgal CUSTOM STYLES / OVERRIDES HERE: */
-
+		
 		.CSSgal {
 			color: #fff;
 			text-align: center;
@@ -227,36 +220,6 @@
 
     </style>
 </head>
-
-<!-- 
-
-<h1>Detalle de Notificación</h1>
-<div>
-	<h2>@Model.Title</h2>
-	<p>@Model.Message</p>
-	<p>Fecha y Hora: @Model.DateTime.ToString("dd MMM yyyy HH:mm")</p>
-
-@if (Model.Actividad != null)
-{
-			<h3>Detalles de la Actividad</h3>
-			<p>Nombre: @Model.Actividad.Nombre</p>
-			<p>Descripción: @Model.Actividad.Descripcion</p>
-			<p>Fecha de la Actividad: @Model.Actividad.FechaExacta.ToString("dd MMM yyyy")</p>
-			<p>Tipo de Actividad: @Model.Actividad.Tipo.ToString()</p>
-			<p>URL de Reunión: <a href="@Model.Actividad.ReunionURL">@Model.Actividad.ReunionURL</a></p>
-			<p>Estado: @Model.Actividad.Estado.Estado.ToString()</p>
-			<p>Justificación del Estado: @Model.Actividad.Estado.Justificacion</p>
-}
-else
-{
-			<p>Esta notificación no está vinculada a ninguna actividad específica.</p>
-}
-</div>
-
-<a href="@Url.Action("Students", "Students")">Volver a la lista de notificaciones</a>
-
-
--->
 
 
 
@@ -308,3 +271,27 @@ else
     </div>
 
 </div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		fetch('/Home/GetImagenesxd')
+			.then(response => response.json())
+			.then(images => {
+				if (images.length > 0) {
+					document.getElementById('slide2').style.background = `url('/images/imagenesxd/${getRandomImage(images)}') center center no-repeat`;
+					document.getElementById('slide2').style.backgroundSize = 'cover';
+
+					document.getElementById('slide3').style.background = `url('/images/imagenesxd/${getRandomImage(images)}') center center no-repeat`;
+					document.getElementById('slide3').style.backgroundSize = 'cover';
+
+					document.getElementById('slide4').style.background = `url('/images/imagenesxd/${getRandomImage(images)}') center center no-repeat`;
+					document.getElementById('slide4').style.backgroundSize = 'cover';
+				}
+			});
+	});
+
+	function getRandomImage(images) {
+		const randomIndex = Math.floor(Math.random() * images.length);
+		return images[randomIndex];
+	}
+</script>
